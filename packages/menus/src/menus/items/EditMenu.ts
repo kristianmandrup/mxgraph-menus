@@ -11,7 +11,7 @@ export class EditMenu extends MenuAdder {
     );
   }
 
-  get menuItems() {
+  get $menuItems() {
     return [
       "undo",
       "redo",

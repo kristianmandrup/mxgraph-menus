@@ -13,17 +13,16 @@ const { mxClient, mxResources, mxUtils } = mx;
  * Constructs a new graph editor
  */
 export class Menus extends BaseMenuAdder {
-  editorUi: IEditorUI;
-  menus: any;
   checkmarkImage: any; // Editor.checkmarkImage
   customFonts: any[] = [];
   customFontSizes: any[] = [];
   documentMode: any;
 
-  constructor(editorUi: IEditorUI, menus: any = {}) {
-    super(menus);
-    this.editorUi = editorUi;
+  constructor(editorUi: IEditorUI, menus?: any) {
+    super(editorUi, menus);
     this.init();
+
+    console.log("created", { menus: this.menus });
 
     // Pre-fetches checkmark image
     if (!mxClient.IS_SVG) {

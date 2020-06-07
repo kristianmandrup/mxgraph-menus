@@ -20,7 +20,7 @@ export class ArrangeMenu extends MenuAdder {
     this.addMenuItems(menu, this.menuItems, parent);
   };
 
-  get menuItems() {
+  get $menuItems(): string[] {
     return [
       "-",
       "group",

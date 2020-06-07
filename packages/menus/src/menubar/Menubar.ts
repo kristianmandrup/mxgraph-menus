@@ -13,6 +13,9 @@ export class Menubar {
 
   constructor(editorUi: IEditorUI, container: any) {
     this.editorUi = editorUi;
+    if (!container) {
+      throw new Error("Menubar must be created with a container element");
+    }
     this.container = container;
   }
 
@@ -27,15 +30,21 @@ export class Menubar {
    * Adds a submenu to this menubar.
    */
   addMenu(label: string, funct: any, before?: any) {
+    const { container } = this;
     var elt = document.createElement("a");
     elt.className = "geItem";
     mxUtils.write(elt, label);
     this.addMenuHandler(elt, funct);
 
+    console.log({ container });
+    if (!container) {
+      throw new Error("Menubar missing container");
+    }
+
     if (before != null) {
-      this.container.insertBefore(elt, before);
+      container.insertBefore(elt, before);
     } else {
-      this.container.appendChild(elt);
+      container.appendChild(elt);
     }
 
     return elt;

@@ -1,8 +1,16 @@
+import { IEditorUI } from "../interfaces";
+
 export class BaseMenuAdder {
+  editorUi: IEditorUI;
   menus: any = {};
 
-  constructor(menus: any) {
-    this.menus = menus;
+  constructor(editorUi: IEditorUI, menus?: any) {
+    this.editorUi = editorUi;
+    this.menus = menus || this.createMenus();
+  }
+
+  createMenus() {
+    return {};
   }
 
   /**
@@ -17,7 +25,6 @@ export class BaseMenuAdder {
    */
   put(name, menu) {
     this.menus[name] = menu;
-
-    return menu;
+    return this;
   }
 }

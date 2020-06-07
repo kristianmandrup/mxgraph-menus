@@ -10,6 +10,10 @@ describe("Menu", () => {
   describe("setEnabled", () => {
     const menu = create(false);
     menu.setEnabled(true);
+
+    it("must be enabled", () => {
+      expect(menu.enabled).toBeTruthy();
+    });
   });
 
   describe("execute", () => {

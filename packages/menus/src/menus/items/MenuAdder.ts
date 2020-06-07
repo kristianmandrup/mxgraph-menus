@@ -1,17 +1,14 @@
 import { Menu } from "../../Menu";
 import { MenuPrompt } from "../manager";
 import { MenuStyler } from "../manager";
-import { Menus } from "../MenuManager";
 import { IEditorUI } from "../../interfaces";
+import { BaseMenuAdder } from "../BaseMenuAdder";
 
-export class MenuAdder {
-  editorUi: IEditorUI;
+export class MenuAdder extends BaseMenuAdder {
   graph: any;
-
-  menus: Menus;
   menuStyler: MenuStyler;
   menuPrompt: MenuPrompt;
-  menuItems: any = {};
+  menuItems: any = [];
   menuName = "no name";
 
   itemLayout: string[] = [];
@@ -21,11 +18,19 @@ export class MenuAdder {
   customFontSizes: any;
 
   constructor(editorUi: IEditorUI, { graph, menus, menuStyler }: any = {}) {
-    this.editorUi = editorUi;
+    super(editorUi, menus);
     this.graph = graph || editorUi.editor.graph;
-    this.menus = menus || this.createMenus();
     this.menuStyler = menuStyler || this.createMenuStyler();
     this.menuPrompt = this.createMenuPrompt();
+    this.setMenuItems();
+  }
+
+  setMenuItems() {
+    this.menuItems = this.$menuItems;
+  }
+
+  get $menuItems(): string[] {
+    return [];
   }
 
   createMenuPrompt() {
@@ -34,10 +39,6 @@ export class MenuAdder {
 
   createMenuStyler() {
     return new MenuStyler(this.editorUi);
-  }
-
-  createMenus() {
-    return new Menus(this.editorUi);
   }
 
   styleChange(
@@ -67,8 +68,9 @@ export class MenuAdder {
     return new MenuPrompt(this.editorUi).promptChange(menu, label, hint, opts);
   }
 
-  put(label: string, menu: any) {
-    this.menus.put(label, menu);
+  put(name: string, menu: any) {
+    this.menus[name] = menu;
+    return this;
   }
 
   addMenuItems(menu: any, items: any[], node?: any) {

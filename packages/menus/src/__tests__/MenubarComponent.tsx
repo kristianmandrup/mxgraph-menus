@@ -3,16 +3,22 @@ import React, {
   // createRef,
   useRef,
 } from "react";
-import { IEditorUI } from "../interfaces";
-import { mocks } from "./mocks";
-
-const editorUi: IEditorUI = mocks.editorUi;
+import { editorUi } from "./mocks";
 
 export const MenubarComponent = () => {
-  const container = useRef(null);
-  const menubar = new Menubar(editorUi, container);
-  menubar.addMenu("x", () => {});
+  const containerRef = useRef(null);
+  if (containerRef) {
+    console.log({ containerRef });
+    const container = containerRef.current;
+    console.log({ container });
+    if (container) {
+      const menubar = new Menubar(editorUi, container);
+      menubar.addMenu("x", () => {});
+    } else {
+      console.log("no container");
+    }
+  }
   // menubar.addMenuHandler(container, () => {});
 
-  return <div ref={container}></div>;
+  return <div ref={containerRef}></div>;
 };

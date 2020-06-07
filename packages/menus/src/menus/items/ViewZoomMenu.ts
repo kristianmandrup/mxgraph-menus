@@ -31,7 +31,7 @@ export class ViewZoomMenu extends MenuAdder {
     this.addMenuItems(menu, this.menuItems, parent);
   }
 
-  get menuItems() {
+  get $menuItems() {
     return [
       "-",
       "fitWindow",
