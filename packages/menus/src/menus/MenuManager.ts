@@ -22,7 +22,7 @@ export class Menus extends BaseMenuAdder {
     super(editorUi, menus);
     this.init();
 
-    console.log("created", { menus: this.menus });
+    // console.log("created", { menus: this.menus });
 
     // Pre-fetches checkmark image
     if (!mxClient.IS_SVG) {

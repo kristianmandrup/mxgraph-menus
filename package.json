@@ -19,6 +19,10 @@
     "build:stories": "lerna run build --stream --scope=@stereobooster/stories",
     "clean": "rimraf packages/*/{tsconfig.tsbuildinfo,lib,dist}"
   },
+  "dependencies": {
+    "jscolor": "^0.3.0",
+    "Base64": "^1.1.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",

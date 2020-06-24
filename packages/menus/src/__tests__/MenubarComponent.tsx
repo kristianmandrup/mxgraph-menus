@@ -8,9 +8,9 @@ import { editorUi } from "./mocks";
 export const MenubarComponent = () => {
   const containerRef = useRef(null);
   if (containerRef) {
-    console.log({ containerRef });
+    // console.log({ containerRef });
     const container = containerRef.current;
-    console.log({ container });
+    // console.log({ container });
     if (container) {
       const menubar = new Menubar(editorUi, container);
       menubar.addMenu("x", () => {});

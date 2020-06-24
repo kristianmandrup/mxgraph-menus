@@ -86,11 +86,13 @@ const graph = {
 };
 const editor = {
   graph,
+  fireEvent: (_event) => {},
 };
 
 const format = {};
 
 export const editorUi = {
+  dialogs: [],
   format,
   editor: editor,
   actions: actions,
@@ -99,6 +101,11 @@ export const editorUi = {
   fireEvent(_evt: any): void {},
   hideCurrentMenu(): void {},
   resetCurrentMenu(): void {},
+  createDiv(name: string) {
+    const elem = document.createElement("div");
+    elem.setAttribute("id", name);
+    return elem;
+  },
   setCurrentMenu(_menu: any, _elt: any): void {},
   showDialog(
     _container: any,
