@@ -1,7 +1,10 @@
 import mx from "@mxgraph-app/mx";
-import jscolor from "jscolor";
 import { Dialog } from "../Dialog";
 const { mxEventObject, mxResources, mxEvent, mxUtils, mxClient } = mx;
+
+import jscolor from "jscolor";
+console.log({ jscolor });
+const JSColor = jscolor;
 
 /**
  * Constructs a new color dialog.
@@ -37,15 +40,21 @@ export class ColorDialog {
       }
     };
 
-    var picker = new jscolor.color(input);
-    picker.pickerOnfocus = false;
-    picker.showPicker();
+    // See: https://jscolor.com/docs/#doc-basic-usage
+    // use presets?
+    const preset = {
+      position: "relative",
+      width: "230px",
+      height: "100px",
+      padding: "10px",
+    };
+    var picker = new JSColor(input, { preset });
+    // picker.pickerOnfocus = false;
+    console.log({ picker });
+    // picker.init();
+    picker.show();
 
     var div = document.createElement("div");
-    jscolor.picker.box.style.position = "relative";
-    jscolor.picker.box.style.width = "230px";
-    jscolor.picker.box.style.height = "100px";
-    jscolor.picker.box.style.paddingBottom = "10px";
     div.appendChild(jscolor.picker.box);
 
     var center: any = document.createElement("center");

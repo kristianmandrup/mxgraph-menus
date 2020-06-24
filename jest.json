@@ -1,4 +1,5 @@
 {
+  "setupFiles": ["jest-canvas-mock"],
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx"],
   "transform": {
     "\\.jsx?$": "babel-jest",

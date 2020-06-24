@@ -14,7 +14,7 @@ describe("ErrorDialog", () => {
   });
 
   describe("container", () => {
-    test("defined", async () => {
+    test("defined", () => {
       expect(dialog.container).toBeDefined();
     });
   });

@@ -20,7 +20,7 @@
     "clean": "rimraf packages/*/{tsconfig.tsbuildinfo,lib,dist}"
   },
   "dependencies": {
-    "jscolor": "^0.3.0",
+    "jscolor-211": "^2.1.2",
     "Base64": "^1.1.0"
   },
   "devDependencies": {
@@ -33,14 +33,15 @@
     "@types/react-test-renderer": "^16.8.1",
     "babel-jest": "^24.8.0",
     "jest": "^24.8.0",
-    "lerna": "^3.14.1",
+    "jest-canvas-mock": "^2.2.0",
+    "lerna": "^3.22.1",
     "npm-run-all": "^4.1.5",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-test-renderer": "^16.8.6",
     "rimraf": "^2.6.3",
     "ts-jest": "^24.0.2",
-    "typescript": "^3.4.5",
-    "ts-mxgraph": "^1.0.0"
+    "ts-mxgraph": "^1.0.0",
+    "typescript": "^3.4.5"
   }
 }
