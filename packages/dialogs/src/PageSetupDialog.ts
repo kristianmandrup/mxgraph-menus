@@ -14,13 +14,11 @@ export class PageSetupDialog {
   container: any;
   gridSizeInput: any;
 
-  graph: any;
   onePageCheckBox: any;
   pageCountCheckBox: any;
   pageScaleInput: any;
   pageCountInput: any;
 
-  static formats: any;
   static customSize: any;
   static currentPageFormat: any;
   static portraitCheckBox: any;
@@ -31,13 +29,26 @@ export class PageSetupDialog {
   static heightInput: any;
   static landscapeCheckBox: any;
   static paperSizeSelect: any;
-  static pageFormat: any;
+
+  // static pageFormat: any;
+
   static pf: any;
 
-  constructor(editorUi) {
-    var graph = editorUi.editor.graph;
-    var row, td;
+  static pageFormat: any;
 
+  editorUi: any;
+
+  get graph() {
+    return this.editorUi.editor.graph;
+  }
+
+  constructor(editorUi) {
+    this.editorUi = editorUi;
+    const { graph } = this;
+
+    PageSetupDialog.pageFormat = graph.pageFormat;
+
+    var row, td;
     var table = document.createElement("table");
     table.style.width = "100%";
     table.style.height = "100%";
@@ -76,15 +87,18 @@ export class PageSetupDialog {
     td = document.createElement("td");
     td.style.whiteSpace = "nowrap";
 
-    var backgroundInput = document.createElement("input");
+    const backgroundInput = document.createElement("input");
     backgroundInput.setAttribute("type", "text");
-    var backgroundButton = document.createElement("button");
+    // this.backgroundInput = backgroundInput;
+
+    const backgroundButton = document.createElement("button");
 
     backgroundButton.style.width = "18px";
     backgroundButton.style.height = "18px";
     backgroundButton.style.marginRight = "20px";
     backgroundButton.style.backgroundPosition = "center center";
     backgroundButton.style.backgroundRepeat = "no-repeat";
+    this.backgroundButton = backgroundButton;
 
     var newBackgroundColor = graph.background;
     this.newBackgroundColor = newBackgroundColor;
@@ -108,9 +122,10 @@ export class PageSetupDialog {
     gridSizeInput.setAttribute("min", "0");
     gridSizeInput.style.width = "40px";
     gridSizeInput.style.marginLeft = "6px";
-
     gridSizeInput.value = graph.getGridSize();
+
     this.gridSizeInput = gridSizeInput;
+
     td.appendChild(gridSizeInput);
 
     mxEvent.addListener(gridSizeInput, "change", () => {
@@ -245,7 +260,7 @@ export class PageSetupDialog {
   /**
    *
    */
-  static getFormats() {
+  static getFormats(): any[] {
     return [
       {
         key: "letter",
@@ -336,6 +351,10 @@ export class PageSetupDialog {
     ];
   }
 
+  static get formats() {
+    return this.getFormats() || [];
+  }
+
   /**
    *
    */
@@ -346,20 +365,24 @@ export class PageSetupDialog {
     portraitCheckBox.setAttribute("name", formatName);
     portraitCheckBox.setAttribute("type", "radio");
     portraitCheckBox.setAttribute("value", "portrait");
+    this.portraitCheckBox = portraitCheckBox;
 
     var landscapeCheckBox = document.createElement("input");
     landscapeCheckBox.setAttribute("name", formatName);
     landscapeCheckBox.setAttribute("type", "radio");
     landscapeCheckBox.setAttribute("value", "landscape");
+    this.landscapeCheckBox = landscapeCheckBox;
 
     var paperSizeSelect = document.createElement("select");
     paperSizeSelect.style.marginBottom = "8px";
     paperSizeSelect.style.width = "202px";
+    this.paperSizeSelect = paperSizeSelect;
 
     var formatDiv = document.createElement("div");
     formatDiv.style.marginLeft = "4px";
     formatDiv.style.width = "210px";
     formatDiv.style.height = "24px";
+    this.formatDiv = formatDiv;
 
     portraitCheckBox.style.marginRight = "6px";
     formatDiv.appendChild(portraitCheckBox);
@@ -382,24 +405,30 @@ export class PageSetupDialog {
     customDiv.style.marginLeft = "4px";
     customDiv.style.width = "210px";
     customDiv.style.height = "24px";
+    this.customDiv = customDiv;
 
     var widthInput = document.createElement("input");
     widthInput.setAttribute("size", "7");
     widthInput.style.textAlign = "right";
+    this.widthInput = widthInput;
+
     customDiv.appendChild(widthInput);
     mxUtils.write(customDiv, " in x ");
 
     var heightInput = document.createElement("input");
     heightInput.setAttribute("size", "7");
     heightInput.style.textAlign = "right";
+    this.heightInput = heightInput;
+
     customDiv.appendChild(heightInput);
     mxUtils.write(customDiv, " in");
 
     formatDiv.style.display = "none";
     customDiv.style.display = "none";
 
-    var pf = new Object();
-    var formats = PageSetupDialog.getFormats();
+    this.pf = new Object();
+    const { pf } = this;
+    const { formats } = this;
 
     for (var i = 0; i < formats.length; i++) {
       var f = formats[i];
@@ -422,6 +451,8 @@ export class PageSetupDialog {
     div.appendChild(customDiv);
 
     var currentPageFormat = pageFormat;
+    this.currentPageFormat = currentPageFormat;
+    // this.pageFormat = pageFormat;
 
     const { update } = this;
 
@@ -478,6 +509,10 @@ export class PageSetupDialog {
       currentPageFormat,
       pageFormatListener,
     } = this;
+
+    if (!pageFormat) {
+      throw "update: Missing pageFormat";
+    }
 
     var f = pf[paperSizeSelect.value];
 
@@ -547,6 +582,11 @@ export class PageSetupDialog {
       formatDiv,
       customDiv,
     } = this;
+
+    if (!pageFormat) {
+      throw "listener: Missing pageFormat";
+    }
+
     if (
       force ||
       (widthInput != document.activeElement &&

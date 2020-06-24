@@ -31,6 +31,8 @@ export class FilenameDialog {
     hints?,
     w?
   ) {
+    this.content = content;
+
     closeOnBtn = closeOnBtn != null ? closeOnBtn : true;
     var row, td;
 

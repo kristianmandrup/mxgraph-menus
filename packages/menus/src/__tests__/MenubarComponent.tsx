@@ -15,7 +15,7 @@ export const MenubarComponent = () => {
       const menubar = new Menubar(editorUi, container);
       menubar.addMenu("x", () => {});
     } else {
-      console.log("no container");
+      // console.log("no container");
     }
   }
   // menubar.addMenuHandler(container, () => {});

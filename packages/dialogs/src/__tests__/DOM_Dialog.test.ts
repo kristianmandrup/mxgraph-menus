@@ -11,7 +11,7 @@ import { Dialog } from "..";
 // import "@testing-library/jest-dom/extend-expect";
 import { editorUi } from "./mocks";
 
-describe("dialog", () => {
+describe("Dialog", () => {
   let container;
   const elem = document.createElement("dialog");
 

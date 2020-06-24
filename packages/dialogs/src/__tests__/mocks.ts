@@ -1,3 +1,6 @@
+import mx from "@mxgraph-app/mx";
+const { mxConstants } = mx;
+
 const action = {};
 const actions = {
   getAction(_key: string): any {
@@ -43,6 +46,14 @@ const container = document.createElement("div");
 
 const graph = {
   model,
+  getGridSize: () => {
+    return 10; // size of each grid box element
+  },
+  pageFormat: {
+    key: "letter",
+    title: 'US-Letter (8,5" x 11")',
+    format: mxConstants.PAGE_FORMAT_LETTER_PORTRAIT,
+  },
   autoSizeCell(_cells: any[], _mode: boolean): void {},
   toggleCellStyles(_key: string, _defaultValue: any): void {},
   updateLabelElements(_cells: any, _fn: any): void {},
