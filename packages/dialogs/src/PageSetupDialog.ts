@@ -151,6 +151,7 @@ export class PageSetupDialog {
     changeImageLink.style.textDecoration = "underline";
     changeImageLink.style.cursor = "pointer";
     changeImageLink.style.color = "#a0a0a0";
+    this.changeImageLink = changeImageLink;
 
     const newBackgroundImage = graph.backgroundImage;
     this.newBackgroundImage = newBackgroundImage;

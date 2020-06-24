@@ -13,7 +13,6 @@ const {
  * Constructs a new print dialog.
  */
 export class PrintDialog {
-  graph: any;
   container: any;
   onePageCheckBox: any;
   pageCountCheckBox: any;
@@ -39,6 +38,12 @@ export class PrintDialog {
    */
   static previewEnabled = true;
 
+  editorUi: any;
+
+  get graph() {
+    return this.editorUi.editor.graph;
+  }
+
   constructor(editorUi, title: string) {
     this.create(editorUi, title);
   }
@@ -47,6 +52,7 @@ export class PrintDialog {
    * Constructs a new print dialog.
    */
   create(editorUi, _title) {
+    this.editorUi = editorUi;
     var row, td;
 
     var table = document.createElement("table");
@@ -142,6 +148,7 @@ export class PrintDialog {
     pageScaleInput.setAttribute("value", "100 %");
     pageScaleInput.setAttribute("size", "5");
     pageScaleInput.style.width = "50px";
+    this.pageScaleInput = pageScaleInput;
 
     td.appendChild(pageScaleInput);
     row.appendChild(td);
@@ -195,7 +202,7 @@ export class PrintDialog {
   }
 
   // Overall scale for print-out to account for print borders in dialogs etc
-  preview(print) {
+  preview(print = false) {
     const {
       graph,
       pageCountCheckBox,

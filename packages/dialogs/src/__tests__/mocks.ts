@@ -44,8 +44,14 @@ const geometry = {};
 
 const container = document.createElement("div");
 
+const cellRenderer = {
+  initializeOverlay: () => {},
+};
+
 const graph = {
+  background: "white",
   model,
+  cellRenderer,
   getGridSize: () => {
     return 10; // size of each grid box element
   },
