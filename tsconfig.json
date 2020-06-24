@@ -39,9 +39,6 @@
     "sourceMap": true
   },
   "references": [
-    { "path": "packages/d" },
-    { "path": "packages/b" },
-    { "path": "packages/c" },
     { "path": "packages/mx" },
     { "path": "packages/resources" },
     { "path": "packages/menus" }

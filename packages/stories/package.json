@@ -12,9 +12,7 @@
     "clean": "rimraf tsconfig.tsbuildinfo lib dist"
   },
   "dependencies": {
-    "@stereobooster/d": "*",
-    "@stereobooster/b": "*",
-    "@stereobooster/c": "*"
+    "@mxgraph-app/menus": "*"
   },
   "peerDependencies": {
     "react": "^16.8.0",

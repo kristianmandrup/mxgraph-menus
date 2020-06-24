@@ -13,7 +13,7 @@
     "start:stories": "lerna run start --stream --scope=@stereobooster/stories",
     "start:watch": "tsc --build --watch",
     "pretest": "yarn build",
-    "test": "jest --config=jest.json",
+    "test": "jest -u --config=jest.json",
     "test:stories": "lerna run test --stream --scope=@stereobooster/stories",
     "build": "tsc --build",
     "build:stories": "lerna run build --stream --scope=@stereobooster/stories",

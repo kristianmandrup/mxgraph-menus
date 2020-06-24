@@ -5,6 +5,7 @@
     "\\.tsx?$": "ts-jest"
   },
   "testMatch": ["**/__tests__/**/*.test.*"],
+  "testPathIgnorePatterns": ["__snapshots__"],
   "globals": {
     "ts-jest": {
       "tsConfig": "tsconfig.json"
