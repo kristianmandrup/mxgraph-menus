@@ -2,9 +2,7 @@ import mx from "@mxgraph-app/mx";
 import { Dialog } from "../Dialog";
 const { mxEventObject, mxResources, mxEvent, mxUtils, mxClient } = mx;
 
-import jscolor from "jscolor";
-console.log({ jscolor });
-const JSColor = jscolor;
+import JsColor from "./JsColor";
 
 /**
  * Constructs a new color dialog.
@@ -19,6 +17,18 @@ export class ColorDialog {
   currentColorKey: any;
 
   init: () => void;
+
+  createPicker(input, opts) {
+    return new JsColor(input, opts);
+  }
+
+  get pickerBox() {
+    return this.picker.box;
+  }
+
+  showPicker() {
+    this.picker.show();
+  }
 
   constructor(editorUi, color?, apply?, cancelFn?) {
     this.editorUi = editorUi;
@@ -48,14 +58,12 @@ export class ColorDialog {
       height: "100px",
       padding: "10px",
     };
-    var picker = new JSColor(input, { preset });
-    // picker.pickerOnfocus = false;
-    console.log({ picker });
-    // picker.init();
-    picker.show();
+    const picker = this.createPicker(input, { preset });
+    this.picker = picker;
+    this.showPicker();
 
     var div = document.createElement("div");
-    div.appendChild(jscolor.picker.box);
+    div.appendChild(this.pickerBox);
 
     var center: any = document.createElement("center");
     this.center = center;
