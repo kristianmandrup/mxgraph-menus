@@ -2,7 +2,7 @@ import { ColorDialog } from "../../dialogs";
 
 import { editorUi } from "../mocks";
 
-describe("AboutDialog", () => {
+describe("ColorDialog", () => {
   const ui = editorUi;
 
   let dialog;

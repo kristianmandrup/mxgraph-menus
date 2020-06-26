@@ -22,7 +22,8 @@ const model = {
     return 0;
   },
 };
-const cell = {};
+
+export const cell = {};
 
 const textarea = document.createElement("textarea");
 

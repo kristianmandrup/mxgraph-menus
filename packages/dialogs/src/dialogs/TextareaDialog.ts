@@ -9,22 +9,22 @@ export class TextareaDialog {
   container: any;
   init: () => void;
 
-  constructor(
-    editorUi,
-    title,
-    url,
-    fn,
-    cancelFn,
-    cancelTitle,
-    w,
-    h,
-    addButtons,
-    noHide,
-    noWrap,
-    applyTitle,
-    helpLink,
-    customButtons
-  ) {
+  constructor(editorUi, opts: any = {}) {
+    let {
+      title,
+      url,
+      fn,
+      cancelFn,
+      cancelTitle,
+      w,
+      h,
+      addButtons,
+      noHide,
+      noWrap,
+      applyTitle,
+      helpLink,
+      customButtons,
+    } = opts;
     w = w != null ? w : 300;
     h = h != null ? h : 120;
     noHide = noHide != null ? noHide : false;
