@@ -446,7 +446,7 @@ export class ColorDialog {
   /**
    * Adds recent color for later use.
    */
-  static addRecentColor(color: string, max) {
+  static addRecentColor(color: string, max: number) {
     if (color) {
       mxUtils.remove(color, ColorDialog.recentColors);
       ColorDialog.recentColors.splice(0, 0, color);

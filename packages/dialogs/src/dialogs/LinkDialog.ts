@@ -11,6 +11,13 @@ export class LinkDialog {
   init: () => void;
   documentMode: any;
 
+  linkInput: HTMLElement;
+  cross: HTMLElement;
+  inner: HTMLElement;
+  btns: HTMLElement;
+  cancelBtn: HTMLElement;
+  mainBtn: HTMLElement;
+
   constructor(
     editorUi,
     initialValue,
@@ -29,6 +36,7 @@ export class LinkDialog {
     inner.style.whiteSpace = "nowrap";
     inner.style.textOverflow = "clip";
     inner.style.cursor = "default";
+    this.inner = inner;
 
     if (!mxClient.IS_VML) {
       inner.style.paddingRight = "20px";
@@ -45,6 +53,7 @@ export class LinkDialog {
     linkInput.style.backgroundRepeat = "no-repeat";
     linkInput.style.backgroundPosition = "100% 50%";
     linkInput.style.paddingRight = "14px";
+    this.linkInput = linkInput;
 
     var cross = document.createElement("div");
     cross.setAttribute("title", mxResources.get("reset"));
@@ -53,6 +62,7 @@ export class LinkDialog {
     cross.style.width = "12px";
     cross.style.height = "14px";
     cross.style.cursor = "pointer";
+    this.cross = cross;
 
     // Workaround for inline-block not supported in IE
     cross.style.display = mxClient.IS_VML ? "inline" : "inline-block";
@@ -88,6 +98,7 @@ export class LinkDialog {
     var btns = document.createElement("div");
     btns.style.marginTop = "18px";
     btns.style.textAlign = "right";
+    this.btns = btns;
 
     mxEvent.addListener(linkInput, "keypress", function (e) {
       if (e.keyCode == 13) {
@@ -100,6 +111,7 @@ export class LinkDialog {
       editorUi.hideDialog();
     });
     cancelBtn.className = "geBtn";
+    this.cancelBtn = cancelBtn;
 
     if (editorUi.editor.cancelFirst) {
       btns.appendChild(cancelBtn);
@@ -110,6 +122,7 @@ export class LinkDialog {
       fn(linkInput.value);
     });
     mainBtn.className = "geBtn gePrimaryBtn";
+    this.mainBtn = mainBtn;
     btns.appendChild(mainBtn);
 
     if (!editorUi.editor.cancelFirst) {
