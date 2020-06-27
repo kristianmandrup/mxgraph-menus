@@ -2,6 +2,7 @@ import mx from "@mxgraph-app/mx";
 import { AbstractPalette } from "../AbstractPalette";
 import { EventListeners } from "./EventListeners";
 import { Finder } from "./Finder";
+import { Sidebar } from "../../Sidebar";
 const { mxUtils, mxClient, mxResources } = mx;
 
 export class SearchPalette extends AbstractPalette {
@@ -9,12 +10,14 @@ export class SearchPalette extends AbstractPalette {
   editorUi: any;
   searchImage: any;
   currentSearch: any;
+
   thumbWidth: number = 16;
   hideTooltip: any; //() => void
   searchEntries: any; //fn
-  palettes: any;
   insertSearchHint: any; // fn
+  palettes: any;
   expand: any;
+
   active: boolean = false;
   searchTerm = "";
   complete: boolean = false;
@@ -27,10 +30,20 @@ export class SearchPalette extends AbstractPalette {
   _center: any;
   _button: any;
 
-  eventListeners = new EventListeners();
-  finder = new Finder();
-
+  finder: Finder;
   find = this.finder.find;
+
+  eventListeners: EventListeners;
+
+  constructor(sidebar: Sidebar) {
+    super(sidebar);
+    this.editorUi = sidebar.editorUi;
+    this.container = sidebar.container;
+    this.searchImage = sidebar.searchImage;
+    this.currentSearch = sidebar.currentSearch;
+    this.finder = new Finder(sidebar);
+    this.eventListeners = new EventListeners(sidebar);
+  }
 
   /**
    * Adds shape search UI.

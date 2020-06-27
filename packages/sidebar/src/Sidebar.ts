@@ -2,7 +2,7 @@ import mx from "@mxgraph-app/mx";
 import resources from "@mxgraph-app/resources";
 import { Thumbnail } from "./Thumbnail";
 import { SidebarInitializer } from "./SidebarInitializer";
-import { SearchPalette } from "./palette";
+import { SearchPalette, PaletteManager, Palettes } from "./palette";
 import { DropHandler } from "./drag-drop/drop/DropHandler";
 import { DropConnect } from "./drag-drop/drop/connector/DropConnect";
 import { DragSource } from "./drag-drop/drag/DragSource";
@@ -20,9 +20,10 @@ const { STENCIL_PATH, IMAGE_PATH } = resources;
  */
 export class Sidebar {
   editorUi: any;
-  graph: any;
   container: any;
-  palettes = new Object();
+
+  palettes: any; // Palettes
+
   taglist = new Object();
   showTooltips = true;
   pointerUpHandler: any;
@@ -38,6 +39,8 @@ export class Sidebar {
   entries: any;
   shapeUpdater: any;
   thumbnail: any;
+
+  paletteManager: PaletteManager;
 
   /**
    * Sets the default font size.
@@ -170,10 +173,16 @@ export class Sidebar {
   dropCheck: any;
 
   constructor(editorUi, container) {
-    this.thumbnail = new Thumbnail();
+    this.thumbnail = new Thumbnail(this.editorUi);
     this.editorUi = editorUi;
     this.container = container;
+    this.paletteManager = new PaletteManager(this);
+    this.palettes = new Palettes(this);
     this.init();
+  }
+
+  get graph() {
+    return this.editorUi.graph;
   }
 
   /**
@@ -247,7 +256,7 @@ export class Sidebar {
    * Adds shape search UI.
    */
   addSearchPalette(expand) {
-    return new SearchPalette().create(expand);
+    return new SearchPalette(this).create(expand);
   }
 
   /**
@@ -483,14 +492,19 @@ export class Sidebar {
    * Adds a handler for inserting the cell with a single click.
    */
   itemClicked(cells, ds, evt, elt) {
-    return new SingleClickInserter().itemClicked(cells, ds, evt, elt);
+    return new SingleClickInserter(this.editorUi).itemClicked(
+      cells,
+      ds,
+      evt,
+      elt
+    );
   }
 
   /**
    * Adds a handler for inserting the cell with a single click.
    */
   addClickHandler(elt, ds, cells) {
-    return new ClickHandler().add(elt, ds, cells);
+    return new ClickHandler(this.editorUi).add(elt, ds, cells);
   }
 
   addEntry(tags, fn?) {
@@ -501,7 +515,7 @@ export class Sidebar {
    * Create the given title element.
    */
   addFoldingHandler(title, content, funct) {
-    return new FoldingHandler().add(title, content, funct);
+    return new FoldingHandler(this.editorUi).add(title, content, funct);
   }
 
   /**
@@ -535,9 +549,9 @@ export class Sidebar {
       ) {
         this.graph.container.parentNode.removeChild(this.graph.container);
       }
-
+      // destroy and remove the graph
       this.graph.destroy();
-      this.graph = null;
+      this.editorUi.graph = null;
     }
 
     if (this.pointerUpHandler != null) {

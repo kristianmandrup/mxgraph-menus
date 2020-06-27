@@ -1,14 +1,10 @@
 import mx from "@mxgraph-app/mx";
 const { mxEvent, mxClient, mxResources } = mx;
+import { PaletteDelegator } from "./PaletteDelegator";
 
-export class PaletteAdder {
-  container: any;
-  createTitle: any;
-  documentMode: any;
-  palettes: any;
-  collapsedImage: any;
-  expandedImage: any;
+export class PaletteAdder extends PaletteDelegator {
   originalNoForeignObject: any; // Editor.prototype.originalNoForeignObject;
+
   /**
    * Adds the given palette.
    */

@@ -1,6 +1,11 @@
 import { GeneralPalette } from "./GeneralPalette";
+import { Sidebar } from "../../Sidebar";
 
 export class GeneralTemplateEntries extends GeneralPalette {
+  constructor(sidebar: Sidebar) {
+    super(sidebar);
+  }
+
   get rectangle() {
     return this.createVertexTemplateEntry(
       "rounded=0;whiteSpace=wrap;html=1;",
@@ -10,7 +15,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "Rectangle",
       null,
       null,
-      "rect rectangle box",
+      "rect rectangle box"
     );
   }
 
@@ -23,7 +28,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "Rounded Rectangle",
       null,
       null,
-      "rounded rect rectangle box",
+      "rounded rect rectangle box"
     );
   }
 
@@ -36,7 +41,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "Text",
       null,
       null,
-      "text textbox textarea label",
+      "text textbox textarea label"
     );
   }
 
@@ -49,7 +54,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "Textbox",
       null,
       null,
-      "text textbox textarea",
+      "text textbox textarea"
     );
   }
 
@@ -62,7 +67,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "Ellipse",
       null,
       null,
-      "oval ellipse state",
+      "oval ellipse state"
     );
   }
 
@@ -75,7 +80,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "Square",
       null,
       null,
-      "square",
+      "square"
     );
   }
 
@@ -88,7 +93,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "Circle",
       null,
       null,
-      "circle",
+      "circle"
     );
   }
 
@@ -101,7 +106,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "Process",
       null,
       null,
-      "process task",
+      "process task"
     );
   }
 
@@ -114,7 +119,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "Diamond",
       null,
       null,
-      "diamond rhombus if condition decision conditional question test",
+      "diamond rhombus if condition decision conditional question test"
     );
   }
 
@@ -124,7 +129,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       120,
       60,
       "",
-      "Parallelogram",
+      "Parallelogram"
     );
   }
 
@@ -137,7 +142,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "Hexagon",
       null,
       null,
-      "hexagon preparation",
+      "hexagon preparation"
     );
   }
 
@@ -150,7 +155,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "Triangle",
       null,
       null,
-      "triangle logic inverter buffer",
+      "triangle logic inverter buffer"
     );
   }
 
@@ -163,7 +168,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "Cylinder",
       null,
       null,
-      "cylinder data database",
+      "cylinder data database"
     );
   }
 
@@ -176,7 +181,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "Cloud",
       null,
       null,
-      "cloud network",
+      "cloud network"
     );
   }
 
@@ -186,7 +191,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       120,
       80,
       "",
-      "Document",
+      "Document"
     );
   }
 
@@ -196,7 +201,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       80,
       80,
       "",
-      "Internal Storage",
+      "Internal Storage"
     );
   }
 
@@ -206,7 +211,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       120,
       80,
       "",
-      "Cube",
+      "Cube"
     );
   }
 
@@ -216,7 +221,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       120,
       80,
       "",
-      "Step",
+      "Step"
     );
   }
 
@@ -226,7 +231,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       120,
       60,
       "",
-      "Trapezoid",
+      "Trapezoid"
     );
   }
 
@@ -236,7 +241,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       120,
       100,
       "",
-      "Tape",
+      "Tape"
     );
   }
 
@@ -246,7 +251,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       80,
       100,
       "",
-      "Note",
+      "Note"
     );
   }
 
@@ -256,7 +261,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       80,
       100,
       "",
-      "Card",
+      "Card"
     );
   }
 
@@ -269,7 +274,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "Callout",
       null,
       null,
-      "bubble chat thought speech message",
+      "bubble chat thought speech message"
     );
   }
 
@@ -282,7 +287,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "Actor",
       false,
       null,
-      "user person human stickman",
+      "user person human stickman"
     );
   }
 
@@ -295,7 +300,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "Or",
       null,
       null,
-      "logic or",
+      "logic or"
     );
   }
 
@@ -308,7 +313,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "And",
       null,
       null,
-      "logic and",
+      "logic and"
     );
   }
 
@@ -318,7 +323,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       100,
       80,
       "",
-      "Data Storage",
+      "Data Storage"
     );
   }
 
@@ -331,7 +336,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "",
       "Bidirectional Arrow",
       null,
-      lineTags + "bidirectional",
+      lineTags + "bidirectional"
     );
   }
 
@@ -344,7 +349,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "",
       "Arrow",
       null,
-      lineTags + "directional directed",
+      lineTags + "directional directed"
     );
   }
 
@@ -357,7 +362,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "",
       "Link",
       null,
-      lineTags + "link",
+      lineTags + "link"
     );
   }
 
@@ -370,7 +375,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "",
       "Dashed Line",
       null,
-      lineTags + "dashed undirected no",
+      lineTags + "dashed undirected no"
     );
   }
 
@@ -383,7 +388,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "",
       "Line",
       null,
-      lineTags + "simple undirected plain blank no",
+      lineTags + "simple undirected plain blank no"
     );
   }
 
@@ -396,7 +401,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "",
       "Bidirectional Connector",
       null,
-      lineTags + "bidirectional",
+      lineTags + "bidirectional"
     );
   }
 
@@ -409,7 +414,7 @@ export class GeneralTemplateEntries extends GeneralPalette {
       "",
       "Directional Connector",
       null,
-      lineTags + "directional directed",
+      lineTags + "directional directed"
     );
   }
 }

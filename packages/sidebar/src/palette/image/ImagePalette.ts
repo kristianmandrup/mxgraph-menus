@@ -1,15 +1,22 @@
 import { AbstractPalette } from "../AbstractPalette";
+import { Sidebar } from "../../Sidebar";
 
 export class ImagePalette extends AbstractPalette {
   defaultImageWidth: any;
   defaultImageHeight: any;
   filterTags: any;
 
+  constructor(sidebar: Sidebar) {
+    super(sidebar);
+    this.defaultImageWidth = sidebar.defaultImageWidth;
+    this.defaultImageHeight = sidebar.defaultImageHeight;
+  }
+
   /**
    * Adds the given image palette.
    */
   create(id, title, prefix, postfix, items, titles, tags) {
-    var showTitles = titles != null;
+    // var showTitles = titles != null;
     var fns: any[] = [];
 
     for (var i = 0; i < items.length; i++) {

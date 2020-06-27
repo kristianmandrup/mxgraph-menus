@@ -1,9 +1,16 @@
 import mx from "@mxgraph-app/mx";
 import { AbstractPalette } from "../AbstractPalette";
+import { Sidebar } from "../../Sidebar";
 const { mxResources } = mx;
 
 export class BasicPalette extends AbstractPalette {
   addStencilPalette: any;
+
+  constructor(sidebar: Sidebar) {
+    super(sidebar);
+    this.addStencilPalette = sidebar.palettes.addStencilPalette;
+  }
+
   /**
    * Adds the general palette to the sidebar.
    */
@@ -22,7 +29,7 @@ export class BasicPalette extends AbstractPalette {
         this.partialRectangle2,
         this.partialRectangle3,
         this.partialRectangle4,
-      ],
+      ]
     );
   }
 
@@ -32,7 +39,7 @@ export class BasicPalette extends AbstractPalette {
       120,
       60,
       "",
-      "Partial Rectangle",
+      "Partial Rectangle"
     );
   }
 
@@ -42,7 +49,7 @@ export class BasicPalette extends AbstractPalette {
       120,
       60,
       "",
-      "Partial Rectangle",
+      "Partial Rectangle"
     );
   }
 
@@ -52,7 +59,7 @@ export class BasicPalette extends AbstractPalette {
       120,
       60,
       "",
-      "Partial Rectangle",
+      "Partial Rectangle"
     );
   }
 
@@ -62,7 +69,7 @@ export class BasicPalette extends AbstractPalette {
       120,
       60,
       "",
-      "Partial Rectangle",
+      "Partial Rectangle"
     );
   }
 }

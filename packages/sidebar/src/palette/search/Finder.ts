@@ -1,5 +1,6 @@
 import mx from "@mxgraph-app/mx";
 import { SearchPalette } from "./SearchPalette";
+import { Sidebar } from "../../Sidebar";
 const { mxResources } = mx;
 
 export class Finder extends SearchPalette {
@@ -14,8 +15,8 @@ export class Finder extends SearchPalette {
       Math.floor(this.container.clientWidth / (this.thumbWidth + 10))
     );
 
-  constructor() {
-    super();
+  constructor(sidebar: Sidebar) {
+    super(sidebar);
   }
 
   find = () => {

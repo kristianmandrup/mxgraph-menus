@@ -2,14 +2,19 @@ import mx from "@mxgraph-app/mx";
 import { AbstractPalette } from "../AbstractPalette";
 import { GeneralEntries } from "./GeneralEntries";
 import { GeneralTemplateEntries } from "./GeneralTemplateEntries";
+import { Sidebar } from "../../Sidebar";
 const { mxResources } = mx;
 
 export class GeneralPalette extends AbstractPalette {
-  entries = new GeneralEntries();
-  templateEntries = new GeneralTemplateEntries();
+  entries = new GeneralEntries(this.sidebar);
+  templateEntries = new GeneralTemplateEntries(this.sidebar);
 
   lineTags =
     "line lines connector connectors connection connections arrow arrows ";
+
+  constructor(sidebar: Sidebar) {
+    super(sidebar);
+  }
 
   /**
    * Adds the general palette to the sidebar.
@@ -96,7 +101,7 @@ export class GeneralPalette extends AbstractPalette {
       "general",
       mxResources.get("general"),
       expand != null ? expand : true,
-      fns,
+      fns
     );
   }
 }

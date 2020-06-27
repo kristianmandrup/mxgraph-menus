@@ -4,6 +4,7 @@ import { GeneralPalette } from "./general/GeneralPalette";
 import { ImagePalette } from "./image/ImagePalette";
 import { SearchPalette } from "./search/SearchPalette";
 import { StencilPalette } from "./stencil/StencilPalette";
+import { PaletteDelegator } from "./PaletteDelegator";
 
 import mx from "@mxgraph-app/mx";
 import { AdvancedShapes } from "../shapes/AdvancedShapes";
@@ -12,9 +13,10 @@ const { mxResources } = mx;
 import resources from "@mxgraph-app/resources";
 import { UmlPalette } from "./uml/UmlPalette";
 import { BpmnPalette } from "./bpmn/BmpnPalette";
+import { Sidebar } from "../Sidebar";
 const { STENCIL_PATH } = resources;
 
-export class Palettes {
+export class Palettes extends PaletteDelegator {
   paletteMap: any = {
     basic: BasicPalette,
     misc: MiscPalette,
@@ -25,21 +27,16 @@ export class Palettes {
     uml: UmlPalette,
     bpmn: BpmnPalette,
   };
-  palettes: any = {};
-
-  documentMode: any;
-  advancedShapes: any;
-  container: any;
-  createTitle: any;
-  collapsedImage: any;
-  expandedImage: any;
   paletteAdder: any;
+
+  advancedShapes: any;
   dir: any = STENCIL_PATH;
 
-  constructor(paletteMap?: any) {
+  constructor(sidebar: Sidebar, paletteMap?: any) {
+    super(sidebar);
     this.paletteMap = paletteMap || this.paletteMap;
     this.advancedShapes = new AdvancedShapes();
-    this.paletteAdder = new PaletteAdder();
+    this.paletteAdder = new PaletteAdder(sidebar);
   }
 
   addPalette(id, title, expanded, onInit) {

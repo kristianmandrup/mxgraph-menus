@@ -1,6 +1,11 @@
 import { AbstractPalette } from "../AbstractPalette";
+import { Sidebar } from "../../Sidebar";
 
 export class BpmnTemplateEntries extends AbstractPalette {
+  constructor(sidebar: Sidebar) {
+    super(sidebar);
+  }
+
   get templateEntries1() {
     return [
       this.bpmnCallActivity,

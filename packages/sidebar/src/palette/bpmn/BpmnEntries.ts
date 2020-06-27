@@ -1,8 +1,13 @@
 import { AbstractPalette } from "../AbstractPalette";
 import mx from "@mxgraph-app/mx";
+import { Sidebar } from "../../Sidebar";
 const { mxCell, mxGeometry, mxPoint } = mx;
 
 export class BpmnEntries extends AbstractPalette {
+  constructor(sidebar: Sidebar) {
+    super(sidebar);
+  }
+
   get timerEntries() {
     return [this.attachedTimerEvent1, this.attachedTimerEvent2];
   }

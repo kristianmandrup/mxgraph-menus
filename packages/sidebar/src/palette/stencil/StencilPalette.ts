@@ -1,18 +1,24 @@
 import { AbstractPalette } from "../AbstractPalette";
 import { StencilIndexLoader } from "./StencilIndexLoader";
 import { StencilDefaultLoader } from "./StencilDefaultLoader";
+import { Sidebar } from "../../Sidebar";
 
 export class StencilPalette extends AbstractPalette {
   addStencilsToIndex: any; // fn
-  getTagsForStencil: any;
-  filterTags: any;
 
-  // PaletteAdder
-  addPaletteFunctions: any;
-  addPalette: any;
+  stencilIndexLoader: StencilIndexLoader;
+  stencilDefaultLoader: StencilDefaultLoader;
 
-  stencilIndexLoader = new StencilIndexLoader();
-  stencilDefaultLoader = new StencilDefaultLoader();
+  constructor(sidebar: Sidebar) {
+    super(sidebar);
+    this.addStencilsToIndex = sidebar.addStencilsToIndex;
+    this.stencilIndexLoader = new StencilIndexLoader(sidebar);
+    this.stencilDefaultLoader = new StencilDefaultLoader(sidebar);
+  }
+
+  filterTags(tags) {
+    return this.sidebar.filterTags(tags);
+  }
 
   /**
    * Adds the given stencil palette.

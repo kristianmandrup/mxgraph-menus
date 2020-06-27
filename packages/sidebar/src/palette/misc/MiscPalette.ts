@@ -2,21 +2,21 @@ import { AbstractPalette } from "../AbstractPalette";
 import mx from "@mxgraph-app/mx";
 import { MiscTemplateEntries } from "./MiscTemplateEntries";
 import { MiscEntries } from "./MiscEntries";
+import { Sidebar } from "../../Sidebar";
 const { mxResources } = mx;
 
 export class MiscPalette extends AbstractPalette {
-  graph: any;
   gearImage: any;
 
-  constructor() {
-    super();
+  constructor(sidebar: Sidebar) {
+    super(sidebar);
   }
 
   lineTags =
     "line lines connector connectors connection connections arrow arrows ";
 
-  templateEntries = new MiscTemplateEntries();
-  entries = new MiscEntries();
+  templateEntries = new MiscTemplateEntries(this.sidebar);
+  entries = new MiscEntries(this.sidebar);
   /**
    * Adds the general palette to the sidebar.
    */
@@ -61,12 +61,7 @@ export class MiscPalette extends AbstractPalette {
       verticalElbow,
     } = templateEntries;
 
-    const {
-      hyperLink,
-      timestamp,
-      variable,
-      shapeGroup,
-    } = entries;
+    const { hyperLink, timestamp, variable, shapeGroup } = entries;
 
     var fns = [
       textHeadingTitle,
@@ -115,7 +110,7 @@ export class MiscPalette extends AbstractPalette {
       "misc",
       mxResources.get("misc"),
       expand != null ? expand : true,
-      fns,
+      fns
     );
   }
 

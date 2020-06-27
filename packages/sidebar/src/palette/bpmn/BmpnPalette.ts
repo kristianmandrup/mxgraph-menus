@@ -2,11 +2,16 @@ import mx from "@mxgraph-app/mx";
 import { AbstractPalette } from "../AbstractPalette";
 import { BpmnEntries } from "./BpmnEntries";
 import { BpmnTemplateEntries } from "./BpmnTemplateEntries";
+import { Sidebar } from "../../Sidebar";
 const { mxResources } = mx;
 
 export class BpmnPalette extends AbstractPalette {
-  entries = new BpmnEntries();
-  templateEntries = new BpmnTemplateEntries();
+  entries = new BpmnEntries(this.sidebar);
+  templateEntries = new BpmnTemplateEntries(this.sidebar);
+
+  constructor(sidebar: Sidebar) {
+    super(sidebar);
+  }
 
   /**
    * Adds the BPMN library to the sidebar.

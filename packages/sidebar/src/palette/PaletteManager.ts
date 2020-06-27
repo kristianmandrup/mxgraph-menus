@@ -1,11 +1,15 @@
 import mx from "@mxgraph-app/mx";
 const { mxClient } = mx;
+import { PaletteDelegator } from "./PaletteDelegator";
 
-export class PaletteManager {
-  container: any;
-  palettes: any = {};
-  createTitle: any; // fn
-  addFoldingHandler: any; // fn
+export class PaletteManager extends PaletteDelegator {
+  /**
+   * Create the given title element.
+   */
+  addFoldingHandler(title, content, funct) {
+    return this.sidebar.addFoldingHandler(title, content, funct);
+  }
+
   /**
    * Removes the palette for the given ID.
    */
