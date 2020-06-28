@@ -2,7 +2,7 @@ import mx from "@mxgraph-app/mx";
 import { AbstractFontItem } from "../AbstractFontItem";
 const { mxConstants } = mx;
 
-export class FontItem extends AbstractFontItem {
+export class FontSizeItem extends AbstractFontItem {
   menu: any;
   graph: any;
 

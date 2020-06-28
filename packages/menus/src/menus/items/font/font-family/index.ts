@@ -1,2 +1,2 @@
 export * from "./FontFamilyMenu";
-export * from "./FontItem";
+export * from "./FontFamilyItem";

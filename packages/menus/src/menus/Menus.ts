@@ -20,6 +20,7 @@ export class Menus extends BaseMenuAdder {
 
   constructor(editorUi: IEditorUI, menus?: any) {
     super(editorUi, menus);
+    this.documentMode = editorUi.documentMode;
     this.init();
 
     // console.log("created", { menus: this.menus });

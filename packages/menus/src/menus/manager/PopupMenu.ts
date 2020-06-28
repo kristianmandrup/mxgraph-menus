@@ -1,5 +1,5 @@
 import mx from "@mxgraph-app/mx";
-import { Menus } from "../MenuManager";
+import { Menus } from "../Menus";
 import { IEditorUI } from "../../interfaces";
 const { mxResources, mxMouseEvent, mxUtils, mxConstants, mxEdgeHandler } = mx;
 

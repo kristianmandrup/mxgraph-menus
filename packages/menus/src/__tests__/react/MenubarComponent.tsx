@@ -1,9 +1,9 @@
-import { Menubar } from "../menubar/Menubar";
+import { Menubar } from "../../menubar/Menubar";
 import React, {
   // createRef,
   useRef,
 } from "react";
-import { editorUi } from "./mocks";
+import { editorUi } from "../mocks";
 
 export const MenubarComponent = () => {
   const containerRef = useRef(null);

@@ -58,6 +58,7 @@ interface IActions {
 interface IFormat {}
 
 export interface IEditorUI {
+  documentMode: any;
   format: IFormat;
   editor: IEditor;
   actions: IActions;

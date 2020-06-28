@@ -2,7 +2,7 @@ import { MenuAdder } from "../../MenuAdder";
 import { Menu } from "../../../../Menu";
 import { IEditorUI } from "../../../../interfaces";
 
-import { FontItem } from "./FontItem";
+import { FontSizeItem } from "./FontSizeItem";
 import mx from "@mxgraph-app/mx";
 const { mxConstants, mxResources } = mx;
 
@@ -17,7 +17,7 @@ export class FontSizeMenu extends MenuAdder {
       "fontSize",
       new Menu((menu: any, parent: any) => {
         const createAddItem = (menu: any) => {
-          const fontSizeItem = new FontItem(this.menuStyler, graph, menu);
+          const fontSizeItem = new FontSizeItem(this.menuStyler, graph, menu);
           return (item: any) => {
             fontSizeItem.addItem(item);
           };

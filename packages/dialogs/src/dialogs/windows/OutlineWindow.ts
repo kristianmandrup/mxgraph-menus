@@ -1,4 +1,5 @@
 import mx from "@mxgraph-app/mx";
+import { IDimensions } from "./types";
 const {
   mxConstants,
   mxWindow,
@@ -7,12 +8,14 @@ const {
   mxRectangle,
   mxEvent,
 } = mx;
+
 /**
  *
  */
 export class OutlineWindow {
   window: any;
   editorUi: any;
+  div: any;
   _outline: any;
 
   resizeListener = () => {
@@ -37,7 +40,21 @@ export class OutlineWindow {
     return this.editorUi.editor.graph;
   }
 
-  constructor(editorUi, x, y, w, h) {
+  defaults = {
+    dimensions: {
+      x: 0,
+      y: 0,
+      w: 600,
+      h: 400,
+    },
+  };
+
+  constructor(editorUi, dimensions: IDimensions = {}) {
+    dimensions = {
+      ...this.defaults.dimensions,
+      ...dimensions,
+    };
+
     this.editorUi = editorUi;
 
     var div = document.createElement("div");
@@ -46,6 +63,9 @@ export class OutlineWindow {
     div.style.height = "100%";
     div.style.border = "1px solid whiteSmoke";
     div.style.overflow = "hidden";
+    this.div = div;
+
+    const { x, y, w, h } = dimensions;
 
     this.window = new mxWindow(
       mxResources.get("outline"),

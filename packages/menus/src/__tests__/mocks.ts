@@ -91,6 +91,7 @@ const editor = {
 const format = {};
 
 export const editorUi = {
+  documentMode: "x",
   format,
   editor: editor,
   actions: actions,

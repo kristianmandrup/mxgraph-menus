@@ -1,16 +1,16 @@
 import { MenuAdder } from "../MenuAdder";
-import { Center } from "./Center";
+import { CenterAlign } from "./CenterAlign";
 import { BottomAlign } from "./BottomAlign";
 import { LeftAlign } from "./LeftAlign";
-import { Middle } from "./Middle";
+import { MiddleAlign } from "./MiddleAlign";
 import { RightAlign } from "./RightAlign";
 import { TopAlign } from "./TopAlign";
 
 const menuItems = {
   bottomAlign: BottomAlign,
-  center: Center,
+  center: CenterAlign,
   leftAlign: LeftAlign,
-  middle: Middle,
+  middle: MiddleAlign,
   rightAlign: RightAlign,
   topAlign: TopAlign,
 };

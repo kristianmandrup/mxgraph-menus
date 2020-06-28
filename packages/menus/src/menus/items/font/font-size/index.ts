@@ -1,2 +1,2 @@
-export * from "./FontItem";
+export * from "./FontSizeItem";
 export * from "./FontSizeMenu";

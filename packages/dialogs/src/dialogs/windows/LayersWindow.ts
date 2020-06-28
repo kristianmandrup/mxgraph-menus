@@ -2,6 +2,7 @@
 import { Dialog } from "../../Dialog";
 import mx from "@mxgraph-app/mx";
 import { FilenameDialog } from "../../FilenameDialog";
+import { IDimensions } from "./types";
 const {
   mxWindow,
   mxPopupMenu,
@@ -16,17 +17,40 @@ const {
  *
  */
 export class LayersWindow {
-  documentMode: any;
-  window: any;
+  window: any; // mxWindow (set in constructor)
   refreshLayers: any;
-  graph: any;
+
   editorUi: any;
   listDiv: any;
+
   compactUi = true; // EditorUI.compactUi
   checkmarkImage = true; // Editor.checkmarkImage
+  div: HTMLElement;
 
-  constructor(editorUi, x, y, w, h) {
-    var graph = editorUi.editor.graph;
+  defaults = {
+    dimensions: {
+      x: 0,
+      y: 0,
+      w: 600,
+      h: 400,
+    },
+  };
+
+  get graph() {
+    return this.editorUi.graph;
+  }
+
+  get documentMode() {
+    return this.editorUi.documentMode;
+  }
+
+  // TODO: extract into multiple smaller methods!
+  constructor(editorUi, dimensions: IDimensions = {}) {
+    dimensions = {
+      ...this.defaults.dimensions,
+      ...dimensions,
+    };
+    this.editorUi = editorUi;
 
     var div = document.createElement("div");
     div.style.userSelect = "none";
@@ -36,6 +60,7 @@ export class LayersWindow {
     div.style.height = "100%";
     div.style.marginBottom = "10px";
     div.style.overflow = "auto";
+    this.div = div;
 
     const { compactUi } = this;
 
@@ -50,6 +75,7 @@ export class LayersWindow {
     listDiv.style.right = "0px";
     listDiv.style.top = "0px";
     listDiv.style.bottom = parseInt(tbarHeight) + 7 + "px";
+    this.listDiv = listDiv;
     div.appendChild(listDiv);
 
     var dragSource: any;
@@ -102,6 +128,8 @@ export class LayersWindow {
     var removeLink: any = link.cloneNode();
     removeLink.innerHTML =
       '<div class="geSprite geSprite-delete" style="display:inline-block;"></div>';
+
+    const { graph } = this;
 
     mxEvent.addListener(removeLink, "click", function (evt) {
       if (graph.isEnabled()) {
@@ -550,6 +578,8 @@ export class LayersWindow {
       }
     });
 
+    const { x, y, w, h } = dimensions;
+
     const window: any = new mxWindow(
       mxResources.get("layers"),
       div,
@@ -597,25 +627,35 @@ export class LayersWindow {
     mxEvent.addListener(window, "resize", this.resizeListener);
   }
 
+  labelOf(layer) {
+    // return graph.convertValueToString(layer)
+    return layer;
+  }
+
   renameLayer = (layer) => {
     const { graph, editorUi } = this;
     if (graph.isEnabled() && layer != null) {
-      var label = graph.convertValueToString(layer);
-      var dlg = new FilenameDialog(
-        editorUi,
-        label || mxResources.get("background"),
-        mxResources.get("rename"),
-        (newValue) => {
-          if (newValue != null) {
-            graph.cellLabelChanged(layer, newValue);
-          }
-        },
-        mxResources.get("enterName")
-      );
+      const label = this.labelOf(layer);
+      const dlg = this.createRenameDialog(layer, label);
       editorUi.showDialog(dlg.container, 300, 100, true, true);
       dlg.init();
     }
   };
+
+  createRenameDialog(layer, label) {
+    const { graph, editorUi } = this;
+    return new FilenameDialog(
+      editorUi,
+      label || mxResources.get("background"),
+      mxResources.get("rename"),
+      (newValue) => {
+        if (newValue != null) {
+          graph.cellLabelChanged(layer, newValue);
+        }
+      },
+      mxResources.get("enterName")
+    );
+  }
 
   resizeListener = () => {
     var x = this.window.getX();

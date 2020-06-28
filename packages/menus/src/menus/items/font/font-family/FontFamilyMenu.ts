@@ -2,7 +2,7 @@ import { MenuAdder } from "../../MenuAdder";
 import { Menu } from "../../../../Menu";
 
 import mx from "@mxgraph-app/mx";
-import { FontItem } from "./FontItem";
+import { FontFamilyItem } from "./FontFamilyItem";
 
 const { mxUtils, mxEventObject, mxConstants, mxResources } = mx;
 
@@ -28,7 +28,7 @@ export class FontFamilyMenu extends MenuAdder {
       "fontFamily",
       new Menu((menu: any, parent: any) => {
         const createAddItem = (menu: any) => {
-          const fontSizeItem = new FontItem(this.menuStyler, graph, menu);
+          const fontSizeItem = new FontFamilyItem(this.menuStyler, graph, menu);
           return (item: any) => {
             fontSizeItem.addItem(item);
           };
