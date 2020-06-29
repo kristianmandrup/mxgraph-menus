@@ -15,7 +15,9 @@ export class ImagePalette extends AbstractPalette {
   /**
    * Adds the given image palette.
    */
-  create(id, title, prefix, postfix, items, titles, tags) {
+
+  create(opts: any = {}) {
+    const { id, title, prefix, postfix, items, titles, tags } = opts;
     // var showTitles = titles != null;
     var fns: any[] = [];
 

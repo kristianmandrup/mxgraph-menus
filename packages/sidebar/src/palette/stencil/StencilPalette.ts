@@ -23,31 +23,8 @@ export class StencilPalette extends AbstractPalette {
   /**
    * Adds the given stencil palette.
    */
-  create(
-    id,
-    title,
-    stencilFile,
-    style,
-    ignore?,
-    onInit?,
-    scale?,
-    tags?,
-    customFns: any[] = []
-  ) {
-    scale = scale != null ? scale : 1;
-
-    const opts: any = {
-      id,
-      title,
-      stencilFile,
-      style,
-      ignore,
-      onInit,
-      scale,
-      tags,
-      customFns,
-    };
-
+  create(opts: any = {}) {
+    opts.scale = opts.scale != null ? opts.scale : 1;
     if (this.addStencilsToIndex) {
       this.stencilIndexLoader.load(opts);
     } else {

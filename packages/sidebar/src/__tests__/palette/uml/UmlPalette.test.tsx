@@ -1,10 +1,10 @@
-import { Sidebar, BasicPalette } from "../../..";
+import { Sidebar, UmlPalette } from "../../..";
 import { editorUi } from "../mocks";
 
-describe("BasicPalette", () => {
+describe("UmlPalette", () => {
   const editorElem = document.createElement("editor");
   const $sidebar = new Sidebar(editorUi, editorElem);
-  const create = (sidebar = $sidebar) => new BasicPalette(sidebar);
+  const create = (sidebar = $sidebar) => new UmlPalette(sidebar);
 
   let palette;
   beforeAll(() => {

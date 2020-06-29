@@ -43,32 +43,112 @@ describe("Palettes", () => {
       });
 
       describe("#addArrowsPalette", () => {
-        const expansion = { basic: true };
-
         test("does not throw", () => {
           expect(instance.addArrowsPalette()).not
             .toThrow();
         });
       });
 
-      // addFlowchartPalette()
-      // addStencilPalette(
-      //   id,
-      //   title,
-      //   stencilFile,
-      //   style)
+      describe("#addFlowchartPalette", () => {
+        test("does not throw", () => {
+          expect(instance.addFlowchartPalette()).not
+            .toThrow();
+        });
+      });
 
-      //   addSearchPalette(expand)
-      //   addGeneralPalette(expand)
-      //   addGeneralPalette()
-      //   addBasicPalette(dir)
-      //   addMiscPalette(expand)
-      //   addAdvancedPalette(expand?)
-      //   createAdvancedShapes()
-      //   addPaletteFunctions(id, title, expanded, fns)
-      //   addUmlPalette(expand?)
-      //   addBpmnPalette(dir, expand?)
-      //   addImagePalette(id, title, prefix, postfix, items, titles, tags)
+      describe("#addStencilPalette", () => {
+        const opts = {
+          id: "stencil",
+          title: "Stencils",
+          stencilFile: "/stencils",
+          style: "",
+        };
+        test("does not throw", () => {
+          expect(instance.addStencilPalette(opts)).not
+            .toThrow();
+        });
+      });
+
+      describe("#addSearchPalette", () => {
+        test("does not throw", () => {
+          expect(instance.addSearchPalette()).not
+            .toThrow();
+        });
+      });
+
+      describe("#addGeneralPalette", () => {
+        test("does not throw", () => {
+          expect(instance.addGeneralPalette()).not
+            .toThrow();
+        });
+      });
+
+      describe("#addBasicPalette", () => {
+        test("does not throw", () => {
+          expect(instance.addBasicPalette("left")).not
+            .toThrow();
+        });
+      });
+
+      describe("#addMiscPalette", () => {
+        test("does not throw", () => {
+          expect(instance.addMiscPalette()).not
+            .toThrow();
+        });
+      });
+
+      describe("#addAdvancedPalette", () => {
+        test("does not throw", () => {
+          expect(instance.addAdvancedPalette()).not
+            .toThrow();
+        });
+      });
+
+      describe("#createAdvancedShapes", () => {
+        test("does not throw", () => {
+          expect(instance.createAdvancedShapes()).not
+            .toThrow();
+        });
+      });
+
+      describe("#addPaletteFunctions", () => {
+        const id = "x", title = "my title", expanded = true, fns = [];
+        test("does not throw", () => {
+          expect(instance.addPaletteFunctions(id, title, expanded, fns)).not
+            .toThrow();
+        });
+      });
+
+      describe("#addUmlPalette", () => {
+        test("does not throw", () => {
+          expect(instance.addUmlPalette()).not
+            .toThrow();
+        });
+      });
+
+      describe("#addBpmnPalette", () => {
+        test("does not throw", () => {
+          expect(instance.addBpmnPalette("left")).not
+            .toThrow();
+        });
+      });
+
+      describe("#addImagePalette", () => {
+        const opts = {
+          id: "bmpn",
+          title: "BPMN",
+          prefix: "-",
+          postfix: ":",
+          items: [{}],
+          titles: ["x"],
+          tags: ["a"],
+        };
+
+        test("does not throw", () => {
+          expect(instance.addImagePalette(opts)).not
+            .toThrow();
+        });
+      });
     });
   });
 });

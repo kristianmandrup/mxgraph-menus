@@ -136,7 +136,7 @@ export class Palettes extends PaletteDelegator {
   /**
    * Adds the given palette.
    */
-  addPaletteFunctions(id, title, expanded, fns) {
+  addPaletteFunctions(id, title, expanded, fns: any[] = []) {
     this.addPalette(id, title, expanded, (content) => {
       for (var i = 0; i < fns.length; i++) {
         content.appendChild(fns[i](content));

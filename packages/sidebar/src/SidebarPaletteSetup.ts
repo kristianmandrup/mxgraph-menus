@@ -19,6 +19,7 @@ export class SidebarPaletteSetup {
   triangleDown: any;
   currentSearch: any;
   entries: any;
+
   dir: any;
   palettes: any;
   documentMode: any = 0;
@@ -30,10 +31,11 @@ export class SidebarPaletteSetup {
   minThumbStrokeWidth = 1.3;
   thumbAntiAlias = true;
 
-  constructor(editorUi, graph, opts: any = {}) {
-    this.editorUi = editorUi;
-    this.graph = graph;
-    this.palettes = new Palettes();
+  constructor(sidebar, opts: any = {}) {
+    this.editorUi = sidebar.editorUi;
+    this.graph = this.editorUi.editor.graph;
+    this.documentMode = sidebar.documentMode;
+    this.palettes = new Palettes(sidebar);
     const { dir } = opts;
     this.dir = dir;
   }

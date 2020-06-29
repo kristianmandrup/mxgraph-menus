@@ -265,12 +265,12 @@ export class Sidebar {
   insertSearchHint(
     div,
     searchTerm,
-    _count,
-    page,
-    results,
-    _len,
-    _more,
-    _terms
+    _count?,
+    page?,
+    results?,
+    _len?,
+    _more?,
+    _terms?
   ) {
     if (results.length == 0 && page == 1) {
       var err = document.createElement("div");
@@ -306,10 +306,10 @@ export class Sidebar {
     height,
     parent,
     title,
-    showLabel,
-    showTitle,
-    realWidth,
-    realHeight
+    showLabel?,
+    showTitle?,
+    realWidth?,
+    realHeight?
   ) {
     this.thumbnail.createThumb(
       cells,
