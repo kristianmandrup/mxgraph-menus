@@ -23,12 +23,11 @@ export class FontFamilyMenu extends MenuAdder {
   ];
 
   add() {
-    const { graph } = this;
     this.put(
       "fontFamily",
-      new Menu((menu: any, parent: any) => {
+      new Menu(this.editorUi, (menu: any, parent: any) => {
         const createAddItem = (menu: any) => {
-          const fontSizeItem = new FontFamilyItem(this.menuStyler, graph, menu);
+          const fontSizeItem = new FontFamilyItem(menu);
           return (item: any) => {
             fontSizeItem.addItem(item);
           };

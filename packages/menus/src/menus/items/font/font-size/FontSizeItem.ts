@@ -6,8 +6,8 @@ export class FontSizeItem extends AbstractFontItem {
   menu: any;
   graph: any;
 
-  constructor(menuStyler, graph: any, menu: any) {
-    super(menuStyler, graph, menu);
+  constructor(menu: any) {
+    super(menu);
   }
 
   addItem(fontsize) {

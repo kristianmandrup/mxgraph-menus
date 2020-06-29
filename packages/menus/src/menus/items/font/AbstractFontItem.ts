@@ -3,10 +3,10 @@ export class AbstractFontItem {
   graph: any;
   menuStyler: any;
 
-  constructor(menuStyler, menu, graph) {
-    this.menuStyler = menuStyler;
+  constructor(menu) {
+    this.menuStyler = menu.menuStyler;
     this.menu = menu;
-    this.graph = graph;
+    this.graph = menu.graph;
   }
 
   // from Menus

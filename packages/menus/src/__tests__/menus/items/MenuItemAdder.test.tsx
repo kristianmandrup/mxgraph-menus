@@ -3,8 +3,9 @@ import { editorUi } from "../mocks";
 import { Menu } from "../../../Menu";
 
 describe("ViewZoomMenu", () => {
-  const $menu = new Menu(editorUi);
-  const create = (menu = $menu) => new MenuItemAdder(editorUi, menu);
+  const createMenu = (funct?) => new Menu(editorUi, funct);
+  const $menu = createMenu(editorUi);
+  const create = (menu = $menu) => new MenuItemAdder(menu);
   const graph = editorUi.editor.graph;
 
   describe("instance", () => {
@@ -39,7 +40,7 @@ describe("ViewZoomMenu", () => {
     });
 
     describe("methods", () => {
-      const submenu = new Menu(editorUi);
+      const submenu = createMenu();
       const item = "x";
       const fn = () => {};
       const node = {};

@@ -5,7 +5,7 @@ export class NavigationMenu extends MenuAdder {
   add() {
     this.put(
       "navigation",
-      new Menu((menu: any, parent: any) => {
+      new Menu(this.editorUi, (menu: any, parent: any) => {
         this.addMenuItems(
           menu,
           [

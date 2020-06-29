@@ -1,8 +1,8 @@
-import { InsertMenu } from "../../..";
+import { NavigationMenu } from "../../../menus";
 import { editorUi } from "../mocks";
 
-describe("InsertMenu", () => {
-  const create = () => new InsertMenu(editorUi);
+describe("NavigationMenu", () => {
+  const create = () => new NavigationMenu(editorUi);
 
   describe("instance", () => {
     let menu;

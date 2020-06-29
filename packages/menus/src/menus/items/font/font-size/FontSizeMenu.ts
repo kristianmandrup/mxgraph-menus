@@ -7,17 +7,16 @@ import mx from "@mxgraph-app/mx";
 const { mxConstants, mxResources } = mx;
 
 export class FontSizeMenu extends MenuAdder {
-  constructor(editorUi: IEditorUI, opts: any) {
+  constructor(editorUi: IEditorUI, opts: any = {}) {
     super(editorUi, opts);
   }
 
   add() {
-    const { graph } = this;
     this.put(
       "fontSize",
-      new Menu((menu: any, parent: any) => {
+      new Menu(this.editorUi, (menu: any, parent: any) => {
         const createAddItem = (menu: any) => {
-          const fontSizeItem = new FontSizeItem(this.menuStyler, graph, menu);
+          const fontSizeItem = new FontSizeItem(menu);
           return (item: any) => {
             fontSizeItem.addItem(item);
           };

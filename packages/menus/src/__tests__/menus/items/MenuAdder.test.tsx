@@ -1,10 +1,10 @@
-import { MenuAdder, Menus } from "../../../menus";
+import { Menu, MenuAdder, Menus } from "../../..";
 import { editorUi } from "../mocks";
-import { Menu } from "../../../Menu";
 
 describe("ViewZoomMenu", () => {
   const menus = new Menus(editorUi);
   const create = () => new MenuAdder(editorUi, { menus });
+  const createMenu = (funct?) => new Menu(editorUi, funct);
 
   describe("instance", () => {
     let adder;
@@ -26,7 +26,7 @@ describe("ViewZoomMenu", () => {
     });
 
     describe("methods", () => {
-      const menu = new Menu(editorUi);
+      const menu = createMenu();
       const name = "A";
       const label = "x";
       const hints = "my hints";
@@ -115,7 +115,7 @@ describe("ViewZoomMenu", () => {
         const parentElem = document.createElement("x");
         let mainMenu;
         beforeEach(() => {
-          mainMenu = new Menu(funct);
+          mainMenu = createMenu(funct);
         });
 
         it("does not throw", () => {

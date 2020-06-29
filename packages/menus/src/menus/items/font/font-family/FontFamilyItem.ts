@@ -3,9 +3,6 @@ import { AbstractFontItem } from "../AbstractFontItem";
 const { mxConstants } = mx;
 
 export class FontFamilyItem extends AbstractFontItem {
-  menu: any;
-  graph: any;
-
   addItem(fontname) {
     const { menu } = this;
     var tr: any = this.styleChange(

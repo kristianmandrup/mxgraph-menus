@@ -8,10 +8,14 @@ export class Menu {
   funct: any;
   enabled: any;
   eventSource: any;
+  editorUi: any;
 
-  constructor(funct: any, enabled?: boolean) {
+  defaultFunction = () => {};
+
+  constructor(editorUi: any, funct?: any, enabled?: boolean) {
+    this.editorUi = editorUi;
     this.eventSource = new mxEventSource(this);
-    this.funct = funct;
+    this.funct = funct || this.defaultFunction;
     this.enabled = enabled != null ? enabled : true;
   }
 

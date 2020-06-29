@@ -1,9 +1,9 @@
-import { EditMenu } from "../../../menus";
+import { Menu, EditMenu } from "../../..";
 import { editorUi } from "../mocks";
-import { Menu } from "../../../Menu";
 
 describe("EditMenu", () => {
   const create = () => new EditMenu(editorUi);
+  const createMenu = (funct) => new Menu(editorUi, funct);
 
   describe("instance", () => {
     let menu;
@@ -45,7 +45,7 @@ describe("EditMenu", () => {
         const parentElem = document.createElement("x");
         let mainMenu;
         beforeEach(() => {
-          mainMenu = new Menu(funct);
+          mainMenu = createMenu(funct);
         });
 
         it("does not throw", () => {

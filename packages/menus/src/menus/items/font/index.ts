@@ -1,2 +1,2 @@
-export { FontFamilyMenu } from "./font-family";
-export { FontSizeMenu } from "./font-size";
+export * from "./font-family";
+export * from "./font-size";

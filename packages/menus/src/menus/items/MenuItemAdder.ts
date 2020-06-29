@@ -1,6 +1,7 @@
 import { FilenameDialog } from "../../_imports";
 import mx from "@mxgraph-app/mx";
 import { IEditorUI } from "../../interfaces";
+import { Menu } from "../../Menu";
 const { mxResources } = mx;
 
 export class MenuItemAdder {
@@ -8,10 +9,10 @@ export class MenuItemAdder {
   menu: any;
   graph: any;
 
-  constructor(editorUi: IEditorUI, menu: any) {
-    this.editorUi = editorUi;
+  constructor(menu: Menu) {
+    this.editorUi = menu.editorUi;
     this.menu = menu;
-    this.graph = editorUi.editor.graph;
+    this.graph = this.editorUi.editor.graph;
   }
 
   addItem(item: any, submenu: any, fn: any, node: any) {
