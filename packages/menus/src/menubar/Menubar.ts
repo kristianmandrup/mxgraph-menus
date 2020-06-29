@@ -7,11 +7,14 @@ const { mxClient, mxPopupMenu, mxEvent, mxUtils } = mx;
  */
 export class Menubar {
   editorUi: IEditorUI;
-  container: any;
+  container: HTMLElement;
   currentElt: any;
   show: any;
-
-  constructor(editorUi: IEditorUI, container: any) {
+  /**
+   * @param  {IEditorUI} editorUi
+   * @param  {HTMLElement} container
+   */
+  constructor(editorUi: IEditorUI, container: HTMLElement) {
     this.editorUi = editorUi;
     if (!container) {
       throw new Error("Menubar must be created with a container element");
@@ -29,38 +32,44 @@ export class Menubar {
   /**
    * Adds a submenu to this menubar.
    */
-  addMenu(label: string, funct: any, before?: any) {
+  /**
+   * @param  {string} label
+   * @param  {any} funct
+   * @param  {any} before
+   * @returns { HTMLElement} menu element
+   */
+  addMenu(label: string, funct: () => void, before?): HTMLElement {
     const { container } = this;
-    var elt = document.createElement("a");
-    elt.className = "geItem";
-    mxUtils.write(elt, label);
-    this.addMenuHandler(elt, funct);
-
-    console.log({ container });
+    var elem = document.createElement("a");
+    elem.className = "geItem";
+    mxUtils.write(elem, label);
+    this.addMenuHandler(elem, funct);
     if (!container) {
       throw new Error("Menubar missing container");
     }
 
     if (before != null) {
-      container.insertBefore(elt, before);
+      container.insertBefore(elem, before);
     } else {
-      container.appendChild(elt);
+      container.appendChild(elem);
     }
 
-    return elt;
+    return elem;
   }
 
   /**
    * Adds a handler for showing a menu in the given element.
    */
-  addMenuHandler(elt: any, funct: any) {
+  addMenuHandler(elem: any, funct: () => void) {
     if (funct != null) {
       this.show = true;
 
       const { show } = this;
 
+      const { addListener } = this;
+
       var clickHandler = (evt: any) => {
-        if ((show && elt.enabled == null) || elt.enabled) {
+        if ((show && elem.enabled == null) || elem.enabled) {
           this.editorUi.editor.graph.popupMenuHandler.hideMenu();
           var menu: any = new mxPopupMenu(funct);
           menu.div.className += " geMenubarMenu";
@@ -75,41 +84,45 @@ export class Menubar {
             menu.destroy();
           };
 
-          var offset = mxUtils.getOffset(elt);
-          menu.popup(offset.x, offset.y + elt.offsetHeight, null, evt);
-          this.editorUi.setCurrentMenu(menu, elt);
+          var offset = mxUtils.getOffset(elem);
+          menu.popup(offset.x, offset.y + elem.offsetHeight, null, evt);
+          this.editorUi.setCurrentMenu(menu, elem);
         }
 
         mxEvent.consume(evt);
       };
 
       // Shows menu automatically while in expanded state
-      mxEvent.addListener(elt, "mousemove", (evt: any) => {
+      addListener(elem, "mousemove", (evt: any) => {
         if (
           this.editorUi.currentMenu != null &&
-          this.editorUi.currentMenuElt != elt
+          this.editorUi.currentMenuElt != elem
         ) {
           this.editorUi.hideCurrentMenu();
           clickHandler(evt);
         }
       });
 
-      this.setMouseDown(elt);
+      this.setMouseDown(elem);
 
-      mxEvent.addListener(elt, "click", (evt: any) => {
+      addListener(elem, "click", (evt: any) => {
         clickHandler(evt);
         this.show = true;
       });
     }
   }
 
-  setMouseDown(elt: any) {
+  addListener(element: HTMLElement, eventName: string, handler: (evt) => void) {
+    mxEvent.addListener(element, eventName, handler);
+  }
+
+  setMouseDown(elem: any) {
     // Hides menu if already showing and prevents focus
-    mxEvent.addListener(
-      elt,
+    this.addListener(
+      elem,
       mxClient.IS_POINTER ? "pointerdown" : "mousedown",
       (evt: any) => {
-        this.show = this.currentElt != elt;
+        this.show = this.currentElt != elem;
         evt.preventDefault();
       }
     );

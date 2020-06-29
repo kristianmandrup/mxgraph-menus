@@ -11,9 +11,12 @@ export class Menu {
 
   constructor(funct: any, enabled?: boolean) {
     this.eventSource = new mxEventSource(this);
-    // mxEventSource.call(this);
     this.funct = funct;
     this.enabled = enabled != null ? enabled : true;
+  }
+
+  addListener(name, func: () => void) {
+    this.eventSource.addListener(name, func);
   }
 
   /**

@@ -15,6 +15,7 @@ export class MenubarFactory extends BaseMenuAdder {
     super(menus);
     this.editorUi = editorUi;
     this.container = container;
+    this.documentMode = editorUi.documentMode;
   }
 
   /**
@@ -41,25 +42,27 @@ export class MenubarFactory extends BaseMenuAdder {
 
   /**
    * Creates the keyboard event handler for the current graph and history.
+   * menu: Menu
+   * elem: HTMLElement
    */
-  menuCreated(menu: any, elt: any, className?: string) {
-    if (elt != null) {
+  menuCreated(menu: any, elem: any, className?: string) {
+    if (elem != null) {
       className = className != null ? className : "geItem";
       const { documentMode } = this;
-      menu.addListener("stateChanged", function () {
-        elt.enabled = menu.enabled;
+      menu.addListener("stateChanged", () => {
+        elem.enabled = menu.enabled;
 
         if (!menu.enabled) {
-          elt.className = className + " mxDisabled";
+          elem.className = className + " mxDisabled";
 
           if (documentMode == 8) {
-            elt.style.color = "#c3c3c3";
+            elem.style.color = "#c3c3c3";
           }
         } else {
-          elt.className = className;
+          elem.className = className;
 
           if (documentMode == 8) {
-            elt.style.color = "";
+            elem.style.color = "";
           }
         }
       });
