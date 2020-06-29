@@ -16,29 +16,60 @@ describe("SidebarPaletteSetup", () => {
           expect(instance.editorUi).toBe(editorUi);
         });
       });
+
       describe("graph", () => {
         test("to be set", () => {
           expect(instance.graph).toBe(graph);
         });
       });
+
       describe("palettes", () => {
         test("to be set", () => {
           expect(instance.palettes).toBeDefined();
         });
       });
+
       describe("paletteManager", () => {
         test("to be set", () => {
           expect(instance.paletteManager).toBeDefined();
         });
       });
+
       describe("thumbnail", () => {
         test("to be set", () => {
           expect(instance.thumbnail).toBeDefined();
         });
       });
+
       describe("documentMode", () => {
         test("to be set", () => {
           expect(instance.documentMode).toBeDefined();
+        });
+      });
+
+      describe("sidebar handlers", () => {
+        describe("pointerUpHandler", () => {
+          test("is set", () => {
+            expect(instance.pointerUpHandler).toBeDefined();
+          });
+        });
+
+        describe("pointerDownHandler", () => {
+          test("is set", () => {
+            expect(instance.pointerDownHandler).toBeDefined();
+          });
+        });
+
+        describe("pointerMoveHandler", () => {
+          test("is set", () => {
+            expect(instance.pointerMoveHandler).toBeDefined();
+          });
+        });
+
+        describe("pointerOutHandler", () => {
+          test("is set", () => {
+            expect(instance.pointerOutHandler).toBeDefined();
+          });
         });
       });
     });
@@ -46,12 +77,12 @@ describe("SidebarPaletteSetup", () => {
     describe("methods", () => {
       describe("#init", () => {
         test("does not throw", () => {
-          expect(() => instance.init()).toBe(editorUi);
+          expect(() => instance.init()).not.toThrow();
         });
       });
       describe("#getTooltipOffset", () => {
         test("does not throw", () => {
-          expect(() => instance.getTooltipOffset()).toBeDefined();
+          expect(() => instance.getTooltipOffset()).not.toThrow();
         });
       });
       describe("#getTooltipOffset", () => {
@@ -60,30 +91,30 @@ describe("SidebarPaletteSetup", () => {
         const w = 500, h = 200, title = "tools";
         test("does not throw", () => {
           expect(() => instance.showTooltip(elem, cells, w, h, title))
-            .toBeDefined();
+            .not.toThrow();
         });
       });
       describe("#hideTooltip", () => {
         test("does not throw", () => {
-          expect(() => instance.hideTooltip()).toBeDefined();
+          expect(() => instance.hideTooltip()).not.toThrow();
         });
       });
       describe("#filterTags", () => {
         const tags = ["x"];
         test("does not throw", () => {
-          expect(() => instance.filterTags(tags)).toBeDefined();
+          expect(() => instance.filterTags(tags)).not.toThrow();
         });
       });
       describe("#cloneCell", () => {
         const cell = {}, value = "x";
         test("does not throw", () => {
-          expect(() => instance.cloneCell(cell, value)).toBeDefined();
+          expect(() => instance.cloneCell(cell, value)).not.toThrow();
         });
       });
 
       describe("#addSearchPalette", () => {
         test("does not throw", () => {
-          expect(() => instance.addSearchPalette()).toBeDefined();
+          expect(() => instance.addSearchPalette()).not.toThrow();
         });
       });
 
@@ -91,14 +122,14 @@ describe("SidebarPaletteSetup", () => {
         const div = document.createElement("div"), searchTerm = "hello";
         test("does not throw", () => {
           expect(() => instance.insertSearchHint(div, searchTerm))
-            .toBeDefined();
+            .not.toThrow();
         });
       });
 
       describe("#addSearchPalette", () => {
         const label = "x";
         test("does not throw", () => {
-          expect(() => instance.createTitle(label)).toBeDefined();
+          expect(() => instance.createTitle(label)).not.toThrow();
         });
       });
 
@@ -111,7 +142,7 @@ describe("SidebarPaletteSetup", () => {
         test("does not throw", () => {
           expect(() =>
             instance.createThumb(cells, width, height, parent, title)
-          ).toBeDefined();
+          ).not.toThrow();
         });
       });
 
@@ -135,14 +166,14 @@ describe("SidebarPaletteSetup", () => {
               height,
               allowCellsInserted,
             )
-          ).toBeDefined();
+          ).not.toThrow();
         });
       });
 
       describe("#updateShapes", () => {
         const source = {}, targets = [{}];
         test("does not throw", () => {
-          expect(() => instance.updateShapes(source, targets)).toBeDefined();
+          expect(() => instance.updateShapes(source, targets)).not.toThrow();
         });
       });
 
@@ -159,14 +190,14 @@ describe("SidebarPaletteSetup", () => {
               allowCellsInserted,
               bounds,
             )
-          ).toBeDefined();
+          ).not.toThrow();
         });
       });
 
       describe("#createDropHandler", () => {
         const width = 600, height = 400;
         test("does not throw", () => {
-          expect(() => instance.createDragPreview(width, height)).toBeDefined();
+          expect(() => instance.createDragPreview(width, height)).not.toThrow();
         });
       });
 
@@ -182,18 +213,80 @@ describe("SidebarPaletteSetup", () => {
               dropCellIndex,
               evt,
             )
-          ).toBeDefined();
+          ).not.toThrow();
         });
       });
 
-      // isDropStyleEnabled(cells, firstVertex)
-      // isDropStyleTargetIgnored(state)
-      // createDragSource(elt, dropHandler, preview, cells, bounds)
-      // itemClicked(cells, ds, evt, elt)
-      // addClickHandler(elt, ds, cells)
-      // addEntry(tags, fn?)
-      // addFoldingHandler(title, content, funct)
-      // getTagsForStencil(packageName, stencilName, moreTags)
+      describe("#isDropStyleEnabled", () => {
+        const cells = [], firstVertex = {};
+        test("does not throw", () => {
+          expect(() => instance.isDropStyleEnabled(cells, firstVertex)).not
+            .toThrow();
+        });
+      });
+
+      describe("#isDropStyleTargetIgnored", () => {
+        const state = {};
+        test("does not throw", () => {
+          expect(() => instance.isDropStyleTargetIgnored(state)).not.toThrow();
+        });
+      });
+
+      describe("#createDragSource", () => {
+        const elem = document.createElement("a");
+        const dropHandler = (evt) => {};
+        const preview = true, cells = [], bounds = {};
+        test("does not throw", () => {
+          expect(() =>
+            instance.createDragSource(elem, dropHandler, preview, cells, bounds)
+          ).not.toThrow();
+        });
+      });
+
+      describe("#itemClicked", () => {
+        const elem = document.createElement("a");
+        const ds = {}, evt = {};
+        const cells = [];
+        test("does not throw", () => {
+          expect(() => instance.itemClicked(cells, ds, evt, elem)).not
+            .toThrow();
+        });
+      });
+
+      describe("#addClickHandler", () => {
+        const elem = document.createElement("a");
+        const ds = {};
+        const cells = [];
+        test("does not throw", () => {
+          expect(() => instance.addClickHandler(elem, ds, cells)).not
+            .toThrow();
+        });
+      });
+
+      describe("#addEntry", () => {
+        const tags = ["x"];
+        test("does not throw", () => {
+          expect(() => instance.addEntry(tags)).not
+            .toThrow();
+        });
+      });
+
+      describe("#addFoldingHandler", () => {
+        const title = "x", content = "xx", funct = () => {};
+        test("does not throw", () => {
+          expect(() => instance.addFoldingHandler(title, content, funct)).not
+            .toThrow();
+        });
+      });
+      describe("#getTagsForStencil", () => {
+        const packageName = "x", stencilName = "abc", moreTags = ["a", "b"];
+        test("does not throw", () => {
+          expect(() =>
+            instance.getTagsForStencil(packageName, stencilName, moreTags)
+          ).not
+            .toThrow();
+        });
+      });
     });
   });
 });

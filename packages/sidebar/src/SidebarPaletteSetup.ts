@@ -6,7 +6,8 @@ export class SidebarPaletteSetup {
   editorUi: any;
   graph: any;
   container: any;
-  taglist = new Object();
+
+  taglist = {};
   showTooltips = true;
   pointerUpHandler: any;
   pointerDownHandler: any;
@@ -32,9 +33,11 @@ export class SidebarPaletteSetup {
   thumbAntiAlias = true;
 
   constructor(sidebar, opts: any = {}) {
-    this.editorUi = sidebar.editorUi;
+    const { editorUi, container, documentMode } = sidebar;
+    this.editorUi = editorUi;
+    this.container = container;
     this.graph = this.editorUi.editor.graph;
-    this.documentMode = sidebar.documentMode;
+    this.documentMode = documentMode;
     this.palettes = new Palettes(sidebar);
     const { dir } = opts;
     this.dir = dir;

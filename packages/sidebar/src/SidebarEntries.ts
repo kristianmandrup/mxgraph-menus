@@ -9,13 +9,10 @@ export class SidebarEntries extends AbstractShaper {
   taglist: any[];
   editorUi: any;
 
-  constructor(cellCreator?: any) {
+  constructor(editorUi, cellCreator?: CellCreator) {
     super(cellCreator);
     this.taglist = [];
-  }
-
-  createCellCreator() {
-    return new CellCreator(this);
+    this.editorUi = editorUi;
   }
 
   /**

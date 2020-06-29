@@ -197,6 +197,7 @@ export class Sidebar {
    */
   init() {
     new SidebarInitializer(this).initialize();
+    return this;
   }
 
   configure() {}

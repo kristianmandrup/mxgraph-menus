@@ -103,6 +103,7 @@ export const graph = {
   setCellStyles(_key: string, _newValue: any, _cells?: any[]): void {},
 };
 const editor = {
+  documentMode: 5,
   graph,
   fireEvent: (_event) => {},
 };
@@ -110,6 +111,7 @@ const editor = {
 const format = {};
 
 export const editorUi = {
+  documentMode: 5,
   dialogs: [],
   format,
   editor: editor,
