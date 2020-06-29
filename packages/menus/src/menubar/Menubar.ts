@@ -1,5 +1,6 @@
 import mx from "@mxgraph-app/mx";
 import { IEditorUI } from "../interfaces";
+import { IElement } from "./types";
 const { mxClient, mxPopupMenu, mxEvent, mxUtils } = mx;
 
 /**
@@ -60,7 +61,7 @@ export class Menubar {
   /**
    * Adds a handler for showing a menu in the given element.
    */
-  addMenuHandler(elem: any, funct: () => void) {
+  addMenuHandler(elem: IElement, funct: () => void) {
     if (funct != null) {
       this.show = true;
 
@@ -68,7 +69,7 @@ export class Menubar {
 
       const { addListener } = this;
 
-      var clickHandler = (evt: any) => {
+      var clickHandler = (evt: Event) => {
         if ((show && elem.enabled == null) || elem.enabled) {
           this.editorUi.editor.graph.popupMenuHandler.hideMenu();
           var menu: any = new mxPopupMenu(funct);
@@ -93,7 +94,7 @@ export class Menubar {
       };
 
       // Shows menu automatically while in expanded state
-      addListener(elem, "mousemove", (evt: any) => {
+      addListener(elem, "mousemove", (evt: Event) => {
         if (
           this.editorUi.currentMenu != null &&
           this.editorUi.currentMenuElt != elem
@@ -105,23 +106,29 @@ export class Menubar {
 
       this.setMouseDown(elem);
 
-      addListener(elem, "click", (evt: any) => {
+      addListener(elem, "click", (evt: Event) => {
         clickHandler(evt);
         this.show = true;
       });
     }
   }
 
-  addListener(element: HTMLElement, eventName: string, handler: (evt) => void) {
+  addListener(
+    element: HTMLElement,
+    eventName: string,
+    handler: (evt: Event) => void
+  ) {
     mxEvent.addListener(element, eventName, handler);
   }
-
-  setMouseDown(elem: any) {
+  /**
+   * @param  {HTMLElement} elem
+   */
+  setMouseDown(elem: HTMLElement) {
     // Hides menu if already showing and prevents focus
     this.addListener(
       elem,
       mxClient.IS_POINTER ? "pointerdown" : "mousedown",
-      (evt: any) => {
+      (evt: Event) => {
         this.show = this.currentElt != elem;
         evt.preventDefault();
       }

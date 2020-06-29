@@ -2,6 +2,8 @@ import { Menubar } from "./Menubar";
 import mx from "@mxgraph-app/mx";
 import { BaseMenuAdder } from "../menus/BaseMenuAdder";
 import { IEditorUI } from "../interfaces";
+import { IElement } from "./types";
+import { Menu } from "../Menu";
 const { mxResources } = mx;
 
 export class MenubarFactory extends BaseMenuAdder {
@@ -21,7 +23,7 @@ export class MenubarFactory extends BaseMenuAdder {
   /**
    * Creates the keyboard event handler for the current graph and history.
    */
-  createMenubar(container = this.container) {
+  createMenubar(container: HTMLElement = this.container) {
     var menubar = new Menubar(this.editorUi, container);
     var menus = this.defaultMenuItems;
 
@@ -45,7 +47,7 @@ export class MenubarFactory extends BaseMenuAdder {
    * menu: Menu
    * elem: HTMLElement
    */
-  menuCreated(menu: any, elem: any, className?: string) {
+  menuCreated(menu: Menu, elem: IElement, className?: string) {
     if (elem != null) {
       className = className != null ? className : "geItem";
       const { documentMode } = this;
@@ -59,7 +61,7 @@ export class MenubarFactory extends BaseMenuAdder {
             elem.style.color = "#c3c3c3";
           }
         } else {
-          elem.className = className;
+          elem.className = className || "";
 
           if (documentMode == 8) {
             elem.style.color = "";

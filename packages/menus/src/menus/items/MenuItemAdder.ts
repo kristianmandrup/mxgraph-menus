@@ -11,6 +11,7 @@ export class MenuItemAdder {
   constructor(editorUi: IEditorUI, menu: any) {
     this.editorUi = editorUi;
     this.menu = menu;
+    this.graph = editorUi.editor.graph;
   }
 
   addItem(item: any, submenu: any, fn: any, node: any) {

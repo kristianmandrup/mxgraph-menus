@@ -17,9 +17,9 @@ export class MenuAdder extends BaseMenuAdder {
   customFonts: any;
   customFontSizes: any;
 
-  constructor(editorUi: IEditorUI, { graph, menus, menuStyler }: any = {}) {
+  constructor(editorUi: IEditorUI, { menus, menuStyler }: any = {}) {
     super(editorUi, menus);
-    this.graph = graph || editorUi.editor.graph;
+    this.graph = editorUi.editor.graph;
     this.menuStyler = menuStyler || this.createMenuStyler();
     this.menuPrompt = this.createMenuPrompt();
     this.setMenuItems();
@@ -41,6 +41,17 @@ export class MenuAdder extends BaseMenuAdder {
     return new MenuStyler(this.editorUi);
   }
 
+  /**
+   * Change style via menu styler
+   * @param  {any} menu
+   * @param  {string} label
+   * @param  {string[]} keys
+   * @param  {any} values
+   * @param  {any} sprite?
+   * @param  {any} parent?
+   * @param  {any} fn?
+   * @param  {any} post?
+   */
   styleChange(
     menu: any,
     label: string,
