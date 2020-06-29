@@ -6,6 +6,25 @@ export abstract class PaletteDelegator {
     this.sidebar = sidebar;
   }
 
+  /**
+   * Removes the palette for the given ID.
+   */
+  removePalette(id) {
+    var elts = this.palettes[id];
+
+    if (elts != null) {
+      this.palettes[id] = null;
+
+      for (var i = 0; i < elts.length; i++) {
+        this.container.removeChild(elts[i]);
+      }
+
+      return true;
+    }
+
+    return false;
+  }
+
   get collapsedImage() {
     return this.sidebar.collapsedImage;
   }

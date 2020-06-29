@@ -43,10 +43,6 @@ export class Palettes extends PaletteDelegator {
     this.paletteAdder.addPalette(id, title, expanded, onInit);
   }
 
-  removePalette(id) {
-    this.paletteAdder.removePalette(id);
-  }
-
   addAll(expansion: any = {}) {
     this.addMiscPalette(expansion.misc);
     this.addAdvancedPalette(expansion.advanced);
@@ -102,11 +98,11 @@ export class Palettes extends PaletteDelegator {
     );
   }
 
-  addSearchPalette(expand) {
+  addSearchPalette(expand?) {
     new this.paletteMap.search().create(expand);
   }
 
-  addGeneralPalette(expand) {
+  addGeneralPalette(expand?) {
     new this.paletteMap.general().create(expand);
   }
 
@@ -117,14 +113,14 @@ export class Palettes extends PaletteDelegator {
   /**
    * Adds the general palette to the sidebar.
    */
-  addMiscPalette(expand) {
+  addMiscPalette(expand?) {
     new this.paletteMap.misc().create(expand);
   }
 
   /**
    * Adds the container palette to the sidebar.
    */
-  addAdvancedPalette(expand) {
+  addAdvancedPalette(expand?) {
     this.addPaletteFunctions(
       "advanced",
       mxResources.get("advanced"),
@@ -151,11 +147,11 @@ export class Palettes extends PaletteDelegator {
   /**
    * Adds the general palette to the sidebar.
    */
-  addUmlPalette(expand) {
+  addUmlPalette(expand?) {
     new this.paletteMap.uml().addUmlPalette(expand);
   }
 
-  addBpmnPalette(dir, expand) {
+  addBpmnPalette(dir, expand?) {
     new this.paletteMap.bpmn().addBpmnPalette(dir, expand);
   }
 

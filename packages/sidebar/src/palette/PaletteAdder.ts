@@ -8,7 +8,18 @@ export class PaletteAdder extends PaletteDelegator {
   /**
    * Adds the given palette.
    */
-  addPalette(id, title, expanded, onInit) {
+  /**
+   * @param  { string } id
+   * @param  { string } title
+   * @param  { boolean } expanded
+   * @param  { function } onInit
+   */
+  addPalette(
+    id: string,
+    title: string,
+    expanded: boolean,
+    onInit: (content, title?) => void
+  ) {
     var elt = this.createTitle(title);
     this.container.appendChild(elt);
 
@@ -22,7 +33,7 @@ export class PaletteAdder extends PaletteDelegator {
 
     if (expanded) {
       onInit(div);
-      onInit = null;
+      onInit = () => {};
     } else {
       div.style.display = "none";
     }
@@ -108,24 +119,5 @@ export class PaletteAdder extends PaletteDelegator {
         }
       );
     }
-  }
-
-  /**
-   * Removes the palette for the given ID.
-   */
-  removePalette(id) {
-    var elts = this.palettes[id];
-
-    if (elts != null) {
-      this.palettes[id] = null;
-
-      for (var i = 0; i < elts.length; i++) {
-        this.container.removeChild(elts[i]);
-      }
-
-      return true;
-    }
-
-    return false;
   }
 }
