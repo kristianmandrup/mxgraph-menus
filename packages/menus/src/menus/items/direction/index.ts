@@ -1,4 +1,4 @@
 export * from "./DirectionMenu";
 export * from "./DirectionItem";
-export * from "./FlipH";
-export * from "./FlipV";
+export * from "./FlipHorizontalItem";
+export * from "./FlipVerticalItem";

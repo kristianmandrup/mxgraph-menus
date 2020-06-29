@@ -1,10 +1,10 @@
-import { Menu, DirectionItem } from "../../../..";
+import { Menu, RightAlignItem } from "../../../..";
 import { editorUi } from "../mocks";
 
-describe("DirectionItem", () => {
+describe("RightAlignItem", () => {
   const menuFunct = () => {};
   const menu = new Menu(editorUi, menuFunct);
-  const create = () => new DirectionItem(menu);
+  const create = () => new RightAlignItem(menu);
 
   describe("instance", () => {
     let item;

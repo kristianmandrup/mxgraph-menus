@@ -1,13 +1,13 @@
 import { MenuAdder } from "../MenuAdder";
-import { FlipH } from "./FlipH";
-import { FlipV } from "./FlipV";
+import { FlipHorizontalItem } from "./FlipHorizontalItem";
+import { FlipVerticalItem } from "./FlipVerticalItem";
 
 export class DirectionMenu extends MenuAdder {
   menuName = "direction";
 
   menuItems: any = {
-    flipH: FlipH,
-    flipV: FlipV,
+    flipH: FlipHorizontalItem,
+    flipV: FlipVerticalItem,
   };
   itemLayout = ["flipH", "flipV"];
 

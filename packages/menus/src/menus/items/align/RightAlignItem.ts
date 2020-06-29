@@ -2,9 +2,9 @@ import { AlignItem } from "./AlignItem";
 import mx from "@mxgraph-app/mx";
 const { mxConstants } = mx;
 
-export class TopAlign extends AlignItem {
+export class RightAlignItem extends AlignItem {
   align = {
-    name: "topAlign",
-    direction: mxConstants.ALIGN_TOP,
+    name: "rightAlign",
+    direction: mxConstants.ALIGN_RIGHT,
   };
 }

@@ -1,18 +1,18 @@
 import { MenuAdder } from "../MenuAdder";
-import { CenterAlign } from "./CenterAlign";
-import { BottomAlign } from "./BottomAlign";
-import { LeftAlign } from "./LeftAlign";
-import { MiddleAlign } from "./MiddleAlign";
-import { RightAlign } from "./RightAlign";
-import { TopAlign } from "./TopAlign";
+import { CenterAlignItem } from "./CenterAlignItem";
+import { BottomAlignItem } from "./BottomAlignItem";
+import { LeftAlignItem } from "./LeftAlignItem";
+import { MiddleAlignItem } from "./MiddleAlignItem";
+import { RightAlignItem } from "./RightAlignItem";
+import { TopAlignItem } from "./TopAlignItem";
 
 const menuItems = {
-  bottomAlign: BottomAlign,
-  center: CenterAlign,
-  leftAlign: LeftAlign,
-  middle: MiddleAlign,
-  rightAlign: RightAlign,
-  topAlign: TopAlign,
+  bottomAlign: BottomAlignItem,
+  center: CenterAlignItem,
+  leftAlign: LeftAlignItem,
+  middle: MiddleAlignItem,
+  rightAlign: RightAlignItem,
+  topAlign: TopAlignItem,
 };
 
 const defaults = {
