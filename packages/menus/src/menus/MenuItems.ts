@@ -78,7 +78,8 @@ export class MenuItems {
   }
 
   addToMenu() {
-    Object.entries(this.menuItems).map(([_name, menuClazz]) => {
+    const entries = Object.entries(this.menuItems);
+    entries.map(([_name, menuClazz]) => {
       new menuClazz(this.editorUi, { menus: this.menus }).add();
     });
   }
