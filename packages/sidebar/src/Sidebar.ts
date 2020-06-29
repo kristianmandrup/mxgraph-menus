@@ -9,8 +9,10 @@ import { DragSource } from "./drag-drop/drag/DragSource";
 import { ClickHandler } from "./ClickHandler";
 import { SingleClickInserter } from "./SingleClickInserter";
 import { FoldingHandler } from "./FoldingHandler";
+import { SidebarDestroyer } from "./SidebarDestroyer";
+import { SidebarItemCreator } from "./SidebarItemCreator";
 // import { HoverIcons } from "";
-const { mxResources, mxRectangle, mxClient, mxUtils, mxEvent } = mx;
+const { mxResources, mxClient, mxUtils } = mx;
 const { STENCIL_PATH, IMAGE_PATH } = resources;
 /**
  * Copyright (c) 2006-2012, JGraph Ltd
@@ -41,6 +43,7 @@ export class Sidebar {
   thumbnail: any;
 
   paletteManager: PaletteManager;
+  sidebarDestroyer: SidebarDestroyer;
 
   /**
    * Sets the default font size.
@@ -172,12 +175,16 @@ export class Sidebar {
 
   dropCheck: any;
 
+  itemCreator: SidebarItemCreator;
+
   constructor(editorUi, container) {
     this.thumbnail = new Thumbnail(this.editorUi);
     this.editorUi = editorUi;
     this.container = container;
     this.paletteManager = new PaletteManager(this);
     this.palettes = new Palettes(this);
+    this.sidebarDestroyer = new SidebarDestroyer(this);
+    this.itemCreator = new SidebarItemCreator(this);
     this.init();
   }
 
@@ -325,6 +332,7 @@ export class Sidebar {
   }
 
   /**
+   * TODO: extract to SidebarItemCreator
    * Creates and returns a new palette item for the given image.
    */
   createItem(
@@ -336,85 +344,15 @@ export class Sidebar {
     height,
     allowCellsInserted
   ) {
-    var elt = document.createElement("a");
-    elt.className = "geItem";
-    elt.style.overflow = "hidden";
-    var border = mxClient.IS_QUIRKS
-      ? 8 + 2 * this.thumbPadding
-      : 2 * this.thumbBorder;
-    elt.style.width = this.thumbWidth + border + "px";
-    elt.style.height = this.thumbHeight + border + "px";
-    elt.style.padding = this.thumbPadding + "px";
-
-    if (mxClient.IS_IE6) {
-      elt.style.border = "none";
-    }
-
-    // Blocks default click action
-    mxEvent.addListener(elt, "click", function (evt) {
-      mxEvent.consume(evt);
-    });
-
-    this.createThumb(
+    return this.itemCreator.createItem(
       cells,
-      this.thumbWidth,
-      this.thumbHeight,
-      elt,
       title,
       showLabel,
       showTitle,
       width,
-      height
+      height,
+      allowCellsInserted
     );
-    var bounds = new mxRectangle(0, 0, width, height);
-
-    if (cells.length > 1 || cells[0].vertex) {
-      var ds: any = this.createDragSource(
-        elt,
-        this.createDropHandler(cells, true, allowCellsInserted, bounds),
-        this.createDragPreview(width, height),
-        cells,
-        bounds
-      );
-      this.addClickHandler(elt, ds, cells);
-
-      // Uses guides for vertices only if enabled in graph
-      ds.isGuidesEnabled = () => {
-        return this.editorUi.editor.graph.graphHandler.guidesEnabled;
-      };
-    } else if (cells[0] != null && cells[0].edge) {
-      ds = this.createDragSource(
-        elt,
-        this.createDropHandler(cells, false, allowCellsInserted, bounds),
-        this.createDragPreview(width, height),
-        cells,
-        bounds
-      );
-      this.addClickHandler(elt, ds, cells);
-    }
-
-    // Shows a tooltip with the rendered cell
-    if (!mxClient.IS_IOS) {
-      mxEvent.addGestureListeners(
-        elt,
-        null,
-        (evt) => {
-          if (mxEvent.isMouseEvent(evt)) {
-            this.showTooltip(
-              elt,
-              cells,
-              bounds.width,
-              bounds.height,
-              title,
-              showLabel
-            );
-          }
-        },
-        null
-      );
-    }
-
-    return elt;
   }
 
   /**
@@ -439,7 +377,7 @@ export class Sidebar {
   /**
    * Creates and returns a preview element for the given width and height.
    */
-  createDragPreview(width, height) {
+  createDragPreview(width = 100, height = 100) {
     var elt = document.createElement("div");
     elt.style.border = this.dragPreviewBorder;
     elt.style.width = width + "px";
@@ -542,52 +480,6 @@ export class Sidebar {
    * TODO: SidebarDestroyer
    */
   destroy() {
-    if (this.graph != null) {
-      if (
-        this.graph.container != null &&
-        this.graph.container.parentNode != null
-      ) {
-        this.graph.container.parentNode.removeChild(this.graph.container);
-      }
-      // destroy and remove the graph
-      this.graph.destroy();
-      this.editorUi.graph = null;
-    }
-
-    if (this.pointerUpHandler != null) {
-      mxEvent.removeListener(
-        document,
-        mxClient.IS_POINTER ? "pointerup" : "mouseup",
-        this.pointerUpHandler
-      );
-      this.pointerUpHandler = null;
-    }
-
-    if (this.pointerDownHandler != null) {
-      mxEvent.removeListener(
-        document,
-        mxClient.IS_POINTER ? "pointerdown" : "mousedown",
-        this.pointerDownHandler
-      );
-      this.pointerDownHandler = null;
-    }
-
-    if (this.pointerMoveHandler != null) {
-      mxEvent.removeListener(
-        document,
-        mxClient.IS_POINTER ? "pointermove" : "mousemove",
-        this.pointerMoveHandler
-      );
-      this.pointerMoveHandler = null;
-    }
-
-    if (this.pointerOutHandler != null) {
-      mxEvent.removeListener(
-        document,
-        mxClient.IS_POINTER ? "pointerout" : "mouseout",
-        this.pointerOutHandler
-      );
-      this.pointerOutHandler = null;
-    }
+    this.sidebarDestroyer.destroy();
   }
 }
