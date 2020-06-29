@@ -11,9 +11,11 @@ describe("SingleClickInserter", () => {
   });
 
   describe("instance", () => {
-    describe("editorUi", () => {
-      test("to be set", () => {
-        expect(inserter.editorUi).toBe(editorUi);
+    describe("properties", () => {
+      describe("editorUi", () => {
+        test("to be set", () => {
+          expect(inserter.editorUi).toBe(editorUi);
+        });
       });
     });
 
@@ -45,6 +47,16 @@ describe("SingleClickInserter", () => {
 
         test("returns ShapeUpdater", () => {
           expect(dropConnect).toBeDefined();
+        });
+      });
+    });
+
+    describe("itemClicked", () => {
+      describe("simple test", () => {
+        const cells = [{}], ds = {}, evt = {};
+
+        test("returns ShapeUpdater", () => {
+          expect(() => inserter.itemClicked(cells, ds, evt)).toBeDefined();
         });
       });
     });

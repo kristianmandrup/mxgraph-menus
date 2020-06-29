@@ -1,32 +1,32 @@
 import mx from "@mxgraph-app/mx";
+import { Sidebar } from "./Sidebar";
 const { mxClient, mxEvent, mxResources } = mx;
 
 export class FoldingHandler {
+  sidebar: Sidebar;
   editorUi: any;
   graph: any;
-  container: any;
-  palettes = new Object();
-  taglist = new Object();
   showTooltips = true;
-  pointerUpHandler: any;
-  pointerDownHandler: any;
-  thread: any;
-  currentElt: any;
-  tooltip: any;
-  tooltipTitle: any;
-  graph2: any;
-  roundDrop: any;
-  triangleDown: any;
-  currentSearch: any;
-  entries: any;
 
   collapsedImage: any;
   expandedImage: any;
   documentMode: any;
   originalNoForeignObject: any; // Editor.prototype.originalNoForeignObject
 
-  constructor(editorUi) {
+  constructor(sidebar: Sidebar) {
+    this.sidebar = sidebar;
+    const {
+      editorUi,
+      graph,
+      collapsedImage,
+      expandedImage,
+      documentMode,
+    } = sidebar;
     this.editorUi = editorUi;
+    this.graph = graph;
+    this.collapsedImage = collapsedImage;
+    this.expandedImage = expandedImage;
+    this.documentMode = documentMode;
   }
 
   /**
