@@ -1,2 +1,2 @@
 export * from "./layer";
-export * from "./OutlineWindow";
+export * from "./outline";

@@ -1,5 +1,5 @@
 import mx from "@mxgraph-app/mx";
-import { IDimensions } from "./types";
+import { IDimensions } from "../types";
 const {
   mxConstants,
   mxWindow,
@@ -49,24 +49,8 @@ export class OutlineWindow {
     },
   };
 
-  constructor(editorUi, dimensions: IDimensions = {}) {
-    dimensions = {
-      ...this.defaults.dimensions,
-      ...dimensions,
-    };
-
-    this.editorUi = editorUi;
-
-    var div = document.createElement("div");
-    div.style.position = "absolute";
-    div.style.width = "100%";
-    div.style.height = "100%";
-    div.style.border = "1px solid whiteSmoke";
-    div.style.overflow = "hidden";
-    this.div = div;
-
+  setWindow(div, dimensions) {
     const { x, y, w, h } = dimensions;
-
     this.window = new mxWindow(
       mxResources.get("outline"),
       div,
@@ -133,9 +117,40 @@ export class OutlineWindow {
       const { outline } = this;
       outline.suspended = true;
     });
+  }
 
-    const { outline, graph } = this;
+  createDiv() {
+    var div = document.createElement("div");
+    div.style.position = "absolute";
+    div.style.width = "100%";
+    div.style.height = "100%";
+    div.style.border = "1px solid whiteSmoke";
+    div.style.overflow = "hidden";
+    this.div = div;
+    return div;
+  }
 
+  constructor(editorUi, dimensions: IDimensions = {}) {
+    dimensions = {
+      ...this.defaults.dimensions,
+      ...dimensions,
+    };
+
+    this.editorUi = editorUi;
+
+    const div = this.createDiv();
+    this.setWindow(div, dimensions);
+
+    const { outline } = this;
+    this.outlineCreateGraphHandler();
+
+    outline.init(div);
+    this.addEditorListeners();
+    this.configureSVG();
+  }
+
+  outlineCreateGraphHandler() {
+    const { outline, graph, div } = this;
     var outlineCreateGraph = outline.createGraph;
     outline.createGraph = (_container) => {
       var g = outlineCreateGraph.apply(this, arguments);
@@ -150,44 +165,12 @@ export class OutlineWindow {
 
       var current = mxUtils.getCurrentStyle(graph.container);
       div.style.backgroundColor = current.backgroundColor;
-
       return g;
     };
+  }
 
-    function update() {
-      outline.outline.pageScale = graph.pageScale;
-      outline.outline.pageFormat = graph.pageFormat;
-      outline.outline.pageVisible = graph.pageVisible;
-      outline.outline.background =
-        graph.background == null || graph.background == mxConstants.NONE
-          ? graph.defaultPageBackgroundColor
-          : graph.background;
-
-      var current = mxUtils.getCurrentStyle(graph.container);
-      div.style.backgroundColor = current.backgroundColor;
-
-      if (
-        graph.view.backgroundPageShape != null &&
-        outline.outline.view.backgroundPageShape != null
-      ) {
-        outline.outline.view.backgroundPageShape.fill =
-          graph.view.backgroundPageShape.fill;
-      }
-
-      outline.outline.refresh();
-    }
-
-    outline.init(div);
-
-    editorUi.editor.addListener("resetGraphView", update);
-    editorUi.addListener("pageFormatChanged", update);
-    editorUi.addListener("backgroundColorChanged", update);
-    editorUi.addListener("backgroundImageChanged", update);
-    editorUi.addListener("pageViewChanged", function () {
-      update();
-      outline.update(true);
-    });
-
+  configureSVG() {
+    const { editorUi, outline } = this;
     if (outline.outline.dialect == mxConstants.DIALECT_SVG) {
       var zoomInAction = editorUi.actions.get("zoomIn");
       var zoomOutAction = editorUi.actions.get("zoomOut");
@@ -215,4 +198,40 @@ export class OutlineWindow {
       }, undefined);
     }
   }
+
+  addEditorListeners() {
+    const { update, editorUi, outline } = this;
+    editorUi.editor.addListener("resetGraphView", update);
+    editorUi.addListener("pageFormatChanged", update);
+    editorUi.addListener("backgroundColorChanged", update);
+    editorUi.addListener("backgroundImageChanged", update);
+    editorUi.addListener("pageViewChanged", function () {
+      update();
+      outline.update(true);
+    });
+  }
+
+  update = () => {
+    const { outline, graph, div } = this;
+    outline.outline.pageScale = graph.pageScale;
+    outline.outline.pageFormat = graph.pageFormat;
+    outline.outline.pageVisible = graph.pageVisible;
+    outline.outline.background =
+      graph.background == null || graph.background == mxConstants.NONE
+        ? graph.defaultPageBackgroundColor
+        : graph.background;
+
+    var current = mxUtils.getCurrentStyle(graph.container);
+    div.style.backgroundColor = current.backgroundColor;
+
+    if (
+      graph.view.backgroundPageShape != null &&
+      outline.outline.view.backgroundPageShape != null
+    ) {
+      outline.outline.view.backgroundPageShape.fill =
+        graph.view.backgroundPageShape.fill;
+    }
+
+    outline.outline.refresh();
+  };
 }
