@@ -8,7 +8,6 @@ export class LayersWindowUI {
   listDiv: any;
 
   layersWindow: LayersWindow;
-  _baseLink: any;
 
   constructor(layersWindow: LayersWindow) {
     this.layersWindow = layersWindow;
@@ -42,7 +41,7 @@ export class LayersWindowUI {
     this.createLayerDiv();
   }
 
-  buildLDiv() {
+  buildLayerDiv() {
     const { ldiv, links } = this;
     Object.values(links).map((link) => {
       ldiv.appendChild(link);
@@ -50,11 +49,10 @@ export class LayersWindowUI {
   }
 
   buildDiv() {
-    this.buildLDiv();
+    this.buildLayerDiv();
     this.mainDiv.appendChild(this.ldiv);
   }
 
-  // TODO: rename to mainDiv
   createMainDiv() {
     const { backdropColor } = this;
     var mainDiv = document.createElement("div");

@@ -79,6 +79,7 @@ describe("LayerAdder", () => {
             label = "x",
             child = document.createElement("a"),
             defaultParent = {};
+
           test("does not throw", () => {
             expect(() => adder.addLayer(index, label, child, defaultParent)).not
               .toThrow();
