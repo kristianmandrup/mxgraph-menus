@@ -30,20 +30,8 @@ export class LayerRefreshManager {
     return this.layersWindow.selectionLayer;
   }
 
-  get removeLink() {
-    return this.layersWindow.removeLink;
-  }
-
-  get duplicateLink() {
-    return this.layersWindow.duplicateLink;
-  }
-
-  get insertLink() {
-    return this.layersWindow.insertLink;
-  }
-
-  get dataLink() {
-    return this.layersWindow.dataLink;
+  get links() {
+    return this.layersWindow.links;
   }
 
   addLayer = (index, label, child, defaultParent) => {
@@ -75,20 +63,20 @@ export class LayerRefreshManager {
       add(graph.model.getChildAt(graph.model.root, i));
     }
 
-    const { removeLink, duplicateLink, dataLink, insertLink } = this;
+    const { links } = this;
 
     var label =
       graph.convertValueToString(selectionLayer) ||
       mxResources.get("background");
-    removeLink.setAttribute("title", mxResources.get("removeIt", [label]));
-    duplicateLink.setAttribute(
+    links.remove.setAttribute("title", mxResources.get("removeIt", [label]));
+    links.duplicate.setAttribute(
       "title",
       mxResources.get("duplicateIt", [label])
     );
-    dataLink.setAttribute("title", mxResources.get("editData"));
+    links.data.setAttribute("title", mxResources.get("editData"));
 
     if (graph.isSelectionEmpty()) {
-      insertLink.className = "geButton mxDisabled";
+      links.insert.className = "geButton mxDisabled";
     }
   };
 }

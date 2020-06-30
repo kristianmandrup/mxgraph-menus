@@ -18,6 +18,26 @@ describe("LayerAdder", () => {
           expect(instance.layersWindow).toBe(win);
         });
       });
+
+      describe("selectionLayer", () => {
+        test("is set", () => {
+          expect(instance.selectionLayer).toBeDefined();
+        });
+      });
+    });
+
+    describe("methods", () => {
+      describe("addClickHandler", () => {
+        test("does not throw", () => {
+          expect(() => instance.addClickHandler()).not.toThrow();
+        });
+      });
+
+      describe("createLink", () => {
+        test("does not throw", () => {
+          expect(() => instance.createLink()).not.toThrow();
+        });
+      });
     });
   });
 });

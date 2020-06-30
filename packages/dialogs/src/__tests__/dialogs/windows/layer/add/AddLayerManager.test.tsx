@@ -74,13 +74,6 @@ describe("LayerAdder", () => {
       });
 
       describe("methods", () => {
-        describe("refresh", () => {
-          test("does not throw", () => {
-            expect(() => adder.refresh()).not
-              .toThrow();
-          });
-        });
-
         describe("addLayer", () => {
           const index = 0,
             label = "x",

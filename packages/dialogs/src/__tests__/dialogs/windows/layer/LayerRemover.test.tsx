@@ -19,5 +19,19 @@ describe("LayerRemover", () => {
         });
       });
     });
+
+    describe("methods", () => {
+      describe("addClickHandler", () => {
+        test("does not throw", () => {
+          expect(() => instance.addClickHandler()).not.toThrow();
+        });
+      });
+
+      describe("createLink", () => {
+        test("does not throw", () => {
+          expect(() => instance.createLink()).not.toThrow();
+        });
+      });
+    });
   });
 });
