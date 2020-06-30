@@ -2,12 +2,13 @@
 import { Dialog } from "../../../Dialog";
 import mx from "@mxgraph-app/mx";
 import { IDimensions } from "../types";
-import { LayerRefresher } from "./LayerRefresher";
+import { LayerRefreshManager } from "./LayerRefreshManager";
 import { LayerDuplicator } from "./LayerDuplicator";
 import { LayerRemover } from "./LayerRemover";
 import { LayerData } from "./LayerData";
 import { LayerInserter } from "./LayerInserter";
 import { LayerAdder } from "./LayerAdder";
+import { LayersWindowUI } from "./LayersWindowUI";
 const { mxWindow, mxResources, mxClient, mxEvent, mxRectangle } = mx;
 /**
  *
@@ -53,12 +54,14 @@ export class LayersWindow {
     return this.editorUi.documentMode;
   }
 
-  layerRefresher: LayerRefresher;
+  layerRefresher: LayerRefreshManager;
   layerDuplicator: LayerDuplicator;
   layerRemover: LayerRemover;
   layerData: LayerData;
   layerInserter: LayerInserter;
   layerAdder: LayerAdder;
+
+  windowUi: LayersWindowUI;
 
   dimensions: IDimensions;
 
@@ -69,18 +72,19 @@ export class LayersWindow {
       ...dimensions,
     };
     this.editorUi = editorUi;
-    this.layerRefresher = new LayerRefresher(this);
+    this.createLink();
+
+    this.layerRefresher = new LayerRefreshManager(this);
     this.layerDuplicator = new LayerDuplicator(this);
     this.layerRemover = new LayerRemover(this);
     this.layerData = new LayerData(this);
     this.layerInserter = new LayerInserter(this);
     this.layerAdder = new LayerAdder(this);
+    this.windowUi = new LayersWindowUI(this);
 
     this.createDivs();
-    this.createLinks();
     this.addClickHandlers();
     this.addDragDropHandlers();
-    this.buildDiv();
 
     this.refresh();
     this.addGraphChangeHandlers();
@@ -151,73 +155,12 @@ export class LayersWindow {
     return this.layerRefresher.refresh;
   };
 
-  get tbarHeight() {
-    return !this.compactUi ? "30px" : "26px";
-  }
-
   get backdropColor() {
     return Dialog.backdropColor;
   }
 
   createDivs() {
-    this.createMainDiv();
-    this.createListDiv();
-    this.createLDiv();
-  }
-
-  // TODO: rename to mainDiv
-  createMainDiv() {
-    var div = document.createElement("div");
-    div.style.userSelect = "none";
-    div.style.background =
-      Dialog.backdropColor == "white" ? "whiteSmoke" : Dialog.backdropColor;
-    div.style.border = "1px solid whiteSmoke";
-    div.style.height = "100%";
-    div.style.marginBottom = "10px";
-    div.style.overflow = "auto";
-    this.div = div;
-  }
-
-  createListDiv() {
-    const { div, tbarHeight, backdropColor } = this;
-
-    var listDiv = document.createElement("div");
-    listDiv.style.backgroundColor =
-      Dialog.backdropColor == "white" ? "#dcdcdc" : backdropColor;
-    listDiv.style.position = "absolute";
-    listDiv.style.overflow = "auto";
-    listDiv.style.left = "0px";
-    listDiv.style.right = "0px";
-    listDiv.style.top = "0px";
-    listDiv.style.bottom = parseInt(tbarHeight) + 7 + "px";
-    this.listDiv = listDiv;
-    div.appendChild(listDiv);
-  }
-
-  createLDiv() {
-    const { tbarHeight, compactUi } = this;
-    var ldiv = document.createElement("div");
-
-    ldiv.className = "geToolbarContainer";
-    ldiv.style.position = "absolute";
-    ldiv.style.bottom = "0px";
-    ldiv.style.left = "0px";
-    ldiv.style.right = "0px";
-    ldiv.style.height = tbarHeight;
-    ldiv.style.overflow = "hidden";
-    ldiv.style.padding = !compactUi ? "1px" : "4px 0px 3px 0px";
-    ldiv.style.backgroundColor =
-      Dialog.backdropColor == "white" ? "whiteSmoke" : Dialog.backdropColor;
-    ldiv.style.borderWidth = "1px 0px 0px 0px";
-    ldiv.style.borderColor = "#c3c3c3";
-    ldiv.style.borderStyle = "solid";
-    ldiv.style.display = "block";
-    ldiv.style.whiteSpace = "nowrap";
-
-    if (mxClient.IS_QUIRKS) {
-      ldiv.style.filter = "none";
-    }
-    this.ldiv = ldiv;
+    this.windowUi.createDivs();
   }
 
   addDragDropHandlers() {
@@ -264,15 +207,6 @@ export class LayersWindow {
     this.layerData.addClickHandler();
   }
 
-  createLinks() {
-    this.createLink();
-    this.createRemoveLink();
-    this.createAddLink();
-    this.createDataLink();
-    this.createInsertLink();
-    this.createDuplicateLink();
-  }
-
   createLink() {
     var link = document.createElement("a");
     link.className = "geButton";
@@ -281,51 +215,6 @@ export class LayersWindow {
       link.style.filter = "none";
     }
     this.link = link;
-  }
-
-  createAddLink() {
-    this.addLink = this.layerAdder.createLink();
-  }
-
-  createRemoveLink() {
-    this.removeLink = this.layerRemover.createLink();
-    return this.removeLink;
-  }
-
-  createInsertLink() {
-    this.insertLink = this.layerInserter.createLink();
-    return this.insertLink;
-  }
-
-  createDataLink() {
-    this.dataLink = this.layerData.createLink();
-    return this.dataLink;
-  }
-
-  createDuplicateLink() {
-    this.duplicateLink = this.layerDuplicator.createLink();
-  }
-
-  buildLDiv() {
-    const {
-      ldiv,
-      removeLink,
-      addLink,
-      dataLink,
-      insertLink,
-      duplicateLink,
-    } = this;
-
-    ldiv.appendChild(removeLink);
-    ldiv.appendChild(insertLink);
-    ldiv.appendChild(dataLink);
-    ldiv.appendChild(duplicateLink);
-    ldiv.appendChild(addLink);
-  }
-
-  buildDiv() {
-    this.buildLDiv();
-    this.div.appendChild(this.ldiv);
   }
 
   addGraphChangeHandlers() {
@@ -341,6 +230,16 @@ export class LayersWindow {
         insertLink.className = "geButton";
       }
     });
+  }
+
+  get links() {
+    return {
+      remove: this.layerRemover.link,
+      add: this.layerAdder.link,
+      insert: this.layerInserter.link,
+      duplicate: this.layerDuplicator.link,
+      data: this.layerData.link,
+    };
   }
 
   resizeListener = () => {

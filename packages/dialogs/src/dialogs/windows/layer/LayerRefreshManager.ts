@@ -3,7 +3,7 @@ import mx from "@mxgraph-app/mx";
 import { AddLayerManager } from "./AddLayerManager";
 const { mxResources } = mx;
 
-export class LayerRefresher {
+export class LayerRefreshManager {
   layersWindow: LayersWindow;
   graph: any;
   layerCount: number = 0;

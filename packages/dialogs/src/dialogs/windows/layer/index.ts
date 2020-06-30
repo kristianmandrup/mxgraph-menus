@@ -1,5 +1,5 @@
 export * from "./AddLayerManager";
-export * from "./LayerRefresher";
+export * from "./LayerRefreshManager";
 export * from "./LayerRenamer";
 export * from "./LayerRemover";
 export * from "./LayerDuplicator";

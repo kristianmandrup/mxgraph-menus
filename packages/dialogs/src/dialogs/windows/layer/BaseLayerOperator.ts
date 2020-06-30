@@ -9,6 +9,8 @@ export class BaseLayerOperator {
   constructor(layersWindow: LayersWindow) {
     this.layersWindow = layersWindow;
     this.createBaseLink();
+    this.createLink();
+    this.addClickHandler();
   }
 
   get editorUi() {
@@ -37,4 +39,6 @@ export class BaseLayerOperator {
     const { baseLink } = this;
     return baseLink.cloneNode();
   }
+
+  addClickHandler() {}
 }
