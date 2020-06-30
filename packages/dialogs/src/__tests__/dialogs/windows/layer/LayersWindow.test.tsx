@@ -1,8 +1,8 @@
-import { LayersWindow } from "../../../dialogs";
+import { LayersWindow } from "../../../../dialogs";
 
-import { editorUi } from "../../mocks";
+import { editorUi } from "../../../mocks";
 
-describe("AboutDialog", () => {
+describe("LayersWindow", () => {
   const ui = editorUi;
 
   let win;

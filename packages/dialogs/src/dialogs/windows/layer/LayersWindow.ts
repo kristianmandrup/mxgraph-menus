@@ -3,16 +3,12 @@ import { Dialog } from "../../../Dialog";
 import mx from "@mxgraph-app/mx";
 import { IDimensions } from "../types";
 import { LayerRefresher } from "./LayerRefresher";
-const {
-  mxWindow,
-  mxPopupMenu,
-  mxUtils,
-  mxResources,
-  mxClient,
-  mxEvent,
-  mxCell,
-  mxRectangle,
-} = mx;
+import { LayerDuplicator } from "./LayerDuplicator";
+import { LayerRemover } from "./LayerRemover";
+import { LayerData } from "./LayerData";
+import { LayerInserter } from "./LayerInserter";
+import { LayerAdder } from "./LayerAdder";
+const { mxWindow, mxResources, mxClient, mxEvent, mxRectangle } = mx;
 /**
  *
  */
@@ -58,6 +54,12 @@ export class LayersWindow {
   }
 
   layerRefresher: LayerRefresher;
+  layerDuplicator: LayerDuplicator;
+  layerRemover: LayerRemover;
+  layerData: LayerData;
+  layerInserter: LayerInserter;
+  layerAdder: LayerAdder;
+
   dimensions: IDimensions;
 
   // TODO: extract into multiple smaller methods!
@@ -68,6 +70,11 @@ export class LayersWindow {
     };
     this.editorUi = editorUi;
     this.layerRefresher = new LayerRefresher(this);
+    this.layerDuplicator = new LayerDuplicator(this);
+    this.layerRemover = new LayerRemover(this);
+    this.layerData = new LayerData(this);
+    this.layerInserter = new LayerInserter(this);
+    this.layerAdder = new LayerAdder(this);
 
     this.createDivs();
     this.createLinks();
@@ -76,7 +83,7 @@ export class LayersWindow {
     this.buildDiv();
 
     this.refresh();
-    this.addGraphListeners();
+    this.addGraphChangeHandlers();
 
     mxEvent.addListener(window, "resize", this.resizeListener);
   }
@@ -238,145 +245,23 @@ export class LayersWindow {
   }
 
   addInsertLinkClickHandler() {
-    const { editorUi, layerCount, insertLink, graph, checkmarkImage } = this;
-    mxEvent.addListener(insertLink, "click", (evt) => {
-      if (graph.isEnabled() && !graph.isSelectionEmpty()) {
-        editorUi.editor.graph.popupMenuHandler.hideMenu();
-
-        var menu: any = new mxPopupMenu((menu, parent) => {
-          for (var i = layerCount - 1; i >= 0; i--) {
-            const add = (child) => {
-              var item = menu.addItem(
-                graph.convertValueToString(child) ||
-                  mxResources.get("background"),
-                null,
-                () => {
-                  graph.moveCells(
-                    graph.getSelectionCells(),
-                    0,
-                    0,
-                    false,
-                    child
-                  );
-                },
-                parent
-              );
-
-              if (
-                graph.getSelectionCount() == 1 &&
-                graph.model.isAncestor(child, graph.getSelectionCell())
-              ) {
-                menu.addCheckmark(item, checkmarkImage);
-              }
-            };
-            add(graph.model.getChildAt(graph.model.root, i));
-          }
-        });
-        menu.div.className += " geMenubarMenu";
-        menu.smartSeparators = true;
-        menu.showDisabled = true;
-        menu.autoExpand = true;
-
-        // Disables autoexpand and destroys menu when hidden
-        menu.hideMenu = () => {
-          mxPopupMenu.prototype.hideMenu.apply(menu, []);
-          menu.destroy();
-        };
-
-        var offset = mxUtils.getOffset(insertLink);
-        menu.popup(offset.x, offset.y + insertLink.offsetHeight, null, evt);
-
-        // Allows hiding by clicking on document
-        editorUi.setCurrentMenu(menu);
-      }
-    });
+    this.layerInserter.addClickHandler();
   }
 
   addRemoveLinkClickHandler() {
-    const { selectionLayer, removeLink, graph } = this;
-    mxEvent.addListener(removeLink, "click", function (evt) {
-      if (graph.isEnabled()) {
-        graph.model.beginUpdate();
-        try {
-          var index = graph.model.root.getIndex(selectionLayer);
-          graph.removeCells([selectionLayer], false);
-
-          // Creates default layer if no layer exists
-          if (graph.model.getChildCount(graph.model.root) == 0) {
-            graph.model.add(graph.model.root, new mxCell());
-            graph.setDefaultParent(null);
-          } else if (
-            index > 0 &&
-            index <= graph.model.getChildCount(graph.model.root)
-          ) {
-            graph.setDefaultParent(
-              graph.model.getChildAt(graph.model.root, index - 1)
-            );
-          } else {
-            graph.setDefaultParent(null);
-          }
-        } finally {
-          graph.model.endUpdate();
-        }
-      }
-
-      mxEvent.consume(evt);
-    });
+    this.layerRemover.addClickHandler();
   }
 
   addAddLinkClickHandler() {
-    const { addLink, graph } = this;
-    mxEvent.addListener(addLink, "click", function (evt) {
-      if (graph.isEnabled()) {
-        graph.model.beginUpdate();
-
-        try {
-          var cell = graph.addCell(
-            new mxCell(mxResources.get("untitledLayer")),
-            graph.model.root
-          );
-          graph.setDefaultParent(cell);
-        } finally {
-          graph.model.endUpdate();
-        }
-      }
-
-      mxEvent.consume(evt);
-    });
+    this.layerAdder.addClickHandler();
   }
 
   addDuplicateLinkClickHandler() {
-    const { duplicateLink, graph, selectionLayer } = this;
-    mxEvent.addListener(duplicateLink, "click", (_evt) => {
-      if (graph.isEnabled()) {
-        var newCell: any;
-        graph.model.beginUpdate();
-        try {
-          newCell = graph.cloneCell(selectionLayer);
-          graph.cellLabelChanged(newCell, mxResources.get("untitledLayer"));
-          newCell.setVisible(true);
-          newCell = graph.addCell(newCell, graph.model.root);
-          graph.setDefaultParent(newCell);
-        } finally {
-          graph.model.endUpdate();
-        }
-
-        if (newCell != null && !graph.isCellLocked(newCell)) {
-          graph.selectAll(newCell);
-        }
-      }
-    });
+    this.layerDuplicator.addClickHandler();
   }
 
   addDataLinkClickHandler() {
-    const { dataLink, graph, editorUi, selectionLayer } = this;
-    mxEvent.addListener(dataLink, "click", (evt) => {
-      if (graph.isEnabled()) {
-        editorUi.showDataDialog(selectionLayer);
-      }
-
-      mxEvent.consume(evt);
-    });
+    this.layerData.addClickHandler();
   }
 
   createLinks() {
@@ -399,65 +284,26 @@ export class LayersWindow {
   }
 
   createAddLink() {
-    const { link, graph } = this;
-    var addLink: any = link.cloneNode();
-    addLink.innerHTML =
-      '<div class="geSprite geSprite-plus" style="display:inline-block;"></div>';
-    addLink.setAttribute("title", mxResources.get("addLayer"));
-
-    if (!graph.isEnabled()) {
-      addLink.className = "geButton mxDisabled";
-    }
-    this.addLink = addLink;
+    this.addLink = this.layerAdder.createLink();
   }
 
   createRemoveLink() {
-    const { link, graph } = this;
-    var removeLink: any = link.cloneNode();
-    removeLink.innerHTML =
-      '<div class="geSprite geSprite-delete" style="display:inline-block;"></div>';
-
-    if (!graph.isEnabled()) {
-      removeLink.className = "geButton mxDisabled";
-    }
-    this.removeLink = removeLink;
+    this.removeLink = this.layerRemover.createLink();
+    return this.removeLink;
   }
 
   createInsertLink() {
-    const { link } = this;
-    var insertLink: any = link.cloneNode();
-    insertLink.setAttribute(
-      "title",
-      mxUtils.trim(mxResources.get("moveSelectionTo", [""]))
-    );
-    insertLink.innerHTML =
-      '<div class="geSprite geSprite-insert" style="display:inline-block;"></div>';
-    this.insertLink = insertLink;
+    this.insertLink = this.layerInserter.createLink();
+    return this.insertLink;
   }
 
   createDataLink() {
-    const { link, graph } = this;
-    var dataLink: any = link.cloneNode();
-    dataLink.innerHTML =
-      '<div class="geSprite geSprite-dots" style="display:inline-block;"></div>';
-    dataLink.setAttribute("title", mxResources.get("rename"));
-
-    if (!graph.isEnabled()) {
-      dataLink.className = "geButton mxDisabled";
-    }
-    this.dataLink = dataLink;
+    this.dataLink = this.layerData.createLink();
+    return this.dataLink;
   }
 
   createDuplicateLink() {
-    const { link, graph } = this;
-
-    var duplicateLink: any = link.cloneNode();
-    duplicateLink.innerHTML =
-      '<div class="geSprite geSprite-duplicate" style="display:inline-block;"></div>';
-
-    if (!graph.isEnabled()) {
-      duplicateLink.className = "geButton mxDisabled";
-    }
+    this.duplicateLink = this.layerDuplicator.createLink();
   }
 
   buildLDiv() {
@@ -482,7 +328,7 @@ export class LayersWindow {
     this.div.appendChild(this.ldiv);
   }
 
-  addGraphListeners() {
+  addGraphChangeHandlers() {
     const { graph, insertLink } = this;
     graph.model.addListener(mxEvent.CHANGE, () => {
       this.refresh();

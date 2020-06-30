@@ -1,6 +1,6 @@
-import { OutlineWindow } from "../../../dialogs";
+import { OutlineWindow } from "../../../../dialogs";
 
-import { editorUi } from "../../mocks";
+import { editorUi } from "../../../mocks";
 
 describe("AboutDialog", () => {
   const ui = editorUi;

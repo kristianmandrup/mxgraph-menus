@@ -1,6 +1,6 @@
 import { LayersWindow } from "./LayersWindow";
 import mx from "@mxgraph-app/mx";
-import { LayerAdder } from "./LayerAdder";
+import { AddLayerManager } from "./AddLayerManager";
 const { mxResources } = mx;
 
 export class LayerRefresher {
@@ -47,7 +47,7 @@ export class LayerRefresher {
   }
 
   addLayer = (index, label, child, defaultParent) => {
-    new LayerAdder(this.layersWindow).addLayer(
+    new AddLayerManager(this.layersWindow).addLayer(
       index,
       label,
       child,
