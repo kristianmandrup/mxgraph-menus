@@ -1,6 +1,7 @@
 import mx from "@mxgraph-app/mx";
-const { mxUtils, mxResources, mxGraphModel, mxCodec } = mx;
+const { mxUtils, mxResources } = mx;
 const Graph: any = {};
+import { OkBtn } from "./OkBtn";
 
 /**
  * Constructs a new edit file dialog.
@@ -9,9 +10,10 @@ export class EditDiagramDialog {
   container: any;
   init: () => void;
 
-  constructor(editorUi) {
-    var div = document.createElement("div");
-    div.style.textAlign = "right";
+  textarea: any;
+
+  createTextArea() {
+    const { editorUi } = this;
     var textarea: any = document.createElement("textarea");
     textarea.setAttribute("wrap", "off");
     textarea.setAttribute("spellcheck", "false");
@@ -25,12 +27,14 @@ export class EditDiagramDialog {
     textarea.style.marginBottom = "16px";
 
     textarea.value = mxUtils.getPrettyXml(editorUi.editor.getGraphXml());
-    div.appendChild(textarea);
+    this.textarea = textarea;
+    return textarea;
+  }
 
-    this.init = function () {
-      textarea.focus();
-    };
+  editorUi: any;
 
+  configureFileDropSupport() {
+    const { textarea, editorUi } = this;
     // Enables dropping files
     if (Graph.fileSupport) {
       function handleDrop(evt) {
@@ -60,6 +64,28 @@ export class EditDiagramDialog {
       textarea.addEventListener("dragover", handleDragOver, false);
       textarea.addEventListener("drop", handleDrop, false);
     }
+  }
+
+  get graph() {
+    return this.editorUi.editor.graph;
+  }
+
+  get ui() {
+    return this.editorUi;
+  }
+
+  constructor(editorUi) {
+    this.editorUi = editorUi;
+    var div = document.createElement("div");
+    div.style.textAlign = "right";
+    const textarea = this.createTextArea();
+    div.appendChild(textarea);
+
+    this.init = () => {
+      textarea.focus();
+    };
+
+    this.configureFileDropSupport();
 
     var cancelBtn = mxUtils.button(mxResources.get("cancel"), function () {
       editorUi.hideDialog();
@@ -70,9 +96,7 @@ export class EditDiagramDialog {
       div.appendChild(cancelBtn);
     }
 
-    var select = document.createElement("select");
-    select.style.width = "180px";
-    select.className = "geBtn";
+    const select = this.createSelect();
 
     if (editorUi.editor.graph.isEnabled()) {
       var replaceOption = document.createElement("option");
@@ -97,55 +121,8 @@ export class EditDiagramDialog {
     }
 
     div.appendChild(select);
+    const okBtn = this.createOkBtn();
 
-    var okBtn = mxUtils.button(mxResources.get("ok"), function () {
-      // Removes all illegal control characters before parsing
-      var data = Graph.zapGremlins(mxUtils.trim(textarea.value));
-      var error: any;
-
-      if (select.value == "new") {
-        editorUi.hideDialog();
-        editorUi.editor.editAsNew(data);
-      } else if (select.value == "replace") {
-        editorUi.editor.graph.model.beginUpdate();
-        try {
-          editorUi.editor.setGraphXml(mxUtils.parseXml(data).documentElement);
-          // LATER: Why is hideDialog between begin-/endUpdate faster?
-          editorUi.hideDialog();
-        } catch (e) {
-          error = e;
-        } finally {
-          editorUi.editor.graph.model.endUpdate();
-        }
-      } else if (select.value == "import") {
-        editorUi.editor.graph.model.beginUpdate();
-        try {
-          var doc = mxUtils.parseXml(data);
-          var model = new mxGraphModel();
-          var codec = new mxCodec(doc);
-          codec.decode(doc.documentElement, model);
-
-          var children = model.getChildren(
-            model.getChildAt(model.getRoot(), 0)
-          );
-          editorUi.editor.graph.setSelectionCells(
-            editorUi.editor.graph.importCells(children)
-          );
-
-          // LATER: Why is hideDialog between begin-/endUpdate faster?
-          editorUi.hideDialog();
-        } catch (e) {
-          error = e;
-        } finally {
-          editorUi.editor.graph.model.endUpdate();
-        }
-      }
-
-      if (error != null) {
-        mxUtils.alert(error.message);
-      }
-    });
-    okBtn.className = "geBtn gePrimaryBtn";
     div.appendChild(okBtn);
 
     if (!editorUi.editor.cancelFirst) {
@@ -153,6 +130,20 @@ export class EditDiagramDialog {
     }
 
     this.container = div;
+  }
+
+  select: any;
+
+  createSelect() {
+    var select = document.createElement("select");
+    select.style.width = "180px";
+    select.className = "geBtn";
+    this.select = select;
+    return select;
+  }
+
+  createOkBtn() {
+    return new OkBtn(this).btn;
   }
 
   /**
