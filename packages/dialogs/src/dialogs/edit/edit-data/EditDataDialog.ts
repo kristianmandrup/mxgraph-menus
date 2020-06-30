@@ -246,10 +246,35 @@ export class EditDataDialog {
     // Catches all changes that don't fire a keyup (such as paste via mouse)
     mxEvent.addListener(nameInput, "change", updateAddBtn);
 
+    this.createButtons();
+    this.configureForVertexOrEdgeCell();
+
+    const { cancelBtn, applyBtn, buttons } = this;
+
+    if (ui.editor.cancelFirst) {
+      buttons.appendChild(cancelBtn);
+      buttons.appendChild(applyBtn);
+    } else {
+      buttons.appendChild(applyBtn);
+      buttons.appendChild(cancelBtn);
+    }
+
+    div.appendChild(buttons);
+    this.container = div;
+  }
+
+  buttons: any;
+
+  createButtons() {
     var buttons = document.createElement("div");
     buttons.style.cssText =
       "position:absolute;left:30px;right:30px;text-align:right;bottom:30px;height:40px;";
+    this.buttons = buttons;
+    return buttons;
+  }
 
+  configureForVertexOrEdgeCell() {
+    const { cell, ui, value, buttons } = this;
     if (
       ui.editor.graph.getModel().isVertex(cell) ||
       ui.editor.graph.getModel().isEdge(cell)
@@ -277,21 +302,8 @@ export class EditDataDialog {
       mxUtils.write(replace, mxResources.get("placeholders"));
 
       if (EditDataDialog.placeholderHelpLink != null) {
-        var link = document.createElement("a");
-        link.setAttribute("href", EditDataDialog.placeholderHelpLink);
-        link.setAttribute("title", mxResources.get("help"));
-        link.setAttribute("target", "_blank");
-        link.style.marginLeft = "8px";
-        link.style.cursor = "help";
-
-        var icon = document.createElement("img");
-        mxUtils.setOpacity(icon, 50);
-        icon.style.height = "16px";
-        icon.style.width = "16px";
-        icon.setAttribute("border", "0");
-        icon.setAttribute("valign", "middle");
-        icon.style.marginTop = mxClient.IS_IE11 ? "0px" : "-4px";
-        icon.setAttribute("src", this.helpImage);
+        const link = this.createLink();
+        const icon = this.createIcon();
         link.appendChild(icon);
 
         replace.appendChild(link);
@@ -299,19 +311,38 @@ export class EditDataDialog {
 
       buttons.appendChild(replace);
     }
+  }
 
-    const { cancelBtn, applyBtn } = this;
+  link: any;
+  icon: any;
 
-    if (ui.editor.cancelFirst) {
-      buttons.appendChild(cancelBtn);
-      buttons.appendChild(applyBtn);
-    } else {
-      buttons.appendChild(applyBtn);
-      buttons.appendChild(cancelBtn);
-    }
+  get placeholderHelpLink() {
+    return EditDataDialog.placeholderHelpLink;
+  }
 
-    div.appendChild(buttons);
-    this.container = div;
+  createIcon() {
+    var icon = document.createElement("img");
+    mxUtils.setOpacity(icon, 50);
+    icon.style.height = "16px";
+    icon.style.width = "16px";
+    icon.setAttribute("border", "0");
+    icon.setAttribute("valign", "middle");
+    icon.style.marginTop = mxClient.IS_IE11 ? "0px" : "-4px";
+    icon.setAttribute("src", this.helpImage);
+    this.icon = icon;
+    return icon;
+  }
+
+  createLink() {
+    const { placeholderHelpLink } = this;
+    var link = document.createElement("a");
+    link.setAttribute("href", placeholderHelpLink);
+    link.setAttribute("title", mxResources.get("help"));
+    link.setAttribute("target", "_blank");
+    link.style.marginLeft = "8px";
+    link.style.cursor = "help";
+    this.link = link;
+    return link;
   }
 
   /**
