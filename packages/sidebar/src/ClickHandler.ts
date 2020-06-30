@@ -6,8 +6,10 @@ export class ClickHandler {
   dragElement: any;
   currentGraph: any;
 
-  constructor(editorUi) {
+  constructor(editorUi, dragElement) {
     this.editorUi = editorUi;
+    this.currentGraph = editorUi.graph;
+    this.dragElement = dragElement;
   }
 
   /**

@@ -443,7 +443,7 @@ export class Sidebar {
    * Adds a handler for inserting the cell with a single click.
    */
   addClickHandler(elt, ds, cells) {
-    return new ClickHandler(this.editorUi).add(elt, ds, cells);
+    return new ClickHandler(this.editorUi, elt).add(elt, ds, cells);
   }
 
   addEntry(tags, fn?) {
