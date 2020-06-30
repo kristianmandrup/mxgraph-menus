@@ -1,6 +1,6 @@
 import { LayersWindow } from "./LayersWindow";
 import mx from "@mxgraph-app/mx";
-import { AddLayerManager } from "./AddLayerManager";
+import { AddLayerManager } from "./add";
 const { mxResources } = mx;
 
 export class LayerRefreshManager {

@@ -1,7 +1,7 @@
 import mx from "@mxgraph-app/mx";
-import { LayersWindow } from "./LayersWindow";
-import { Dialog } from "../../../Dialog";
-import { LayerRenamer } from "./LayerRenamer";
+import { LayersWindow } from "../LayersWindow";
+import { Dialog } from "../../../../Dialog";
+import { LayerRenamer } from "../LayerRenamer";
 const { mxUtils, mxResources, mxClient, mxEvent } = mx;
 
 export class AddLayerManager {
@@ -18,6 +18,10 @@ export class AddLayerManager {
 
   dragSource: any;
   renamer: LayerRenamer;
+
+  get backdropColor() {
+    return this.layersWindow.backdropColor;
+  }
 
   set dropIndex(index) {
     this.layersWindow.dropIndex = index;
@@ -208,10 +212,6 @@ export class AddLayerManager {
     img2.style.marginTop = "-1px";
     this.img2 = img2;
     return img2;
-  }
-
-  get backdropColor() {
-    return this.layersWindow.backdropColor;
   }
 
   createLayerDiv(label) {

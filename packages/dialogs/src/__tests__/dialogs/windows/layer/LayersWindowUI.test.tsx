@@ -1,14 +1,14 @@
-import { LayerAdder, LayersWindow } from "../../../../dialogs";
+import { LayersWindowUI, LayersWindow } from "../../../../dialogs";
 
 import { editorUi } from "../../../mocks";
 
-describe("LayerAdder", () => {
+describe("LayersWindowUI", () => {
   const ui = editorUi;
 
   let win, instance;
   beforeAll(() => {
     win = new LayersWindow(ui);
-    instance = new LayerAdder(win);
+    instance = new LayersWindowUI(win);
   });
 
   describe("instance", () => {
