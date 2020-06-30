@@ -8,36 +8,78 @@ const { IMAGE_PATH } = resources;
  * Constructs a new about dialog.
  */
 export class AboutDialog {
+  editorUi: any;
   container: any;
 
-  constructor(editorUi) {
-    var div = document.createElement("div");
-    div.setAttribute("align", "center");
-    var h3 = document.createElement("h3");
-    mxUtils.write(h3, mxResources.get("about") + " GraphEditor");
-    div.appendChild(h3);
+  img?: HTMLElement;
+  mainDiv?: HTMLElement;
+  link?: HTMLElement;
+  closeBtn?: HTMLElement;
+  header?: HTMLElement;
+
+  constructor(editorUi: any) {
+    this.editorUi = editorUi;
+    this.draw();
+  }
+
+  draw() {
+    const mainDiv = this.createMainDiv();
+    const header = this.createHeader();
+    mainDiv.appendChild(header);
+    mainDiv.appendChild(this.createImg());
+    mxUtils.br(mainDiv);
+    mxUtils.write(mainDiv, "Powered by mxGraph " + mxClient.VERSION);
+    mxUtils.br(mainDiv);
+    const link = this.createLink();
+    mainDiv.appendChild(link);
+    mxUtils.br(mainDiv);
+    mxUtils.br(mainDiv);
+
+    const closeBtn: any = this.createCloseBtn();
+    mainDiv.appendChild(closeBtn);
+    this.container = mainDiv;
+  }
+
+  createHeader() {
+    var header = document.createElement("h3");
+    mxUtils.write(header, mxResources.get("about") + " GraphEditor");
+    this.header = header;
+    return this.header;
+  }
+
+  createMainDiv() {
+    var mainDiv = document.createElement("mainDiv");
+    mainDiv.setAttribute("align", "center");
+    this.mainDiv = mainDiv;
+    return this.mainDiv;
+  }
+
+  createImg() {
     var img = document.createElement("img");
     img.style.border = "0px";
     img.setAttribute("width", "176");
     img.setAttribute("width", "151");
     img.setAttribute("src", IMAGE_PATH + "/logo.png");
-    div.appendChild(img);
-    mxUtils.br(div);
-    mxUtils.write(div, "Powered by mxGraph " + mxClient.VERSION);
-    mxUtils.br(div);
+    this.img = img;
+    return this.img;
+  }
+
+  createLink() {
     var link = document.createElement("a");
     link.setAttribute("href", "http://www.jgraph.com/");
     link.setAttribute("target", "_blank");
     mxUtils.write(link, "www.jgraph.com");
-    div.appendChild(link);
-    mxUtils.br(div);
-    mxUtils.br(div);
-    var closeBtn = mxUtils.button(mxResources.get("close"), function () {
+    this.link = link;
+    return this.link;
+  }
+
+  createCloseBtn() {
+    const { editorUi } = this;
+    var closeBtn = mxUtils.button(mxResources.get("close"), () => {
       editorUi.hideDialog();
     });
     closeBtn.className = "geBtn gePrimaryBtn";
-    div.appendChild(closeBtn);
-
-    this.container = div;
+    this.closeBtn = closeBtn;
+    return this.closeBtn;
   }
 }
