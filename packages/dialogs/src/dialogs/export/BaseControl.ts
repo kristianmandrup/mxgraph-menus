@@ -1,12 +1,6 @@
-import { ExportDialog } from "./ExportDialog";
+import { BaseDialogControl } from "../base";
 
-export class BaseControl {
-  dialog: ExportDialog;
-
-  constructor(dialog: ExportDialog) {
-    this.dialog = dialog;
-  }
-
+export class BaseControl extends BaseDialogControl {
   get graph() {
     return this.dialog.graph;
   }
@@ -29,28 +23,5 @@ export class BaseControl {
 
   get bounds() {
     return this.graphSize.bounds;
-  }
-
-  createRow() {
-    return document.createElement("tr");
-  }
-
-  createCell() {
-    return document.createElement("td");
-  }
-
-  createInput() {
-    return document.createElement("input");
-  }
-
-  appendRow(row) {
-    const { tbody } = this;
-    tbody.appendChild(row);
-    return tbody;
-  }
-
-  appendCell(row, td) {
-    row.appendChild(td);
-    return row;
   }
 }

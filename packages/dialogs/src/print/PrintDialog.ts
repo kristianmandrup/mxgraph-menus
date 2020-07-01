@@ -2,7 +2,6 @@ import mx from "@mxgraph-app/mx";
 const {
   mxRectangle,
   mxPrintPreview,
-  mxEvent,
   mxUtils,
   mxResources,
   mxConstants,
@@ -14,7 +13,6 @@ const {
  */
 export class PrintDialog {
   container: any;
-  onePageCheckBox: any;
   pageCountCheckBox: any;
   pageScaleInput: any;
   pageCountInput: any;
@@ -48,6 +46,42 @@ export class PrintDialog {
     this.create(editorUi, title);
   }
 
+  table: any;
+
+  createTable() {
+    var table = document.createElement("table");
+    table.style.width = "100%";
+    table.style.height = "100%";
+    this.table = table;
+    return table;
+  }
+
+  tableBody: any;
+
+  createTableBody() {
+    var tbody = document.createElement("tbody");
+    this.tableBody = tbody;
+    return tbody;
+  }
+
+  appendOnePage(_row) {}
+
+  createPageCountCheckBox() {
+    var pageCountCheckBox = document.createElement("input");
+    pageCountCheckBox.setAttribute("type", "checkbox");
+    this.pageCountCheckBox = pageCountCheckBox;
+    return pageCountCheckBox;
+  }
+
+  onePageCheckBox: any;
+
+  createOnePageCheckBox() {
+    var onePageCheckBox = document.createElement("input");
+    onePageCheckBox.setAttribute("type", "checkbox");
+    this.onePageCheckBox = onePageCheckBox;
+    return onePageCheckBox;
+  }
+
   /**
    * Constructs a new print dialog.
    */
@@ -55,119 +89,25 @@ export class PrintDialog {
     this.editorUi = editorUi;
     var row, td;
 
-    var table = document.createElement("table");
-    table.style.width = "100%";
-    table.style.height = "100%";
-    var tbody = document.createElement("tbody");
+    const table = this.createTable();
+    const tbody = this.createTableBody();
+    // const onePageCheckBox = this.createOnePageCheckBox();
+    const pageCountCheckBox = this.createPageCountCheckBox();
 
     row = document.createElement("tr");
+    this.appendOnePage(row);
 
-    var onePageCheckBox = document.createElement("input");
-    onePageCheckBox.setAttribute("type", "checkbox");
-    this.onePageCheckBox = onePageCheckBox;
-
-    td = document.createElement("td");
-    td.setAttribute("colspan", "2");
-    td.style.fontSize = "10pt";
-    td.appendChild(onePageCheckBox);
-
-    var span = document.createElement("span");
-    mxUtils.write(span, " " + mxResources.get("fitPage"));
-    td.appendChild(span);
-
-    mxEvent.addListener(span, "click", function (evt) {
-      onePageCheckBox.checked = !onePageCheckBox.checked;
-      pageCountCheckBox.checked = !onePageCheckBox.checked;
-      mxEvent.consume(evt);
-    });
-
-    mxEvent.addListener(onePageCheckBox, "change", function () {
-      pageCountCheckBox.checked = !onePageCheckBox.checked;
-    });
-
-    row.appendChild(td);
     tbody.appendChild(row);
 
     row = row.cloneNode(false);
-
-    var pageCountCheckBox = document.createElement("input");
-    pageCountCheckBox.setAttribute("type", "checkbox");
-    this.pageCountCheckBox = pageCountCheckBox;
 
     td = document.createElement("td");
     td.style.fontSize = "10pt";
     td.appendChild(pageCountCheckBox);
 
-    var span = document.createElement("span");
-    mxUtils.write(span, " " + mxResources.get("posterPrint") + ":");
-    td.appendChild(span);
-
-    mxEvent.addListener(span, "click", function (evt) {
-      pageCountCheckBox.checked = !pageCountCheckBox.checked;
-      onePageCheckBox.checked = !pageCountCheckBox.checked;
-      mxEvent.consume(evt);
-    });
-
     row.appendChild(td);
 
-    var pageCountInput = document.createElement("input");
-    pageCountInput.setAttribute("value", "1");
-    pageCountInput.setAttribute("type", "number");
-    pageCountInput.setAttribute("min", "1");
-    pageCountInput.setAttribute("size", "4");
-    pageCountInput.setAttribute("disabled", "disabled");
-    pageCountInput.style.width = "50px";
-
-    // this.pageCountInput = pageCountInput
-
-    td = document.createElement("td");
-    td.style.fontSize = "10pt";
-    td.appendChild(pageCountInput);
-    mxUtils.write(td, " " + mxResources.get("pages") + " (max)");
-    row.appendChild(td);
-    tbody.appendChild(row);
-
-    mxEvent.addListener(pageCountCheckBox, "change", function () {
-      if (pageCountCheckBox.checked) {
-        pageCountInput.removeAttribute("disabled");
-      } else {
-        pageCountInput.setAttribute("disabled", "disabled");
-      }
-
-      onePageCheckBox.checked = !pageCountCheckBox.checked;
-    });
-
-    row = row.cloneNode(false);
-
-    td = document.createElement("td");
-    mxUtils.write(td, mxResources.get("pageScale") + ":");
-    row.appendChild(td);
-
-    td = document.createElement("td");
-    var pageScaleInput = document.createElement("input");
-    pageScaleInput.setAttribute("value", "100 %");
-    pageScaleInput.setAttribute("size", "5");
-    pageScaleInput.style.width = "50px";
-    this.pageScaleInput = pageScaleInput;
-
-    td.appendChild(pageScaleInput);
-    row.appendChild(td);
-    tbody.appendChild(row);
-
-    row = document.createElement("tr");
-    td = document.createElement("td");
-    td.colSpan = 2;
-    td.style.paddingTop = "20px";
-    td.setAttribute("align", "right");
-
-    var cancelBtn = mxUtils.button(mxResources.get("cancel"), function () {
-      editorUi.hideDialog();
-    });
-    cancelBtn.className = "geBtn";
-
-    if (editorUi.editor.cancelFirst) {
-      td.appendChild(cancelBtn);
-    }
+    // row = row.cloneNode(false);
 
     const { preview } = this;
 
@@ -189,10 +129,6 @@ export class PrintDialog {
     );
     printBtn.className = "geBtn gePrimaryBtn";
     td.appendChild(printBtn);
-
-    if (!editorUi.editor.cancelFirst) {
-      td.appendChild(cancelBtn);
-    }
 
     row.appendChild(td);
     tbody.appendChild(row);
