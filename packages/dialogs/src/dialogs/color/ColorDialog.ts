@@ -1,7 +1,7 @@
 import mx from "@mxgraph-app/mx";
 const { mxEventObject, mxResources, mxEvent, mxUtils, mxClient } = mx;
 
-import JsColor from "../JsColor";
+import JsColor from "./JsColor";
 import { defaults } from "./defaults";
 import { ColorPresets, IPresetOpts } from "./ColorPresets";
 
