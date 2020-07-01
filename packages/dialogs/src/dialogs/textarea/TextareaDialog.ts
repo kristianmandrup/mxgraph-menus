@@ -5,47 +5,11 @@ const { mxUtils, mxResources } = mx;
  * Constructs a new textarea dialog.
  */
 export class TextareaDialog {
-  textarea: any;
-  container: any;
-  init: () => void;
+  textarea: any; // HtmlTextAreaElement
+  container: any; // HtmlElement
 
-  constructor(editorUi, opts: any = {}) {
-    let {
-      title,
-      url,
-      fn,
-      cancelFn,
-      cancelTitle,
-      w,
-      h,
-      addButtons,
-      noHide,
-      noWrap,
-      applyTitle,
-      helpLink,
-      customButtons,
-    } = opts;
-    w = w != null ? w : 300;
-    h = h != null ? h : 120;
-    noHide = noHide != null ? noHide : false;
-    var row, td;
-
-    var table = document.createElement("table");
-    var tbody = document.createElement("tbody");
-
-    row = document.createElement("tr");
-
-    td = document.createElement("td");
-    td.style.fontSize = "10pt";
-    td.style.width = "100px";
-    mxUtils.write(td, title);
-
-    row.appendChild(td);
-    tbody.appendChild(row);
-
-    row = document.createElement("tr");
-    td = document.createElement("td");
-
+  createNameInput() {
+    const { noWrap, url, width, height } = this;
     var nameInput = document.createElement("textarea");
 
     if (noWrap) {
@@ -59,52 +23,80 @@ export class TextareaDialog {
 
     mxUtils.write(nameInput, url || "");
     nameInput.style.resize = "none";
-    nameInput.style.width = w + "px";
-    nameInput.style.height = h + "px";
+    nameInput.style.width = width + "px";
+    nameInput.style.height = height + "px";
+    this.nameInput = nameInput;
+    return nameInput;
+  }
 
-    this.textarea = nameInput;
+  nameInput: any;
+  title: string = "no title";
+  url: string = "www.jgraph.com";
+  height: number = 600;
+  width: number = 400;
+  noWrap: any;
+  noHide: any;
+  cancelFn?: () => void;
+  cancelTitle: string = "cancel";
+  addButtons: any;
+  applyTitle: string = "apply";
+  helpLink: string = "/help";
+  customButtons: any;
 
-    this.init = function () {
-      nameInput.focus();
-      nameInput.scrollTop = 0;
-    };
+  createTitle() {
+    const { title } = this;
+    const td = document.createElement("td");
+    td.style.fontSize = "10pt";
+    td.style.width = "100px";
+    mxUtils.write(td, title);
+    return td;
+  }
 
-    td.appendChild(nameInput);
-    row.appendChild(td);
+  init = () => {
+    const { nameInput } = this;
+    nameInput.focus();
+    nameInput.scrollTop = 0;
+  };
 
-    tbody.appendChild(row);
+  get graph() {
+    return this.editorUi.editor.graph;
+  }
 
-    row = document.createElement("tr");
-    td = document.createElement("td");
-    td.style.paddingTop = "14px";
-    td.style.whiteSpace = "nowrap";
-    td.setAttribute("align", "right");
+  appendHelpBtn() {
+    const { editorUi, btnsWrapper, helpLink } = this;
+    if (!helpLink) return;
+    var helpBtn = mxUtils.button(mxResources.get("help"), function () {
+      editorUi.editor.graph.openLink(helpLink);
+    });
+    helpBtn.className = "geBtn";
 
-    if (helpLink != null) {
-      var helpBtn = mxUtils.button(mxResources.get("help"), function () {
-        editorUi.editor.graph.openLink(helpLink);
-      });
-      helpBtn.className = "geBtn";
+    btnsWrapper.appendChild(helpBtn);
+    return btnsWrapper;
+  }
 
-      td.appendChild(helpBtn);
-    }
+  editorUi: any;
 
-    if (customButtons != null) {
-      for (var i = 0; i < customButtons.length; i++) {
-        (function (label, fn) {
-          var customBtn = mxUtils.button(label, function (e) {
-            fn(e, nameInput);
-          });
-          customBtn.className = "geBtn";
+  appendCustomBtn = (label, fn) => {
+    const { btnsWrapper, nameInput } = this;
+    var customBtn = mxUtils.button(label, function (e) {
+      fn(e, nameInput);
+    });
+    customBtn.className = "geBtn";
 
-          td.appendChild(customBtn);
-        })(customButtons[i][0], customButtons[i][1]);
-      }
-    }
+    btnsWrapper.appendChild(customBtn);
+  };
 
+  btnsWrapper: any;
+
+  get cancelFirst() {
+    return this.editorUi.editor.cancelFirst;
+  }
+
+  createCancelBtn() {
+    const { cancelTitle, editorUi, cancelFn } = this;
     var cancelBtn = mxUtils.button(
       cancelTitle || mxResources.get("cancel"),
-      function () {
+      () => {
         editorUi.hideDialog();
 
         if (cancelFn != null) {
@@ -113,10 +105,65 @@ export class TextareaDialog {
       }
     );
     cancelBtn.className = "geBtn";
+    this.cancelBtn = cancelBtn;
+    return cancelBtn;
+  }
 
-    if (editorUi.editor.cancelFirst) {
-      td.appendChild(cancelBtn);
+  cancelBtn: any;
+  fn: any;
+
+  appendCancelBtn() {
+    const { cancelFirst } = this;
+    const cancelBtn = this.createCancelBtn();
+    if (cancelFirst) {
+      this.btnsWrapper.appendChild(cancelBtn);
     }
+  }
+
+  constructor(editorUi, opts: any = {}) {
+    this.editorUi = editorUi;
+    this.configure(opts);
+
+    var row, td;
+
+    var table = document.createElement("table");
+    var tbody = document.createElement("tbody");
+    row = document.createElement("tr");
+
+    const title = this.createTitle();
+
+    row.appendChild(title);
+    tbody.appendChild(row);
+
+    row = document.createElement("tr");
+
+    const nameWrapper = document.createElement("td");
+
+    const { nameInput } = this;
+    this.textarea = nameInput;
+
+    nameWrapper.appendChild(nameInput);
+    row.appendChild(nameWrapper);
+
+    tbody.appendChild(row);
+
+    row = document.createElement("tr");
+
+    const btnsWrapper = document.createElement("td");
+    btnsWrapper.style.paddingTop = "14px";
+    btnsWrapper.style.whiteSpace = "nowrap";
+    btnsWrapper.setAttribute("align", "right");
+    this.btnsWrapper = btnsWrapper;
+
+    const { customButtons } = this;
+
+    if (customButtons != null) {
+      for (var i = 0; i < customButtons.length; i++) {
+        this.appendCustomBtn(customButtons[i][0], customButtons[i][1]);
+      }
+    }
+
+    const { cancelBtn, fn, addButtons, applyTitle, noHide } = this;
 
     if (addButtons != null) {
       addButtons(td, nameInput);
@@ -146,5 +193,40 @@ export class TextareaDialog {
     tbody.appendChild(row);
     table.appendChild(tbody);
     this.container = table;
+  }
+
+  configure(opts) {
+    let {
+      title,
+      url,
+      w,
+      h,
+      fn,
+      noHide,
+      noWrap,
+      cancelFn,
+      cancelTitle,
+      addButtons,
+      applyTitle,
+      helpLink,
+      customButtons,
+    } = opts;
+    w = w != null ? w : 300;
+    h = h != null ? h : 120;
+    noHide = noHide != null ? noHide : false;
+
+    this.customButtons = customButtons;
+    this.helpLink = helpLink;
+    this.applyTitle = applyTitle;
+    this.addButtons = addButtons;
+    this.cancelTitle = cancelTitle;
+    this.cancelFn = cancelFn;
+    this.fn = fn;
+    this.noHide = noHide;
+    this.title = title;
+    this.url = url;
+    this.height = h;
+    this.width = w;
+    this.noWrap = noWrap;
   }
 }
