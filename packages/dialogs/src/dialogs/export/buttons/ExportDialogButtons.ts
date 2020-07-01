@@ -2,20 +2,25 @@ import { ExportDialog } from "../ExportDialog";
 import { SaveBtn } from "./SaveBtn";
 import { CancelBtn } from "./CancelBtn";
 import { BaseControl } from "../BaseControl";
+import { DialogButtons } from "../../DialogButtons";
 
 export class ExportDialogButtons extends BaseControl {
   btnContainer: any;
   cancelBtn: any;
   saveBtn: any;
 
+  buttons: DialogButtons;
+
   constructor(dialog: ExportDialog) {
     super(dialog);
     this.saveBtn = new SaveBtn(dialog);
     this.cancelBtn = new CancelBtn(dialog);
-  }
-
-  get ui() {
-    return this.dialog.ui;
+    this.buttons = new DialogButtons(
+      dialog,
+      this.btnContainer,
+      this.cancelBtn,
+      [this.saveBtn]
+    );
   }
 
   createButtonsWrapper() {
@@ -35,24 +40,7 @@ export class ExportDialogButtons extends BaseControl {
     return this.appendRow(row);
   }
 
-  appendBtn(btn, btnContainer?) {
-    btnContainer = btnContainer || this.btnContainer;
-    btnContainer.appendChild(btn);
-  }
-
-  get cancelFirst() {
-    const { ui } = this;
-    return ui.editor.cancelFirst;
-  }
-
   appendAndLayoutButtons() {
-    const { cancelBtn, saveBtn, cancelFirst } = this;
-    if (cancelFirst) {
-      this.appendBtn(cancelBtn);
-      this.appendBtn(saveBtn);
-    } else {
-      this.appendBtn(saveBtn);
-      this.appendBtn(cancelBtn);
-    }
+    this.buttons.appendAndLayoutButtons();
   }
 }

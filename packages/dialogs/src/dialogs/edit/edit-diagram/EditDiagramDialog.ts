@@ -3,6 +3,7 @@ const { mxUtils, mxResources } = mx;
 export const Graph: any = {};
 import { OkBtn } from "./OkButton";
 import { FileDrop } from "./FileDrop";
+import { ActionSelector } from "./ActionSelector";
 
 /**
  * Constructs a new edit file dialog.
@@ -57,59 +58,34 @@ export class EditDiagramDialog {
 
     this.fileDrop = new FileDrop(this);
 
-    var cancelBtn = mxUtils.button(mxResources.get("cancel"), function () {
-      editorUi.hideDialog();
-    });
-    cancelBtn.className = "geBtn";
-
-    if (editorUi.editor.cancelFirst) {
-      div.appendChild(cancelBtn);
-    }
-
-    const select = this.createSelect();
-
-    if (editorUi.editor.graph.isEnabled()) {
-      var replaceOption = document.createElement("option");
-      replaceOption.setAttribute("value", "replace");
-      mxUtils.write(replaceOption, mxResources.get("replaceExistingDrawing"));
-      select.appendChild(replaceOption);
-    }
-
-    var newOption = document.createElement("option");
-    newOption.setAttribute("value", "new");
-    mxUtils.write(newOption, mxResources.get("openInNewWindow"));
-
-    if (EditDiagramDialog.showNewWindowOption) {
-      select.appendChild(newOption);
-    }
-
-    if (editorUi.editor.graph.isEnabled()) {
-      var importOption = document.createElement("option");
-      importOption.setAttribute("value", "import");
-      mxUtils.write(importOption, mxResources.get("addToExistingDrawing"));
-      select.appendChild(importOption);
-    }
-
+    const select = this.appendActionSelector();
     div.appendChild(select);
+
     const okBtn = this.createOkBtn();
 
     div.appendChild(okBtn);
 
-    if (!editorUi.editor.cancelFirst) {
-      div.appendChild(cancelBtn);
-    }
-
     this.container = div;
   }
 
-  select: any;
+  appendActionSelector() {
+    const actionSelector = this.createActionSelector();
+    return actionSelector.createSelector();
+  }
 
-  createSelect() {
-    var select = document.createElement("select");
-    select.style.width = "180px";
-    select.className = "geBtn";
-    this.select = select;
-    return select;
+  createActionSelector() {
+    return new ActionSelector(this);
+  }
+
+  cancelBtn: any;
+
+  createCancelBtn() {
+    var cancelBtn = mxUtils.button(mxResources.get("cancel"), () => {
+      this.editorUi.hideDialog();
+    });
+    cancelBtn.className = "geBtn";
+    this.cancelBtn = cancelBtn;
+    return cancelBtn;
   }
 
   createOkBtn() {
