@@ -8,29 +8,19 @@ export class ErrorDialog {
   btn: any;
   container: any;
 
+  message: any;
+  buttonText: any;
+
   constructor(editorUi, title, message, buttonText, opts: any = {}) {
     let { fn, retry, buttonText2, fn2, hide, buttonText3, fn3 } = opts;
     hide = hide != null ? hide : true;
+    this.title = title;
+    this.message = message;
+    this.buttonText = buttonText;
 
     var div = document.createElement("div");
     div.style.textAlign = "center";
-
-    if (title != null) {
-      var hd = document.createElement("div");
-      hd.style.padding = "0px";
-      hd.style.margin = "0px";
-      hd.style.fontSize = "18px";
-      hd.style.paddingBottom = "16px";
-      hd.style.marginBottom = "10px";
-      hd.style.borderBottom = "1px solid #c0c0c0";
-      hd.style.color = "gray";
-      hd.style.whiteSpace = "nowrap";
-      hd.style.textOverflow = "ellipsis";
-      hd.style.overflow = "hidden";
-      mxUtils.write(hd, title);
-      hd.setAttribute("title", title);
-      div.appendChild(hd);
-    }
+    this.appendTitle(div);
 
     var p2 = document.createElement("div");
     p2.style.lineHeight = "1.2em";
@@ -95,6 +85,35 @@ export class ErrorDialog {
     div.appendChild(btns);
 
     this.container = div;
+  }
+
+  titleElem: any;
+  title: any;
+
+  createTitle() {
+    const { title } = this;
+    if (!title) return;
+    var hd = document.createElement("div");
+    hd.style.padding = "0px";
+    hd.style.margin = "0px";
+    hd.style.fontSize = "18px";
+    hd.style.paddingBottom = "16px";
+    hd.style.marginBottom = "10px";
+    hd.style.borderBottom = "1px solid #c0c0c0";
+    hd.style.color = "gray";
+    hd.style.whiteSpace = "nowrap";
+    hd.style.textOverflow = "ellipsis";
+    hd.style.overflow = "hidden";
+    mxUtils.write(hd, title);
+    hd.setAttribute("title", title);
+    this.titleElem = hd;
+    return hd;
+  }
+
+  appendTitle(div) {
+    const { titleElem } = this;
+    div.appendChild(titleElem);
+    return div;
   }
 
   init() {

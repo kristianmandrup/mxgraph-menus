@@ -19,17 +19,6 @@ export class PageScale extends BasePrintDialogControl {
     return this.appendRow(label);
   }
 
-  createInput() {
-    const td = document.createElement("td");
-    this.inputWrapper = td;
-    var pageScaleInput = document.createElement("input");
-    pageScaleInput.setAttribute("value", "100 %");
-    pageScaleInput.setAttribute("size", "5");
-    pageScaleInput.style.width = "50px";
-    this.pageScaleInput = pageScaleInput;
-    return pageScaleInput;
-  }
-
   appendInput() {
     const { inputWrapper, pageScaleInput } = this;
     inputWrapper.appendChild(pageScaleInput);

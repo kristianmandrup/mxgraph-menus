@@ -1,4 +1,5 @@
 import mx from "@mxgraph-app/mx";
+import { FilenameDialogButtons } from "./buttons/FilenameDialogButtons";
 const { mxClient, mxEvent, mxResources, mxUtils } = mx;
 
 const Graph: any = {};
@@ -6,136 +7,172 @@ const Graph: any = {};
  * Constructs a new filename dialog.
  */
 export class FilenameDialog {
-  label: any;
+  editorUi: any;
   content: any;
+
   nameInput: any;
   documentMode: any;
+
   table: any;
-  editorUi: any;
-  genericBtn: any;
+  tbody: any;
   container: any;
+
+  buttonText: string = "ok";
+  fn = () => {};
+  label: string = "";
+  validateFn = () => {};
+  cancelFn = () => {};
+  hints: string = "";
+  width: number = 200;
+  helpLink: string = "help";
+  closeOnBtn: any;
 
   static helpImage: any; // Editor.helpImage
 
-  constructor(
-    editorUi,
-    filename,
-    buttonText,
-    fn,
-    label,
-    validateFn?,
-    content?,
-    helpLink?,
-    closeOnBtn?,
-    cancelFn?,
-    hints?,
-    w?
-  ) {
-    this.content = content;
+  filename: string = "";
 
-    closeOnBtn = closeOnBtn != null ? closeOnBtn : true;
-    var row, td;
+  createNameInput() {
+    const { filename, width } = this;
+    var nameInput = document.createElement("input");
+    nameInput.setAttribute("value", filename || "");
+    nameInput.style.marginLeft = "4px";
+    nameInput.style.width = width != null ? width + "px" : "180px";
+    this.nameInput = nameInput;
+    return nameInput;
+  }
 
+  createTable() {
     var table = document.createElement("table");
     var tbody = document.createElement("tbody");
     table.style.marginTop = "8px";
+    this.table = table;
+    this.tbody = tbody;
+    return table;
+  }
 
-    row = document.createElement("tr");
-
-    td = document.createElement("td");
+  appendTitle(row) {
+    const { label } = this;
+    const td = document.createElement("td");
     td.style.whiteSpace = "nowrap";
     td.style.fontSize = "10pt";
     td.style.width = "120px";
     mxUtils.write(td, (label || mxResources.get("filename")) + ":");
 
     row.appendChild(td);
+  }
 
-    var nameInput = document.createElement("input");
-    nameInput.setAttribute("value", filename || "");
-    nameInput.style.marginLeft = "4px";
-    nameInput.style.width = w != null ? w + "px" : "180px";
+  nameInputWrapper: any;
 
-    var genericBtn = mxUtils.button(buttonText, function () {
-      if (validateFn == null || validateFn(nameInput.value)) {
-        if (closeOnBtn) {
-          editorUi.hideDialog();
-        }
-
-        fn(nameInput.value);
-      }
-    });
-    genericBtn.className = "geBtn gePrimaryBtn";
-
-    td = document.createElement("td");
+  appendNameInput(row) {
+    const { nameInput } = this;
+    const td = document.createElement("td");
     td.style.whiteSpace = "nowrap";
     td.appendChild(nameInput);
+    this.nameInputWrapper = td;
     row.appendChild(td);
+  }
 
-    if (label != null || content == null) {
-      tbody.appendChild(row);
+  get genericBtn() {
+    return this.buttons.genericBtn;
+  }
 
-      if (hints != null) {
-        td.appendChild(
-          FilenameDialog.createTypeHint(editorUi, nameInput, hints)
-        );
-      }
-    }
-
-    if (content != null) {
-      row = document.createElement("tr");
-      td = document.createElement("td");
-      td.colSpan = 2;
-      td.appendChild(content);
-      row.appendChild(td);
-      tbody.appendChild(row);
-    }
-
-    row = document.createElement("tr");
-    td = document.createElement("td");
-    td.colSpan = 2;
-    td.style.paddingTop = "20px";
-    td.style.whiteSpace = "nowrap";
-    td.setAttribute("align", "right");
-
-    var cancelBtn = mxUtils.button(mxResources.get("cancel"), function () {
-      editorUi.hideDialog();
-
-      if (cancelFn != null) {
-        cancelFn();
-      }
-    });
-    cancelBtn.className = "geBtn";
-
-    if (editorUi.editor.cancelFirst) {
-      td.appendChild(cancelBtn);
-    }
-
-    if (helpLink != null) {
-      var helpBtn = mxUtils.button(mxResources.get("help"), function () {
-        editorUi.editor.graph.openLink(helpLink);
-      });
-
-      helpBtn.className = "geBtn";
-      td.appendChild(helpBtn);
-    }
-
+  addNameInputKeyHandler() {
+    const { genericBtn, nameInput } = this;
     mxEvent.addListener(nameInput, "keypress", function (e) {
       if (e.keyCode == 13) {
         genericBtn.click();
       }
     });
+  }
 
-    td.appendChild(genericBtn);
+  appendNameInputHints(row) {
+    const {
+      nameInputWrapper,
+      label,
+      content,
+      tbody,
+      editorUi,
+      hints,
+      nameInput,
+    } = this;
+    if (label != null || content == null) {
+      tbody.appendChild(row);
 
-    if (!editorUi.editor.cancelFirst) {
-      td.appendChild(cancelBtn);
+      if (hints != null) {
+        const hintElem = FilenameDialog.createTypeHint(
+          editorUi,
+          nameInput,
+          hints
+        );
+        nameInputWrapper.appendChild(hintElem);
+      }
     }
+  }
+
+  appendContent() {
+    const { content, tbody } = this;
+    if (content != null) {
+      const row = document.createElement("tr");
+      const td = document.createElement("td");
+      td.colSpan = 2;
+      td.appendChild(content);
+      row.appendChild(td);
+      tbody.appendChild(row);
+    }
+  }
+
+  buttons: FilenameDialogButtons;
+
+  constructor(editorUi, opts) {
+    this.configure(editorUi, opts);
+    this.createTable();
+
+    var row, td;
+    row = document.createElement("tr");
+
+    this.appendTitle(row);
+    this.appendNameInput(row);
+    this.appendNameInputHints(row);
+    this.appendContent();
+
+    this.buttons = new FilenameDialogButtons(this);
 
     row.appendChild(td);
+
+    const { tbody, table } = this;
     tbody.appendChild(row);
     table.appendChild(tbody);
 
     this.container = table;
+  }
+
+  configure(editorUi, opts) {
+    const {
+      filename,
+      buttonText,
+      fn,
+      label,
+      validateFn,
+      content,
+      helpLink,
+      closeOnBtn,
+      cancelFn,
+      hints,
+      width,
+    } = opts;
+    this.editorUi = editorUi;
+
+    this.filename = filename;
+    this.buttonText = buttonText;
+    this.fn = fn;
+    this.label = label;
+    this.validateFn = validateFn;
+    this.cancelFn = cancelFn;
+    this.hints = hints;
+    this.width = width;
+    this.content = content;
+    this.helpLink = helpLink;
+    this.closeOnBtn = closeOnBtn != null ? closeOnBtn : true;
   }
 
   /**

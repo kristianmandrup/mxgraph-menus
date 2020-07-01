@@ -1,5 +1,5 @@
 import mx from "@mxgraph-app/mx";
-import { DialogButtons } from "../dialogs/base";
+import { DialogButtons } from "../../dialogs/base";
 const { mxUtils, mxResources } = mx;
 
 export class PrintButtons extends DialogButtons {

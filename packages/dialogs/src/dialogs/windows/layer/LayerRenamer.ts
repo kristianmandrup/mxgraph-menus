@@ -32,16 +32,23 @@ export class LayerRenamer {
 
   createRenameDialog(layer, label) {
     const { graph, editorUi } = this;
-    return new FilenameDialog(
-      editorUi,
-      label || mxResources.get("background"),
-      mxResources.get("rename"),
-      (newValue) => {
-        if (newValue != null) {
-          graph.cellLabelChanged(layer, newValue);
-        }
-      },
-      mxResources.get("enterName")
-    );
+
+    label = label || mxResources.get("background");
+    const title = mxResources.get("rename");
+    const fn = (newValue) => {
+      if (newValue != null) {
+        graph.cellLabelChanged(layer, newValue);
+      }
+    };
+
+    const buttonText = mxResources.get("enterName");
+    const opts = {
+      label,
+      title,
+      fn,
+      buttonText,
+    };
+
+    return new FilenameDialog(editorUi, opts);
   }
 }
