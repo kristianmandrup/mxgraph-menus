@@ -1,9 +1,7 @@
-import mx from "@mxgraph-app/mx";
-const { mxUtils, mxResources } = mx;
 export const Graph: any = {};
-import { OkBtn } from "./OkButton";
 import { FileDrop } from "./FileDrop";
 import { ActionSelector } from "./ActionSelector";
+import { TextArea } from "./TextArea";
 
 /**
  * Constructs a new edit file dialog.
@@ -15,22 +13,7 @@ export class EditDiagramDialog {
   textarea: any;
 
   createTextArea() {
-    const { editorUi } = this;
-    var textarea: any = document.createElement("textarea");
-    textarea.setAttribute("wrap", "off");
-    textarea.setAttribute("spellcheck", "false");
-    textarea.setAttribute("autocorrect", "off");
-    textarea.setAttribute("autocomplete", "off");
-    textarea.setAttribute("autocapitalize", "off");
-    textarea.style.overflow = "auto";
-    textarea.style.resize = "none";
-    textarea.style.width = "600px";
-    textarea.style.height = "360px";
-    textarea.style.marginBottom = "16px";
-
-    textarea.value = mxUtils.getPrettyXml(editorUi.editor.getGraphXml());
-    this.textarea = textarea;
-    return textarea;
+    return new TextArea(this).createTextArea();
   }
 
   editorUi: any;
@@ -61,10 +44,6 @@ export class EditDiagramDialog {
     const select = this.appendActionSelector();
     div.appendChild(select);
 
-    const okBtn = this.createOkBtn();
-
-    div.appendChild(okBtn);
-
     this.container = div;
   }
 
@@ -75,21 +54,6 @@ export class EditDiagramDialog {
 
   createActionSelector() {
     return new ActionSelector(this);
-  }
-
-  cancelBtn: any;
-
-  createCancelBtn() {
-    var cancelBtn = mxUtils.button(mxResources.get("cancel"), () => {
-      this.editorUi.hideDialog();
-    });
-    cancelBtn.className = "geBtn";
-    this.cancelBtn = cancelBtn;
-    return cancelBtn;
-  }
-
-  createOkBtn() {
-    return new OkBtn(this).btn;
   }
 
   /**

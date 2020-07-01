@@ -1,19 +1,15 @@
-export class DialogButtons {
-  dialog: any;
+import { BaseDialogControl } from "./BaseDialogCtrl";
 
+export class DialogButtons extends BaseDialogControl {
   btnContainer: any;
   cancelBtn: any;
   btns: any[];
 
   constructor(dialog: any, btnContainer?: any, cancelBtn?: any, btns?: any[]) {
-    this.dialog = dialog;
+    super(dialog);
     this.btnContainer = btnContainer;
     this.cancelBtn = cancelBtn;
     this.btns = btns || [];
-  }
-
-  get ui() {
-    return this.dialog.ui;
   }
 
   appendBtn(btn, btnContainer?) {
