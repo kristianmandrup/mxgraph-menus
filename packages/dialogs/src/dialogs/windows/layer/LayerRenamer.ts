@@ -1,5 +1,5 @@
 import { LayersWindow } from "./LayersWindow";
-import { FilenameDialog } from "../../../FilenameDialog";
+import { FilenameDialog } from "../../../filename/FilenameDialog";
 import mx from "@mxgraph-app/mx";
 const { mxResources } = mx;
 

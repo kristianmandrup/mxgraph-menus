@@ -1,6 +1,6 @@
 import mx from "@mxgraph-app/mx";
 import { LayersWindow } from "../LayersWindow";
-import { Dialog } from "../../../../Dialog";
+import { Dialog } from "../../../../dialog/Dialog";
 import { LayerRenamer } from "../LayerRenamer";
 const { mxUtils, mxResources, mxClient, mxEvent } = mx;
 

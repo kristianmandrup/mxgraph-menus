@@ -1,6 +1,6 @@
 import mx from "@mxgraph-app/mx";
 import resources from "@mxgraph-app/resources";
-import { Dialog } from "../../Dialog";
+import { Dialog } from "../../dialog/Dialog";
 const { mxEvent, mxClient, mxUtils, mxResources } = mx;
 const { IMAGE_PATH } = resources;
 /**

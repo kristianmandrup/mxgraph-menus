@@ -1,6 +1,6 @@
 import { ColorDialog } from "./ColorDialog";
 import { defaults } from "./defaults";
-import { Dialog } from "../../Dialog";
+import { Dialog } from "../../dialog/Dialog";
 import mx from "@mxgraph-app/mx";
 const { mxResources, mxEvent } = mx;
 

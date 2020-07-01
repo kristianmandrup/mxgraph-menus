@@ -1,4 +1,4 @@
-import { Dialog } from "../../../Dialog";
+import { Dialog } from "../../../dialog/Dialog";
 import mx from "@mxgraph-app/mx";
 import { BaseBtn } from "./BaseBtn";
 const { mxEvent, mxClient, mxUtils, mxResources } = mx;

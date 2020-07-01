@@ -1,5 +1,5 @@
 // import { EditorUI } from "ui/EditorUI";
-import { Dialog } from "../../../Dialog";
+import { Dialog } from "../../../dialog/Dialog";
 import mx from "@mxgraph-app/mx";
 import { IDimensions } from "../types";
 import { LayerRefreshManager } from "./LayerRefreshManager";
