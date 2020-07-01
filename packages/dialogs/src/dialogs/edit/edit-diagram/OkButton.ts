@@ -1,18 +1,9 @@
 import mx from "@mxgraph-app/mx";
-import { EditDiagramDialog } from "./EditDiagramDialog";
+import { BaseDialogBtn } from "../../BaseDialogBtn";
 const { mxCodec, mxGraphModel, mxUtils, mxResources } = mx;
 const Graph: any = {};
 
-export class OkBtn {
-  dialog: EditDiagramDialog;
-  btn: any;
-
-  constructor(dialog: EditDiagramDialog) {
-    this.dialog = dialog;
-    this.createBtn();
-    // this.configure();
-  }
-
+export class OkBtn extends BaseDialogBtn {
   get graph(): any {
     return this.dialog.graph;
   }

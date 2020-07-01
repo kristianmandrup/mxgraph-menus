@@ -1,7 +1,8 @@
 import mx from "@mxgraph-app/mx";
 const { mxUtils, mxResources } = mx;
-const Graph: any = {};
-import { OkBtn } from "./OkBtn";
+export const Graph: any = {};
+import { OkBtn } from "./OkButton";
+import { FileDrop } from "./FileDrop";
 
 /**
  * Constructs a new edit file dialog.
@@ -33,39 +34,6 @@ export class EditDiagramDialog {
 
   editorUi: any;
 
-  configureFileDropSupport() {
-    const { textarea, editorUi } = this;
-    // Enables dropping files
-    if (Graph.fileSupport) {
-      function handleDrop(evt) {
-        evt.stopPropagation();
-        evt.preventDefault();
-
-        if (evt.dataTransfer.files.length > 0) {
-          var file = evt.dataTransfer.files[0];
-          var reader = new FileReader();
-
-          reader.onload = (e: any) => {
-            textarea.value = e.target.result;
-          };
-
-          reader.readAsText(file);
-        } else {
-          textarea.value = editorUi.extractGraphModelFromEvent(evt);
-        }
-      }
-
-      function handleDragOver(evt) {
-        evt.stopPropagation();
-        evt.preventDefault();
-      }
-
-      // Setup the dnd listeners.
-      textarea.addEventListener("dragover", handleDragOver, false);
-      textarea.addEventListener("drop", handleDrop, false);
-    }
-  }
-
   get graph() {
     return this.editorUi.editor.graph;
   }
@@ -73,6 +41,8 @@ export class EditDiagramDialog {
   get ui() {
     return this.editorUi;
   }
+
+  fileDrop: FileDrop;
 
   constructor(editorUi) {
     this.editorUi = editorUi;
@@ -85,7 +55,7 @@ export class EditDiagramDialog {
       textarea.focus();
     };
 
-    this.configureFileDropSupport();
+    this.fileDrop = new FileDrop(this);
 
     var cancelBtn = mxUtils.button(mxResources.get("cancel"), function () {
       editorUi.hideDialog();

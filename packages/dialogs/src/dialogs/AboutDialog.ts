@@ -24,20 +24,25 @@ export class AboutDialog {
 
   draw() {
     const mainDiv = this.createMainDiv();
-    const header = this.createHeader();
+    this.buildMainDiv();
+    const closeBtn: any = this.createCloseBtn();
+    mainDiv.appendChild(closeBtn);
+    this.container = mainDiv;
+  }
+
+  buildMainDiv() {
+    const mainDiv: any = this.mainDiv;
+    const header: any = this.createHeader();
     mainDiv.appendChild(header);
     mainDiv.appendChild(this.createImg());
     mxUtils.br(mainDiv);
     mxUtils.write(mainDiv, "Powered by mxGraph " + mxClient.VERSION);
     mxUtils.br(mainDiv);
+
     const link = this.createLink();
     mainDiv.appendChild(link);
     mxUtils.br(mainDiv);
     mxUtils.br(mainDiv);
-
-    const closeBtn: any = this.createCloseBtn();
-    mainDiv.appendChild(closeBtn);
-    this.container = mainDiv;
   }
 
   createHeader() {

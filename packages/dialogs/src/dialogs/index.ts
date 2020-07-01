@@ -3,7 +3,7 @@ export * from "./AboutDialog";
 export * from "./color/ColorDialog";
 export * from "./edit/edit-data/EditDataDialog";
 export * from "./edit/edit-diagram/EditDiagramDialog";
-export * from "./ExportDialog";
+export * from "./export/ExportDialog";
 export * from "./LinkDialog";
 export * from "./OpenDialog";
 export * from "./TextareaDialog";
