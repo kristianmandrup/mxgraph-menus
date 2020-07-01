@@ -6,18 +6,6 @@ export class PageCount extends BasePrintDialogControl {
   elem: any;
   pageCountInput: any;
 
-  createPageCountInput() {
-    var pageCountInput = document.createElement("input");
-    pageCountInput.setAttribute("value", "1");
-    pageCountInput.setAttribute("type", "number");
-    pageCountInput.setAttribute("min", "1");
-    pageCountInput.setAttribute("size", "4");
-    pageCountInput.setAttribute("disabled", "disabled");
-    pageCountInput.style.width = "50px";
-    this.pageCountInput = pageCountInput;
-    return pageCountInput;
-  }
-
   // this.pageCountInput = pageCountInput
 
   createElement() {
