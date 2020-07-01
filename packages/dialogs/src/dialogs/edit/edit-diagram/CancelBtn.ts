@@ -1,5 +1,5 @@
 import mx from "@mxgraph-app/mx";
-import { BaseDialogBtn } from "../../BaseDialogBtn";
+import { BaseDialogBtn } from "../../base";
 const { mxUtils, mxResources } = mx;
 
 export class CancelBtn extends BaseDialogBtn {

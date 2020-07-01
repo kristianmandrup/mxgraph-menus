@@ -2,7 +2,7 @@ import { ExportDialog } from "../ExportDialog";
 import { SaveBtn } from "./SaveBtn";
 import { CancelBtn } from "./CancelBtn";
 import { BaseControl } from "../BaseControl";
-import { DialogButtons } from "../../DialogButtons";
+import { DialogButtons } from "../../base";
 
 export class ExportDialogButtons extends BaseControl {
   btnContainer: any;

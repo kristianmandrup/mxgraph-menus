@@ -1,4 +1,4 @@
-import { BaseDialogControl } from "../../BaseDialogCtrl";
+import { BaseDialogControl } from "../../base";
 import mx from "@mxgraph-app/mx";
 const { mxUtils } = mx;
 

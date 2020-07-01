@@ -1,4 +1,4 @@
-import { DialogButtons } from "../../DialogButtons";
+import { DialogButtons } from "../../base";
 import { EditDiagramDialog } from "./EditDiagramDialog";
 import { CancelBtn } from "./CancelBtn";
 import { OkBtn } from "./OkButton";

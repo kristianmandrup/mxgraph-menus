@@ -1,4 +1,4 @@
-import { BaseDialogBtn } from "../../BaseDialogBtn";
+import { BaseDialogBtn } from "../../base/BaseDialogBtn";
 import mx from "@mxgraph-app/mx";
 import { ExportDialog } from "../ExportDialog";
 const { mxConstants, mxUtils, mxResources } = mx;

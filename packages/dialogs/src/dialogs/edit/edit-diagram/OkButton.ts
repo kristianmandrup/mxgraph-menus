@@ -1,5 +1,5 @@
 import mx from "@mxgraph-app/mx";
-import { BaseDialogBtn } from "../../BaseDialogBtn";
+import { BaseDialogBtn } from "../../base";
 const { mxCodec, mxGraphModel, mxUtils, mxResources } = mx;
 const Graph: any = {};
 
