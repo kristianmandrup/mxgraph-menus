@@ -1,6 +1,6 @@
-import { LinkDialog } from "../../dialogs";
+import { LinkDialog } from "../../../dialogs";
 
-import { editorUi, cell } from "../mocks";
+import { editorUi, cell } from "../../mocks";
 
 describe("LinkDialog", () => {
   const ui = editorUi;

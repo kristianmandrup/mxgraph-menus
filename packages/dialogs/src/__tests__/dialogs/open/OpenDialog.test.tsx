@@ -1,6 +1,6 @@
-import { OpenDialog } from "../../dialogs";
+import { OpenDialog } from "../../../dialogs";
 
-import { editorUi, cell } from "../mocks";
+import { editorUi, cell } from "../../mocks";
 
 describe("OpenDialog", () => {
   const opts = {

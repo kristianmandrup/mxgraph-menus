@@ -1,6 +1,6 @@
-import { FilenameDialog } from "..";
+import { FilenameDialog } from "../../..";
 
-import { editorUi } from "./mocks";
+import { editorUi } from "../../mocks";
 
 describe("FilenameDialog", () => {
   const ui = editorUi;
@@ -11,7 +11,7 @@ describe("FilenameDialog", () => {
 
   let dialog;
   beforeAll(() => {
-    dialog = new FilenameDialog(ui, fileName, buttonTxt, fn, label);
+    dialog = new FilenameDialog(ui, { fileName, buttonTxt, fn, label });
   });
 
   describe("container", () => {

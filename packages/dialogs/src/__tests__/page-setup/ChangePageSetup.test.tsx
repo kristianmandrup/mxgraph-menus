@@ -1,6 +1,6 @@
-import { ChangePageSetup } from "..";
+import { ChangePageSetup } from "../..";
 
-import { editorUi } from "./mocks";
+import { editorUi } from "../mocks";
 
 describe("ChangePageSetup", () => {
   const ui = editorUi;

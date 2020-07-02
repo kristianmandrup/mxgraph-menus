@@ -1,6 +1,6 @@
-import { ErrorDialog } from "..";
+import { ErrorDialog } from "../../..";
 
-import { editorUi } from "./mocks";
+import { editorUi } from "../../mocks";
 
 describe("ErrorDialog", () => {
   const ui = editorUi;

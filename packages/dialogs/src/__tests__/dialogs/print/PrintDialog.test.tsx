@@ -1,6 +1,6 @@
-import { PrintDialog } from "..";
+import { PrintDialog } from "../../..";
 
-import { editorUi } from "./mocks";
+import { editorUi } from "../../mocks";
 
 const open = jest.fn();
 Object.defineProperty(window, "open", open);

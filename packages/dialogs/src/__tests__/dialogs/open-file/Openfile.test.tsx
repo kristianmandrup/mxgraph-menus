@@ -1,4 +1,4 @@
-import { Openfile } from "..";
+import { Openfile } from "../../..";
 
 describe("Openfile", () => {
   const done = () => {};

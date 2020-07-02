@@ -1,6 +1,6 @@
-import { AboutDialog } from "../../dialogs";
+import { AboutDialog } from "../../../dialogs";
 
-import { editorUi } from "../mocks";
+import { editorUi } from "../../mocks";
 
 describe("AboutDialog", () => {
   const ui = editorUi;

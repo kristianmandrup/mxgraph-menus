@@ -1,6 +1,6 @@
-import { ColorDialog } from "../../dialogs";
+import { ColorDialog } from "../../../dialogs";
 
-import { editorUi } from "../mocks";
+import { editorUi } from "../../mocks";
 
 describe("ColorDialog", () => {
   const ui = editorUi;

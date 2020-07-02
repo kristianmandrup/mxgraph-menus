@@ -1,6 +1,6 @@
-import { EditDataDialog } from "../../dialogs";
+import { EditDataDialog } from "../../../../dialogs";
 
-import { editorUi, cell } from "../mocks";
+import { editorUi, cell } from "../../../mocks";
 
 describe("EditDataDialog", () => {
   const ui = editorUi;

@@ -1,6 +1,6 @@
-import { EditDiagramDialog } from "../../dialogs";
+import { EditDiagramDialog } from "../../../../dialogs";
 
-import { editorUi, cell } from "../mocks";
+import { editorUi, cell } from "../../../mocks";
 
 describe("EditDiagramDialog", () => {
   const ui = editorUi;

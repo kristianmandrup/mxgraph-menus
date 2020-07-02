@@ -1,6 +1,6 @@
-import { TextareaDialog } from "../../dialogs";
+import { TextareaDialog } from "../../../dialogs";
 
-import { editorUi, cell } from "../mocks";
+import { editorUi, cell } from "../../mocks";
 
 describe("TextareaDialog", () => {
   const opts = {
